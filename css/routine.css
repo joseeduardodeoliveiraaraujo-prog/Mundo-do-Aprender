@@ -1,0 +1,39 @@
+/* ==========================================================================
+   routine.css — estilos específicos do módulo Minha Rotina (js/games/routine.js).
+   Estruturas comuns (atividade, alternativas, lista reordenável) ficam em games.css.
+   ========================================================================== */
+
+/* Objetos da mochila: 2 colunas já no celular (são cartões curtos), 3 no tablet. */
+.routine-pack .choice-group {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 48rem) {
+  .routine-pack .choice-group {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.routine-pack .choice-button {
+  font-size: var(--text-base);
+}
+
+/* Resumo do que está na mochila. */
+.routine-bag {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--module-soft);
+}
+
+.routine-bag__image {
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+}
+
+.routine-bag__text {
+  font-weight: 600;
+}

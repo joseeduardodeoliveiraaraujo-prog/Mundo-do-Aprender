@@ -1,0 +1,281 @@
+/* ==========================================================================
+   global.css — tokens de design, reset, tipografia base e layout do app.
+   Componentes reutilizáveis ficam em components.css.
+   Paleta suave e pouco saturada para evitar sobrecarga sensorial.
+   ========================================================================== */
+
+/* ---------- Tokens ---------- */
+:root {
+  /* Base */
+  --color-bg: #f7f5f0;
+  --color-surface: #ffffff;
+  --color-surface-muted: #efebe3;
+  --color-text: #24263a;
+  --color-text-muted: #51546b;
+  --color-border: #e1dbcf;
+
+  /* Ação principal (texto branco com contraste ≥ 4.5:1) */
+  --color-primary: #2f6f8f;
+  --color-primary-hover: #245a75;
+  --color-primary-soft: #e4f0f5;
+  --color-on-primary: #ffffff;
+
+  /* Foco sempre bem visível */
+  --color-focus: #1f5fbf;
+
+  /* Feedback (tons calmos, nada de vermelho de "erro") */
+  --color-success: #2e7a4c;
+  --color-success-soft: #e6f3eb;
+  --color-encourage: #8f5600;
+  --color-encourage-soft: #fdf2db;
+  --color-info: var(--color-primary);
+  --color-info-soft: var(--color-primary-soft);
+
+  /* Identidade de cada módulo
+     soft   = fundos claros
+     accent = detalhes decorativos
+     strong = botões e preenchimentos (texto branco com contraste ≥ 4.5:1) */
+  --color-emotions-soft: #fff2d6;
+  --color-emotions-accent: #f4c25b;
+  --color-emotions-strong: #8f5600;
+
+  --color-routine-soft: #e3f2f7;
+  --color-routine-accent: #8cc9da;
+  --color-routine-strong: #1d6479;
+
+  --color-animals-soft: #e6f2df;
+  --color-animals-accent: #9ccc8a;
+  --color-animals-strong: #3a7228;
+
+  --color-communication-soft: #efe8fa;
+  --color-communication-accent: #c3a8ea;
+  --color-communication-strong: #6542a1;
+
+  /* Cor do módulo atual — redefinida por [data-module] */
+  --module-soft: var(--color-primary-soft);
+  --module-accent: var(--color-primary);
+  --module-strong: var(--color-primary);
+
+  /* Tipografia */
+  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --line-height: 1.6;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.2rem;
+  --text-xl: 1.45rem;
+  --text-2xl: clamp(1.6rem, 1.2rem + 1.6vw, 2.25rem);
+
+  /* Espaçamento */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: 4rem;
+  --page-gutter: clamp(1rem, 4vw, 2rem);
+
+  /* Formas */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-pill: 999px;
+  --border-thin: 1px;
+  --border-width: 2px;
+  --shadow-sm: 0 1px 2px rgba(36, 38, 58, 0.05), 0 2px 8px rgba(36, 38, 58, 0.05);
+  --shadow-md: 0 4px 18px rgba(36, 38, 58, 0.09);
+
+  /* Áreas de toque grandes (mínimo recomendado: 48px) */
+  --touch-target: 3rem;
+
+  /* Movimento (zerado quando "Reduzir animações" está ativo) */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+
+  --content-width: 72rem;
+}
+
+[data-module="emotions"] {
+  --module-soft: var(--color-emotions-soft);
+  --module-accent: var(--color-emotions-accent);
+  --module-strong: var(--color-emotions-strong);
+}
+
+[data-module="routine"] {
+  --module-soft: var(--color-routine-soft);
+  --module-accent: var(--color-routine-accent);
+  --module-strong: var(--color-routine-strong);
+}
+
+[data-module="animals"] {
+  --module-soft: var(--color-animals-soft);
+  --module-accent: var(--color-animals-accent);
+  --module-strong: var(--color-animals-strong);
+}
+
+[data-module="communication"] {
+  --module-soft: var(--color-communication-soft);
+  --module-accent: var(--color-communication-accent);
+  --module-strong: var(--color-communication-strong);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  font-size: 112.5%; /* 18px — tamanhos maiores ficam em accessibility.css */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+ul[role="list"],
+ol[role="list"] {
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+/* Evita atraso de toque duplo em telas sensíveis ao toque. */
+a,
+button,
+label,
+input {
+  touch-action: manipulation;
+}
+
+/* ---------- Layout do app ---------- */
+.app-header {
+  background-color: var(--color-surface);
+  border-bottom: var(--border-thin) solid var(--color-border);
+}
+
+/* flex-wrap: com texto muito grande em telas estreitas, os botões descem para
+   uma segunda linha em vez de ficarem por cima do nome. */
+.app-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-2) var(--page-gutter);
+}
+
+.app-header__actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-inline-start: auto;
+}
+
+.app-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.app-brand__logo {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.app-brand__name {
+  display: grid;
+  line-height: 1.05;
+}
+
+.app-brand__prefix {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.app-brand__main {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
+}
+
+/* Telas estreitas: botões do cabeçalho só com ícone (o texto continua para leitores de tela). */
+@media (max-width: 40rem) {
+  .app-header__actions .button {
+    padding-inline: var(--space-2);
+  }
+
+  .app-header__actions .button__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+.app-main {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-5) var(--page-gutter) var(--space-7);
+}
+
+.app-main:focus {
+  outline: none;
+}
+
+.noscript-message {
+  max-width: var(--content-width);
+  margin: var(--space-5) auto;
+  padding: var(--space-3);
+  font-size: var(--text-lg);
+  text-align: center;
+}

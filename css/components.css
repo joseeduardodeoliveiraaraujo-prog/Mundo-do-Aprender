@@ -1,0 +1,399 @@
+/* ==========================================================================
+   components.css — estilos dos componentes reutilizáveis (js/components/).
+   Ícone, botão, painel, cartão, cabeçalho de tela, progresso, feedback e diálogos.
+   ========================================================================== */
+
+/* ---------- Ícone ---------- */
+.icon {
+  width: 1.25em;
+  height: 1.25em;
+  flex-shrink: 0;
+}
+
+/* ---------- Botão ---------- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-pill);
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+/* Retorno visual de "pressionado". Não use transform/translate/filter em botões:
+   eles quebram a área clicável esticada de .card__action (ver Cartão). */
+.button:active {
+  box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.button--lg {
+  min-height: 3.5rem;
+  padding-inline: var(--space-5);
+  font-size: var(--text-lg);
+}
+
+.button--primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.button--secondary {
+  background-color: var(--color-surface);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.button--ghost {
+  background-color: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.button--module {
+  background-color: var(--module-strong);
+  color: var(--color-on-primary);
+}
+
+@media (hover: hover) {
+  .button--primary:not(:disabled):hover { background-color: var(--color-primary-hover); }
+  .button--secondary:not(:disabled):hover { background-color: var(--color-primary-soft); }
+  .button--ghost:not(:disabled):hover { border-color: var(--color-primary); }
+  .button--module:not(:disabled):hover { background-color: color-mix(in srgb, var(--module-strong) 85%, #000); }
+}
+
+/* ---------- Painel (superfície neutra) ---------- */
+.panel {
+  padding: clamp(var(--space-4), 3vw, var(--space-5));
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Cartão ---------- */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.card__media {
+  display: grid;
+  place-items: center;
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  background-color: var(--module-soft);
+}
+
+.card__media img {
+  width: 100%;
+  max-width: 15rem;
+  height: auto;
+  aspect-ratio: 3 / 2;
+}
+
+.card__body {
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-4) 0;
+}
+
+.card__title {
+  font-size: var(--text-lg);
+}
+
+.card__text {
+  color: var(--color-text-muted);
+}
+
+.card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+
+/* Ação principal do cartão: o cartão inteiro vira área de toque.
+   O ::after se posiciona em relação ao .card; por isso .card__action (e seus
+   estados :hover/:active) NÃO pode ter transform, translate, filter ou position. */
+.card__action {
+  width: 100%;
+}
+
+.card__action::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.card:has(.card__action:focus-visible) {
+  outline: 4px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .card:has(.card__action):hover {
+    border-color: var(--module-accent);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+/* ---------- Cabeçalho de tela + botão voltar ---------- */
+.screen-header {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+}
+
+.screen-header__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.screen-header__icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  flex-shrink: 0;
+  padding: var(--space-2);
+  border-radius: var(--radius-lg);
+  background-color: var(--module-soft);
+}
+
+.screen-header__title {
+  font-size: var(--text-2xl);
+}
+
+/* ---------- Barra de progresso ---------- */
+.progress-bar {
+  width: 100%;
+  height: 0.875rem;
+  overflow: hidden;
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-muted);
+}
+
+.progress-bar__fill {
+  display: block;
+  width: var(--progress, 0%);
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--module-strong);
+  transition: width var(--transition-base);
+}
+
+/* ---------- Indicador de passos ---------- */
+.step-indicator {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.step-indicator__steps {
+  display: flex;
+  flex-wrap: wrap; /* muitas etapas ou texto grande: os pontos quebram linha */
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+/* Estado também diferenciado por forma (preenchido / anel grosso / anel fino). */
+.step-indicator__step {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--module-strong);
+  border-radius: 50%;
+}
+
+.step-indicator__step--done {
+  background-color: var(--module-strong);
+}
+
+.step-indicator__step--current {
+  border-width: 5px;
+}
+
+.step-indicator__text {
+  font-weight: 600;
+}
+
+/* ---------- Feedback ---------- */
+.feedback {
+  --feedback-color: var(--color-info);
+  --feedback-soft: var(--color-info-soft);
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--feedback-color);
+  border-radius: var(--radius-lg);
+  background-color: var(--feedback-soft);
+}
+
+.feedback--success {
+  --feedback-color: var(--color-success);
+  --feedback-soft: var(--color-success-soft);
+}
+
+.feedback--encourage {
+  --feedback-color: var(--color-encourage);
+  --feedback-soft: var(--color-encourage-soft);
+}
+
+.feedback__icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  color: var(--feedback-color);
+}
+
+.feedback__icon .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.feedback__content {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.feedback__title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+/* ---------- Diálogos (ajuda, configurações) ---------- */
+.app-dialog {
+  width: min(34rem, calc(100% - 2 * var(--page-gutter)));
+  max-height: calc(100% - 2 * var(--space-3));
+  margin: auto;
+  padding: 0;
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  color: var(--color-text);
+}
+
+.app-dialog::backdrop {
+  background-color: rgba(36, 38, 58, 0.45);
+}
+
+.app-dialog__content {
+  display: grid;
+  gap: var(--space-4);
+  padding: clamp(var(--space-4), 4vw, var(--space-5));
+}
+
+.app-dialog__title {
+  font-size: var(--text-xl);
+}
+
+.app-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+/* Passos da ajuda: números em círculos. */
+.help-steps {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+  counter-reset: help-step;
+}
+
+.help-steps__item {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  align-items: center;
+  gap: var(--space-3);
+  counter-increment: help-step;
+}
+
+.help-steps__item::before {
+  content: counter(help-step);
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.help-adults {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-muted);
+}
+
+.help-adults__title {
+  font-size: var(--text-base);
+}
+
+/* Formulário de configurações */
+.settings-group {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.settings-group__legend {
+  padding: 0 var(--space-2);
+  font-weight: 700;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+  cursor: pointer;
+}
+
+.choice input {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}

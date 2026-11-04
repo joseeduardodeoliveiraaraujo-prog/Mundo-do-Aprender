@@ -1,0 +1,179 @@
+# Mundo do Aprender
+
+Plataforma educativa digital para crianças de **8 a 12 anos com Transtorno do Espectro Autista (TEA)**, pensada para diferentes necessidades de suporte.
+
+## Módulos
+
+| Módulo | Rota | Situação |
+| --- | --- | --- |
+| Mundo das Emoções | `#/emocoes` | **Pronto** (11 atividades) |
+| Minha Rotina | `#/rotina` | **Pronto** (8 atividades) |
+| Explorando os Animais | `#/animais` | **Pronto** (11 atividades; sons: ver abaixo) |
+| Eu Me Comunico | `#/comunicacao` | Tela provisória |
+
+## Tecnologias
+
+- HTML5, CSS3 e JavaScript puro (ES Modules).
+- `localStorage` para preferências e progresso.
+- Sem frameworks, sem backend, sem dependências, sem etapa de build.
+
+## Como executar
+
+Os navegadores bloqueiam ES Modules abertos direto do disco (`file://`). Por isso, é preciso servir a pasta com um servidor estático local. Escolha **uma** das opções:
+
+**Opção 1: VS Code + Live Server**
+1. Instale a extensão *Live Server* (Ritwick Dey).
+2. Clique com o botão direito em `index.html` e escolha **Open with Live Server**.
+
+**Opção 2: Python** (se estiver instalado)
+```bash
+python -m http.server 8000
+```
+Depois acesse <http://localhost:8000>.
+
+**Opção 3: Node.js** (se estiver instalado)
+```bash
+npx serve .
+```
+
+Execute os comandos na pasta do projeto (onde fica o `index.html`).
+
+## Estrutura
+
+```
+Mundo do Aprender/
+├── index.html              # Cabeçalho, área principal e diálogos (ajuda, configurações)
+├── README.md
+├── AGENTS.md               # Regras permanentes do projeto
+├── css/
+│   ├── global.css          # Tokens de design (cores, tipografia, espaços), reset, layout do app
+│   ├── components.css      # Botão, painel, cartão, cabeçalho de tela, progresso, feedback, diálogos
+│   ├── home.css            # Tela inicial
+│   ├── games.css           # Estrutura comum: atividade, alternativas, lista reordenável, fluxo
+│   ├── routine.css         # Estilos específicos da Minha Rotina
+│   ├── animals.css         # Estilos específicos de Explorando os Animais e do painel de som
+│   └── accessibility.css   # Foco, contraste, tamanho de texto, animações (sempre por último)
+├── js/
+│   ├── main.js             # Ponto de entrada: liga configurações, diálogos, ícones e rotas
+│   ├── navigation.js       # Roteador por hash (#/rota)
+│   ├── settings.js         # Preferências de acessibilidade
+│   ├── storage.js          # Acesso centralizado ao localStorage
+│   ├── progress.js         # Progresso real e última atividade aberta
+│   ├── speech.js           # Leitura em voz alta (só com sons ligados)
+│   ├── audio.js            # Sons curtos (arquivo local ou imitação pela voz)
+│   ├── undoHistory.js      # Histórico para Desfazer/Recomeçar
+│   ├── modules.js          # Catálogo dos quatro módulos
+│   ├── components/         # Peças de interface reutilizáveis
+│   │   ├── dom.js              # el(): cria elementos com segurança
+│   │   ├── icons.js            # Ícones de interface (SVG embutido)
+│   │   ├── button.js           # createButton / createLinkButton
+│   │   ├── backButton.js       # Botão "Voltar" padrão
+│   │   ├── card.js             # Cartão genérico
+│   │   ├── moduleCard.js       # Cartão de módulo da tela inicial
+│   │   ├── screenHeader.js     # Cabeçalho das telas internas
+│   │   ├── progressIndicators.js # Barra de progresso e indicador de passos
+│   │   ├── activityFrame.js    # Moldura padrão de atividade (instrução, repetir, navegação)
+│   │   ├── choiceButton.js     # Alternativas de resposta
+│   │   ├── sortableList.js     # Cartões reordenáveis (arrastar e soltar + setas)
+│   │   ├── activityControls.js # Desfazer · Recomeçar · Conferir
+│   │   ├── soundPlayer.js      # "Ouvir o som" / "Ver o som escrito"
+│   │   ├── moduleFlow.js       # Fluxo comum: apresentação → atividades → conclusão
+│   │   ├── feedback.js         # Mensagens de feedback (sucesso, incentivo, aviso)
+│   │   ├── dialog.js           # Abre/fecha diálogos
+│   │   ├── settingsPanel.js    # Formulário de configurações
+│   │   └── comingSoon.js       # Tela provisória dos módulos
+│   ├── views/              # Telas que não são jogos
+│   │   ├── home.js
+│   │   └── messages.js
+│   ├── games/              # Um ponto de entrada por módulo
+│   └── data/               # Conteúdo das atividades (somente dados)
+└── assets/
+    ├── icons/              # logo.svg + ícones dos módulos
+    ├── images/modules/     # Ilustrações dos cartões dos módulos
+    ├── images/emotions/    # Rostos (faces/) e cenas (scenes/) do Mundo das Emoções
+    ├── images/routine/     # Pictogramas da Minha Rotina (atividades e objetos)
+    ├── images/animals/     # Animais, habitats e alimentos (originais; ver CREDITS.md)
+    └── sounds/
+        └── animals/        # Espaço preparado para os sons (ver README.md da pasta)
+```
+
+Ajustes em relação à estrutura sugerida:
+- **`js/modules.js`**: catálogo único dos módulos. A tela inicial e o roteador leem dele, sem repetir títulos e rotas.
+- **`js/progress.js`** e **`css/components.css`** (Etapa 2): progresso separado do armazenamento genérico; estilos de componentes separados do `global.css`.
+- **`js/views/`**: telas que não são jogos (início, aviso de erro) ficam separadas de `games/` e `components/`.
+- **Projeto na raiz da pasta atual**: a pasta "Mundo do Aprender" já é a raiz, então não foi criada uma subpasta `mundo-do-aprender/`.
+
+## Interface (Etapa 2)
+
+- **Tela inicial:** boas-vindas com apresentação, quatro cartões (ilustração, título, descrição, cor própria e botão **Começar**; o cartão inteiro é clicável) e a área **Meu progresso**.
+- **Cabeçalho:** logotipo (volta ao início), **Ajuda** e **Configurações**. Em telas estreitas, os botões mostram só o ícone.
+- **Telas dos módulos:** botão **Voltar ao início**, título com ícone, apresentação do módulo e aviso de que está em preparação.
+- **Progresso:** calculado só a partir de atividades que existem. Enquanto não houver atividades, mostra "Atividades em preparação"; nenhum número é inventado.
+- **Responsivo:** celular (1 coluna), tablet retrato e paisagem (2 colunas), computador ≥ 1152px (4 colunas).
+
+## Mundo das Emoções (Etapa 3)
+
+Três partes, uma atividade por vez, com ilustração, alternativas, "Repetir instrução", "Anterior"/"Próxima" e tela de conclusão:
+
+| Parte | Atividades | Como funciona |
+| --- | --- | --- |
+| Reconhecendo expressões | 4 (felicidade, tristeza, raiva, surpresa) | Há uma resposta esperada; as outras recebem uma pista gentil. O rosto é tratado como pista, não como prova. |
+| Situações do dia a dia | 4 (inclui medo e calma) | Mais de uma emoção pode ser aceita. Respostas menos prováveis recebem "Vamos pensar juntos". |
+| Como posso me expressar? | 3 | Todas as alternativas são válidas (conversar, pedir ajuda, silêncio, pausa). |
+
+- Uma atividade conta como feita quando recebe uma resposta válida.
+- A posição é guardada: ao voltar, a criança pode "Continuar de onde parei".
+- Instruções em voz alta usam a voz do navegador e só tocam com **Sons ligados** e ao tocar em "Repetir instrução".
+
+## Minha Rotina (Etapa 4)
+
+| Parte | Atividades | Como funciona |
+| --- | --- | --- |
+| Organizando meu dia | 1 (manhã, 6 cartões) | Ordenar cartões. Só duas regras: acordar primeiro e ir à escola por último. 24 ordens diferentes são aceitas. |
+| Preparando minha mochila | 2 (desenho, educação física) | Tocar nos objetos para colocar/tirar. Itens essenciais, opcionais (aceitos com ou sem) e que podem ficar em casa. |
+| O que preciso fazer? | 3 situações | Escolher um recurso. Mais de uma resposta é aceita. |
+| Organizando minhas tarefas | 2 (tarde, sábado) | Montar a lista. Na tarde, só "materiais antes da tarefa"; no sábado, qualquer ordem. |
+
+- **Reorganizar cartões:** arrastar com o dedo pela alça numerada, arrastar com o mouse, ou usar os botões ↑/↓ (teclado e leitor de tela). Cada mudança é anunciada ("Acordar: posição 1 de 6").
+- Todas as atividades têm **Desfazer** e **Recomeçar**; sequências e mochila têm **Conferir**.
+
+## Explorando os Animais (Etapa 5)
+
+| Parte | Atividades | Como funciona |
+| --- | --- | --- |
+| Que animal é esse? | 3 (elefante, tartaruga, macaco) | Ilustração + alternativas só com nomes. Ao acertar, uma curiosidade. |
+| Descobrindo os sons | 3 (vaca, galinha, gato) | "Ouvir o som" (opcional, repetível) ou "Ver o som escrito". Alternativas com nome e ilustração. |
+| Onde vive esse animal? | 2 (fazenda/savana; água/casa/floresta) | Escolher o lugar de cada animal e conferir. A tartaruga aceita água ou terra. |
+| Conhecendo os animais | 3 (elefante, girafa, leão) | Três informações ilustradas + uma pergunta sobre o que leram. |
+
+Os 12 animais aparecem nas atividades e na galeria da conclusão.
+
+**Sons:** nenhum arquivo de som foi incluído (não havia gravações com licença verificada).
+Enquanto não houver arquivo, "Ouvir o som" usa a voz do aparelho para imitar o som e avisa isso na tela.
+Para incluir gravações reais, siga `assets/sounds/animals/README.md` (nomes, volume, duração, licença).
+Nada toca sozinho, e todas as atividades funcionam sem áudio.
+
+## Acessibilidade (já disponível)
+
+Pelo botão **Configurações** no topo:
+- Tamanho do texto: normal, grande ou muito grande.
+- Alto contraste.
+- Reduzir animações (vem ativado se o sistema operacional pedir menos movimento).
+- Sons ligados/desligados (**desligados por padrão**).
+
+Também estão prontos: link "Pular para o conteúdo", foco visível, foco movido para o título a cada troca de tela, áreas de toque grandes e textos de interface em português.
+
+## Dados salvos
+
+Tudo fica no `localStorage` do navegador, com o prefixo `mundo-do-aprender:`:
+
+| Chave | Conteúdo |
+| --- | --- |
+| `mundo-do-aprender:settings` | Preferências de acessibilidade |
+| `mundo-do-aprender:progress` | Por módulo: atividades concluídas e última atividade aberta (`js/progress.js`) |
+
+Nenhum dado sai do computador.
+
+## Próximas etapas
+
+Os quatro jogos serão implementados em etapas futuras, uma de cada vez. Veja o `AGENTS.md` para as regras de desenvolvimento.

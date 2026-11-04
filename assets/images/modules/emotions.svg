@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 160">
+  <!-- Rosto calmo -->
+  <circle cx="58" cy="96" r="30" fill="#f9dc9c"/>
+  <path d="M42 92q5-5 10 0M60 92q5-5 10 0" fill="none" stroke="#24263a" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M49 107q7 4 14 0" fill="none" stroke="#24263a" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Rosto surpreso -->
+  <circle cx="182" cy="96" r="30" fill="#f9dc9c"/>
+  <path d="M168 80q6-4 12 0M188 80q6-4 12 0" fill="none" stroke="#24263a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="174" cy="91" r="4" fill="#24263a"/>
+  <circle cx="194" cy="91" r="4" fill="#24263a"/>
+  <ellipse cx="184" cy="108" rx="5" ry="6" fill="#24263a"/>
+
+  <!-- Rosto alegre (frente) -->
+  <circle cx="120" cy="82" r="44" fill="#f4c25b"/>
+  <circle cx="96" cy="94" r="7" fill="#ef8f7a" opacity="0.45"/>
+  <circle cx="144" cy="94" r="7" fill="#ef8f7a" opacity="0.45"/>
+  <circle cx="104" cy="74" r="5" fill="#24263a"/>
+  <circle cx="136" cy="74" r="5" fill="#24263a"/>
+  <path d="M100 94q20 22 40 0" fill="none" stroke="#24263a" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Coração -->
+  <path d="M206 32c-4-6-13-4-13 3 0 6 13 13 13 13s13-7 13-13c0-7-9-9-13-3z" fill="#ef8f7a"/>
+</svg>

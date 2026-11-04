@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mundo do Aprender: plataforma educativa para crianças de 8 a 12 anos com TEA.">
+  <meta name="theme-color" content="#f7f5f0">
+  <title>Mundo do Aprender</title>
+
+  <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml">
+
+  <!-- Ordem importa: accessibility.css por último para sobrescrever os tokens. -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/games.css">
+  <link rel="stylesheet" href="css/routine.css">
+  <link rel="stylesheet" href="css/animals.css">
+  <link rel="stylesheet" href="css/accessibility.css">
+
+  <!-- Scripts do tipo module são adiados (defer) por padrão. -->
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo" id="skip-link">Pular para o conteúdo</a>
+
+  <header class="app-header">
+    <div class="app-header__inner">
+      <a class="app-brand" href="#/" aria-label="Mundo do Aprender, página inicial">
+        <img class="app-brand__logo" src="assets/icons/logo.svg" alt="" width="44" height="44">
+        <span class="app-brand__name" aria-hidden="true">
+          <span class="app-brand__prefix">Mundo do</span>
+          <span class="app-brand__main">Aprender</span>
+        </span>
+      </a>
+
+      <div class="app-header__actions">
+        <button type="button" class="button button--ghost" data-dialog-open="help-dialog" aria-haspopup="dialog">
+          <span data-icon="help"></span>
+          <span class="button__label">Ajuda</span>
+        </button>
+        <button type="button" class="button button--ghost" data-dialog-open="settings-dialog" aria-haspopup="dialog">
+          <span data-icon="settings"></span>
+          <span class="button__label">Configurações</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Área onde o roteador (js/navigation.js) desenha cada tela. -->
+  <main class="app-main" id="conteudo" tabindex="-1"></main>
+
+  <noscript>
+    <p class="noscript-message">
+      O Mundo do Aprender precisa do JavaScript ativado para funcionar.
+    </p>
+  </noscript>
+
+  <!-- Ajuda -->
+  <dialog class="app-dialog" id="help-dialog" aria-labelledby="help-title">
+    <form class="app-dialog__content" method="dialog">
+      <h2 class="app-dialog__title" id="help-title">Como usar</h2>
+
+      <ol class="help-steps">
+        <li class="help-steps__item"><span>Escolha um mundo na tela inicial.</span></li>
+        <li class="help-steps__item"><span>Siga as instruções, uma de cada vez.</span></li>
+        <li class="help-steps__item"><span>Para sair, use o botão <strong>Voltar</strong>. Você pode voltar quando quiser.</span></li>
+        <li class="help-steps__item"><span>Não tem tempo nem pontuação. Vá no seu ritmo.</span></li>
+      </ol>
+
+      <section class="help-adults" aria-labelledby="help-adults-title">
+        <h3 class="help-adults__title" id="help-adults-title">Para famílias e profissionais</h3>
+        <p>
+          Em <strong>Configurações</strong> é possível aumentar o texto, ativar o alto contraste,
+          reduzir animações e ligar ou desligar os sons.
+        </p>
+        <p>O progresso fica salvo apenas neste navegador. Nenhum dado é enviado pela internet.</p>
+      </section>
+
+      <div class="app-dialog__actions">
+        <button type="submit" class="button button--primary">Entendi</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Configurações -->
+  <dialog class="app-dialog" id="settings-dialog" aria-labelledby="settings-title">
+    <form class="app-dialog__content" id="settings-form" method="dialog">
+      <h2 class="app-dialog__title" id="settings-title">Configurações</h2>
+
+      <fieldset class="settings-group">
+        <legend class="settings-group__legend">Tamanho do texto</legend>
+        <label class="choice">
+          <input type="radio" name="fontSize" value="normal">
+          <span>Normal</span>
+        </label>
+        <label class="choice">
+          <input type="radio" name="fontSize" value="large">
+          <span>Grande</span>
+        </label>
+        <label class="choice">
+          <input type="radio" name="fontSize" value="xlarge">
+          <span>Muito grande</span>
+        </label>
+      </fieldset>
+
+      <fieldset class="settings-group">
+        <legend class="settings-group__legend">Visual e som</legend>
+        <label class="choice">
+          <input type="checkbox" name="highContrast">
+          <span>Alto contraste</span>
+        </label>
+        <label class="choice">
+          <input type="checkbox" name="reduceMotion">
+          <span>Reduzir animações</span>
+        </label>
+        <label class="choice">
+          <input type="checkbox" name="soundEnabled">
+          <span>Sons ligados</span>
+        </label>
+      </fieldset>
+
+      <div class="app-dialog__actions">
+        <button type="button" class="button button--secondary" data-action="reset">Restaurar padrão</button>
+        <button type="submit" class="button button--primary">Fechar</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

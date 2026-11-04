@@ -1,0 +1,484 @@
+/* ==========================================================================
+   games.css — estrutura comum às telas dos módulos (jogos).
+   Estilos específicos de cada jogo devem ser adicionados aqui, com prefixo
+   do módulo (ex.: .emotions-*, .routine-*), ou em arquivos próprios caso
+   este arquivo fique grande demais.
+   ========================================================================== */
+
+.game-screen {
+  display: grid;
+  /* minmax(0, 1fr): nenhum conteúdo pode alargar a tela além da largura disponível. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+}
+
+/* ---------- Apresentação do módulo ---------- */
+.module-intro .card__text {
+  font-size: var(--text-lg);
+}
+
+@media (min-width: 48rem) {
+  .module-intro {
+    display: grid;
+    grid-template-columns: minmax(14rem, 2fr) 3fr;
+    align-items: stretch;
+  }
+
+  .module-intro .card__media {
+    padding: var(--space-5);
+  }
+
+  .module-intro .card__body {
+    align-content: center;
+    padding: var(--space-5);
+  }
+}
+
+/* ---------- Telas de aviso (página não encontrada / erro) ---------- */
+.message-screen {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  max-width: 40rem;
+}
+
+.message-screen__title {
+  font-size: var(--text-2xl);
+}
+
+.message-screen__text {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   Atividade (js/components/activityFrame.js) — comum a todos os módulos
+   ========================================================================== */
+.activity {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.activity__progress {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+.activity__part {
+  font-weight: 700;
+  color: var(--module-strong);
+}
+
+.activity__card {
+  display: grid;
+  overflow: hidden;
+  padding: 0;
+}
+
+.activity__media {
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background-color: var(--module-soft);
+}
+
+.activity__image {
+  width: 100%;
+  max-width: 18rem;
+  height: auto;
+}
+
+.activity__prompt {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .activity__card {
+    grid-template-columns: minmax(14rem, 2fr) 3fr;
+  }
+
+  /* Sem ilustração no topo (ex.: os próprios cartões já são ilustrados). */
+  .activity__card:not(:has(> .activity__media)) {
+    grid-template-columns: 1fr;
+  }
+
+  .activity__prompt {
+    padding: var(--space-5);
+  }
+}
+
+.activity__title {
+  font-size: var(--text-xl);
+}
+
+.activity__instruction {
+  font-size: var(--text-lg);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+/* Destaque ao "Repetir instrução" (sem piscar; some sozinho depois de 2 s). */
+.activity__instruction.is-highlighted {
+  background-color: var(--module-soft);
+  box-shadow: 0 0 0 0.5rem var(--module-soft);
+}
+
+.activity__choices {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.activity__feedback:empty {
+  display: none;
+}
+
+.activity__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: var(--border-thin) solid var(--color-border);
+}
+
+/* ==========================================================================
+   Alternativas (js/components/choiceButton.js)
+   Celular: 1 coluna. A partir de 576px: 2 colunas, ou 3 quando são 3 opções.
+   ========================================================================== */
+.choice-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+/* minmax(0, 1fr): as alternativas encolhem em vez de passar da borda. */
+@media (min-width: 36rem) {
+  .choice-group {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .choice-group[data-count="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 72rem) {
+  .choice-group[data-count="4"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.choice-button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 4.5rem;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-lg);
+  font-weight: 650;
+  line-height: 1.3;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.choice-button__image {
+  width: 4rem;
+  height: 4rem;
+}
+
+.choice-button__icon .icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--module-strong);
+}
+
+@media (hover: hover) {
+  .choice-button:hover {
+    border-color: var(--module-accent);
+  }
+}
+
+/* Selecionada: borda dupla + fundo + ✓ (não depende só da cor). */
+.choice-button[aria-pressed="true"] {
+  border-color: var(--module-strong);
+  background-color: var(--module-soft);
+  box-shadow: inset 0 0 0 2px var(--module-strong);
+}
+
+.choice-button[aria-pressed="true"]::before {
+  content: "✓";
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-3);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--module-strong);
+}
+
+/* ==========================================================================
+   Lista reordenável (js/components/sortableList.js)
+   Arrastar pela alça numerada (toque) ou pelo cartão (mouse), ou usar ↑ ↓.
+   ========================================================================== */
+.sortable {
+  display: grid;
+  gap: var(--space-2);
+  overflow-anchor: none; /* trocar cartões de lugar não deve fazer a página pular */
+  max-width: 44rem;
+  padding: 0;
+  list-style: none;
+}
+
+.sortable__item {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sortable__handle {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+  min-width: var(--touch-target);
+  min-height: 3.5rem;
+  border-radius: var(--radius-md);
+  background-color: var(--module-soft);
+  color: var(--module-strong);
+  font-weight: 800;
+  touch-action: none; /* o dedo arrasta o cartão em vez de rolar a página */
+  cursor: grab;
+}
+
+.sortable__handle .icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.sortable__image {
+  width: 3.5rem;
+  height: 3.5rem;
+  pointer-events: none;
+}
+
+.sortable__label {
+  font-size: var(--text-lg);
+  font-weight: 650;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.sortable__buttons {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.sortable__move {
+  display: grid;
+  place-items: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--module-strong);
+  cursor: pointer;
+}
+
+.sortable__move .icon {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.sortable__move:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+@media (hover: hover) {
+  .sortable__move:not(:disabled):hover {
+    border-color: var(--module-strong);
+  }
+}
+
+/* Cartão sendo arrastado: levemente destacado, acima dos outros. */
+.sortable__item.is-dragging {
+  position: relative;
+  z-index: 2;
+  border-color: var(--module-strong);
+  box-shadow: var(--shadow-md);
+  cursor: grabbing;
+}
+
+/* Celular: imagem em cima e nome embaixo, entre a alça e as setas empilhadas,
+   para o texto ter a largura toda do meio (inclusive com texto "Muito grande"). */
+@media (max-width: 36rem) {
+  .sortable__item {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "handle image buttons"
+      "handle label buttons";
+    gap: var(--space-1) var(--space-2);
+  }
+
+  .sortable__handle { grid-area: handle; align-self: stretch; }
+  .sortable__image { grid-area: image; width: 2.75rem; height: 2.75rem; }
+  .sortable__label { grid-area: label; }
+
+  .sortable__buttons {
+    grid-area: buttons;
+    flex-direction: column;
+  }
+}
+
+/* ==========================================================================
+   Controles da atividade (js/components/activityControls.js)
+   ========================================================================== */
+.activity-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.activity-controls__check {
+  margin-inline-start: auto;
+}
+
+/* ==========================================================================
+   Fluxo do módulo (js/components/moduleFlow.js): apresentação e conclusão
+   ========================================================================== */
+.flow-screen {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.flow-screen__title {
+  font-size: var(--text-xl);
+}
+
+.flow-screen--done {
+  justify-items: center;
+  text-align: center;
+}
+
+.flow-screen__art {
+  width: 100%;
+  max-width: 15rem;
+  height: auto;
+}
+
+.flow-lead {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+}
+
+.flow-note {
+  color: var(--color-text-muted);
+}
+
+.flow-parts {
+  display: grid;
+  gap: var(--space-3);
+}
+
+@media (min-width: 48rem) {
+  .flow-parts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .flow-parts[data-count="3"] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 72rem) {
+  .flow-parts[data-count="4"] {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.flow-part {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--module-soft);
+}
+
+.flow-part__count {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--module-strong);
+}
+
+.flow-part__title {
+  font-size: var(--text-lg);
+}
+
+.flow-progress {
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 28rem;
+}
+
+.flow-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.flow-screen--done .flow-actions {
+  justify-content: center;
+}
+
+/* ==========================================================================
+   Mundo das Emoções (js/games/emotions.js)
+   ========================================================================== */
+.emotions-faces {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+}
+
+@media (min-width: 48rem) {
+  .emotions-faces {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.emotions-face {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  font-weight: 600;
+}
+
+.emotions-face img {
+  width: 4.5rem;
+  height: 4.5rem;
+}

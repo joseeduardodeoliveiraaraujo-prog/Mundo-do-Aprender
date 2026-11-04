@@ -1,0 +1,159 @@
+/* ==========================================================================
+   animals.css — estilos específicos de Explorando os Animais (js/games/animals.js)
+   e do painel de som (js/components/soundPlayer.js).
+   ========================================================================== */
+
+/* ---------- Painel de som (no lugar da ilustração) ---------- */
+.sound-player {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding-block: var(--space-3);
+  text-align: center;
+}
+
+.sound-player__play .icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.sound-player__written {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--module-strong);
+}
+
+.sound-player__status {
+  max-width: 22rem;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.sound-player__status:empty {
+  display: none;
+}
+
+/* ---------- Curiosidades (parte 4) ---------- */
+.animal-facts {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.animal-fact {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  background-color: var(--module-soft);
+  font-size: var(--text-lg);
+}
+
+.animal-fact__image {
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+}
+
+.animal-fact__icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  color: var(--module-strong);
+}
+
+.animal-fact__icon .icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+/* ---------- Onde vive? (parte 3) ---------- */
+.habitat-rows {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.habitat-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+}
+
+.habitat-row__image {
+  width: 4rem;
+  height: 4rem;
+}
+
+.habitat-row__question {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.habitat-row .choice-group {
+  grid-column: 1 / -1;
+}
+
+.habitat-row .choice-button {
+  padding: var(--space-2);
+}
+
+/* Imagens de habitat são paisagens (3:2), não quadradas. */
+.habitat-row .choice-button__image {
+  width: 5rem;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+
+/* Só em telas largas a pergunta e as opções ficam na mesma linha. */
+@media (min-width: 72rem) {
+  .habitat-row {
+    grid-template-columns: auto 13rem minmax(0, 1fr);
+  }
+
+  .habitat-row .choice-group {
+    grid-column: auto;
+  }
+}
+
+/* ---------- Galeria da conclusão ---------- */
+.animal-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+}
+
+@media (min-width: 36rem) {
+  .animal-gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 64rem) {
+  .animal-gallery {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.animal-gallery__item {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  font-weight: 600;
+}
+
+.animal-gallery__item img {
+  width: 4.5rem;
+  height: 4.5rem;
+}

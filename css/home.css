@@ -1,0 +1,127 @@
+/* ==========================================================================
+   home.css — tela inicial: boas-vindas, grade de módulos e progresso.
+   Prioridade: tablet (2 colunas). Celular: 1 coluna. Computador: 4 colunas.
+   Atenção: em media queries, 1rem = 16px (padrão do navegador), não 18px.
+   ========================================================================== */
+
+.home {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.home-section {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.home-section__title {
+  font-size: var(--text-xl);
+}
+
+/* ---------- Boas-vindas ---------- */
+.welcome {
+  display: grid;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.welcome__content {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 40rem;
+}
+
+.welcome__title {
+  font-size: var(--text-2xl);
+}
+
+.welcome__text {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+}
+
+.welcome__art {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .welcome {
+    grid-template-columns: 1fr auto;
+    gap: var(--space-5);
+  }
+
+  .welcome__art {
+    display: block;
+    width: 9rem;
+    height: 9rem;
+  }
+}
+
+/* ---------- Grade de módulos ---------- */
+.module-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 36rem) {
+  .module-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ≥ 1152px: computador. Tablets em paisagem (1024px) continuam em 2×2. */
+@media (min-width: 72rem) {
+  .module-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---------- Progresso ---------- */
+.progress-panel {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.progress-panel__intro {
+  color: var(--color-text-muted);
+}
+
+.progress-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+@media (min-width: 48rem) {
+  .progress-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.progress-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background-color: var(--module-soft);
+}
+
+.progress-item__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.progress-item__name {
+  font-weight: 700;
+}
+
+.progress-item__status {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.progress-item .progress-bar {
+  grid-column: 1 / -1;
+}

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 160">
+  <!-- Sol -->
+  <circle cx="200" cy="36" r="17" fill="#f4c25b"/>
+
+  <!-- Quadro da rotina -->
+  <rect x="62" y="20" width="120" height="128" rx="16" fill="#ffffff" stroke="#8cc9da" stroke-width="4"/>
+  <rect x="98" y="11" width="48" height="18" rx="9" fill="#1d6479"/>
+
+  <!-- Itens concluídos -->
+  <circle cx="90" cy="58" r="11" fill="#1d6479"/>
+  <path d="M84.5 58l4 4 7.5-7.5" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="110" y="53" width="54" height="10" rx="5" fill="#cfe7ee"/>
+
+  <circle cx="90" cy="88" r="11" fill="#1d6479"/>
+  <path d="M84.5 88l4 4 7.5-7.5" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="110" y="83" width="44" height="10" rx="5" fill="#cfe7ee"/>
+
+  <!-- Próximo item -->
+  <circle cx="90" cy="118" r="10" fill="#ffffff" stroke="#8cc9da" stroke-width="3.5"/>
+  <rect x="110" y="113" width="50" height="10" rx="5" fill="#cfe7ee"/>
+
+  <!-- Relógio -->
+  <circle cx="40" cy="118" r="18" fill="#ffffff" stroke="#1d6479" stroke-width="3.5"/>
+  <path d="M40 107v11l7 5" fill="none" stroke="#1d6479" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

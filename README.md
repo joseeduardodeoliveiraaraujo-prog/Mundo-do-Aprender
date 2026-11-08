@@ -149,16 +149,23 @@ Um dia inteiro ao lado de **Noa**, que reage a cada ação em um balão de fala.
 - **Formas de jogar:** arrastar com mouse ou dedo, tocar no cartão e depois no lugar, ou usar o teclado (Enter). Todas as atividades têm **Desfazer** e **Recomeçar**.
 - **Para criar outra atividade:** acrescente um objeto em `js/data/routine/activities.js` com um dos tipos descritos no início do arquivo.
 
-## Explorando os Animais (Etapa 5)
+## Explorando os Animais
 
-| Parte | Atividades | Como funciona |
+A criança visita cinco lugares e descobre 12 animais. Pode ir a qualquer lugar, a qualquer hora.
+
+| Lugar | Atividades | Como funciona |
 | --- | --- | --- |
-| Que animal é esse? | 3 (elefante, tartaruga, macaco) | Ilustração + alternativas só com nomes. Ao acertar, uma curiosidade. |
-| Descobrindo os sons | 3 (vaca, galinha, gato) | "Ouvir o som" (opcional, repetível) ou "Ver o som escrito". Alternativas com nome e ilustração. |
-| Onde vive esse animal? | 2 (fazenda/savana; água/casa/floresta) | Escolher o lugar de cada animal e conferir. A tartaruga aceita água ou terra. |
-| Conhecendo os animais | 3 (elefante, girafa, leão) | Três informações ilustradas + uma pergunta sobre o que leram. |
+| Fazenda | Passeio · 2 sons | Tocar nos animais e ver as fichas · ouvir ou ler o som e achar o animal no cenário |
+| Savana | Passeio · Procurar · 3 refeições | Achar o animal pela pista · arrastar até o animal a comida que ele come |
+| Rio e floresta | Passeio · 2 procuras | Tocar nos animais · achar pela pista |
+| Em casa | Visita · 1 som | Tocar nos animais · achar pelo som |
+| Cada um no seu lugar | 2 (fazenda/savana; água/casa/floresta) | Arrastar cada animal até onde vive. A tartaruga aceita água ou terra. |
 
-Os 12 animais aparecem nas atividades e na galeria da conclusão.
+- **Ficha do animal:** nome, onde vive, o que come, curiosidade e som.
+- **Movimento:** os animais chegam à cena e dão um pulinho ao serem tocados, sempre uma vez só (o projeto não permite animação em repetição).
+- **Recompensas:** uma estrela por atividade, uma figurinha por lugar completo e o caderno com os animais já vistos, tudo calculado do progresso salvo.
+- **Som:** botão "Sons" em cada atividade (a mesma opção de Configurações). Nada toca sozinho e tudo funciona sem som.
+- **Para criar outra atividade ou região:** edite `js/data/animals/activities.js` e `js/data/animals/catalog.js`.
 
 **Sons:** nenhum arquivo de som foi incluído (não havia gravações com licença verificada).
 Enquanto não houver arquivo, "Ouvir o som" usa a voz do aparelho para imitar o som e avisa isso na tela.

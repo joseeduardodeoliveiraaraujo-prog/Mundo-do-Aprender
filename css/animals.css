@@ -73,57 +73,349 @@
   height: 1.6rem;
 }
 
-/* ---------- Onde vive? (parte 3) ---------- */
-.habitat-rows {
+.animal-facts[hidden] {
+  display: none;
+}
+
+/* ---------- Faixa de mensagem ---------- */
+.explorer-guide {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--module-accent);
+  border-radius: var(--radius-lg);
+  background-color: var(--module-soft);
+}
+
+.explorer-guide > .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  color: var(--module-strong);
+}
+
+.explorer-guide__text {
+  min-width: 0;
+  min-height: 1.5em;
+  font-weight: 700;
+}
+
+/* Com o texto "Muito grande", a faixa fixa tomaria a tela: rola com a página. */
+:root[data-font-size="xlarge"] .explorer-guide {
+  position: static;
+}
+
+/* ---------- Cenário com animais ---------- */
+.explorer-scene {
+  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  justify-self: center;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.explorer-scene__image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* O tamanho cresce com o cenário, nunca menos de 68px (não cresce com o texto). */
+.explorer-animal {
+  position: absolute;
+  box-sizing: border-box;
+  width: max(68px, 21%);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 3px dashed var(--module-strong);
+  border-radius: 50%;
+  background: transparent;
+  translate: -50% -50%;
+  cursor: pointer;
+  animation: animal-arrive 400ms ease-out backwards 1;
+}
+
+.explorer-animal__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.explorer-animal__mark {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  display: none;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: var(--module-strong);
+  color: var(--color-on-primary);
+}
+
+.explorer-animal__mark .icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Conhecido: borda contínua e estrela (não depende só da cor). */
+.explorer-animal.is-found {
+  border-style: solid;
+}
+
+.explorer-animal.is-found .explorer-animal__mark {
   display: grid;
+}
+
+.explorer-animal.is-hopping,
+.feed-stage__animal.is-hopping {
+  animation: animal-hop 400ms ease-out 1;
+}
+
+/* Movimentos curtos e únicos; nunca em repetição (AGENTS.md). */
+@keyframes animal-arrive {
+  from { opacity: 0; transform: translateY(10px); }
+}
+
+@keyframes animal-hop {
+  40% { transform: translateY(-10px); }
+}
+
+/* ---------- Passeio: cenário + ficha do animal ---------- */
+.explore-mission {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.animal-card-slot__empty {
+  padding: var(--space-3);
+  border: var(--border-width) dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.animal-card {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  animation: journey-reward-in 300ms ease-out 1;
+}
+
+.animal-card__top {
+  display: flex;
+  align-items: center;
   gap: var(--space-3);
 }
 
-.habitat-row {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+.animal-card__image {
+  width: 5rem;
+  height: 5rem;
+  flex-shrink: 0;
+}
+
+.animal-card__name {
+  font-size: var(--text-xl);
+}
+
+.animal-card__label {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--module-strong);
+}
+
+.animal-card .animal-fact {
+  font-size: var(--text-base);
+}
+
+.animal-card .sound-player {
+  padding-block: 0;
+}
+
+.animal-card__another {
+  justify-self: start;
+}
+
+@media (min-width: 72rem) {
+  .explore-mission {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+}
+
+/* ---------- Pista para procurar ---------- */
+.explorer-clue-panel {
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  border: var(--border-thin) solid var(--color-border);
+}
+
+.explorer-clue {
+  display: flex;
   align-items: center;
-  gap: var(--space-2) var(--space-3);
+  gap: var(--space-3);
+  font-size: var(--text-lg);
+}
+
+.explorer-clue > .icon {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  color: var(--module-strong);
+}
+
+/* ---------- Peças iguais na caixa ---------- */
+[data-module="animals"] .placement-tray__dock {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--space-2);
+}
+
+[data-module="animals"] .placement-piece {
+  font-size: var(--text-sm);
+}
+
+@media (min-width: 48rem) {
+  [data-module="animals"] .placement-tray__dock {
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  }
+}
+
+/* ---------- Dar comida ---------- */
+.feed-stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background-color: var(--module-soft);
+}
+
+.feed-stage__animal {
+  width: 9rem;
+  height: 9rem;
+}
+
+.feed-stage .placement-slot {
+  width: 10rem;
+  min-height: 8rem;
+}
+
+.feed-stage .placement-slot__dock,
+.feed-stage .placement-slot__empty,
+.feed-stage .placement-piece {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.feed-stage .placement-slot__empty {
+  min-height: 8rem;
+}
+
+.feed-stage .placement-piece {
+  min-width: 0;
+  border-width: 0;
+  background-color: transparent;
+}
+
+/* ---------- Cada um no seu lugar ---------- */
+.habitat-drop__count {
+  font-weight: 700;
+}
+
+.habitat-places {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.habitat-place {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
   padding: var(--space-3);
   border: var(--border-thin) solid var(--color-border);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
 }
 
-.habitat-row__image {
-  width: 4rem;
-  height: 4rem;
-}
-
-.habitat-row__question {
-  font-size: var(--text-lg);
-  font-weight: 700;
-}
-
-.habitat-row .choice-group {
-  grid-column: 1 / -1;
-}
-
-.habitat-row .choice-button {
-  padding: var(--space-2);
-}
-
-/* Imagens de habitat são paisagens (3:2), não quadradas. */
-.habitat-row .choice-button__image {
-  width: 5rem;
-  height: auto;
+.habitat-place__image {
+  width: 100%;
+  max-height: 8rem;
+  object-fit: cover;
   border-radius: var(--radius-sm);
 }
 
-/* Só em telas largas a pergunta e as opções ficam na mesma linha. */
-@media (min-width: 72rem) {
-  .habitat-row {
-    grid-template-columns: auto 13rem minmax(0, 1fr);
-  }
+.habitat-place__name {
+  font-size: var(--text-lg);
+}
 
-  .habitat-row .choice-group {
-    grid-column: auto;
+.habitat-place__spots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.habitat-place .placement-slot {
+  min-width: 0;
+  min-height: 7rem;
+}
+
+.habitat-place .placement-slot__dock,
+.habitat-place .placement-slot__empty,
+.habitat-place .placement-piece {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.habitat-place .placement-slot__empty {
+  min-height: 7rem;
+}
+
+.habitat-place .placement-piece {
+  min-width: 0;
+  border-width: 0;
+  background-color: transparent;
+}
+
+@media (min-width: 48rem) {
+  .habitat-places {
+    grid-template-columns: repeat(var(--habitat-count, 2), minmax(0, 1fr));
   }
+}
+
+/* ---------- Caderno da conclusão ---------- */
+.animal-completion {
+  display: grid;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.animal-gallery__item.is-locked {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+/* Ainda não visto: cinza e apagado, com o texto dizendo o mesmo. */
+.animal-gallery__item.is-locked img {
+  filter: grayscale(1);
+  opacity: 0.45;
 }
 
 /* ---------- Galeria da conclusão ---------- */

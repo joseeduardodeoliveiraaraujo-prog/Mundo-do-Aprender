@@ -1,0 +1,370 @@
+/* ==========================================================================
+   emotions-missions.css — Mundo das Emoções: missões com peças
+   (js/games/emotions/emotionMatch.js e sceneArrange.js).
+   A base das peças e lugares está em components.css (placement-*).
+   ========================================================================== */
+.mission {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.mission__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ---------- Passos ① → ② (missões com peças) ---------- */
+.mission-steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mission-steps__step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.3rem var(--space-3) 0.3rem 0.3rem;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+
+.mission-steps__number {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: var(--border-width) solid currentColor;
+  border-radius: 50%;
+}
+
+/* Passo atual: borda forte, fundo e número preenchido (não só cor). */
+.mission-steps__step.is-current {
+  border-color: var(--module-strong);
+  background-color: var(--module-soft);
+  color: var(--color-text);
+}
+
+.mission-steps__step.is-current .mission-steps__number {
+  border-color: var(--module-strong);
+  background-color: var(--module-strong);
+  color: var(--color-on-primary);
+}
+
+/* ---------- Cada um com seu sentimento ---------- */
+.match-mission .mission__toolbar {
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* A caixa de rostos fica presa no topo: o rosto escolhido continua à vista
+   enquanto a criança rola até o amigo (principalmente no celular). */
+.match-mission .placement-tray {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  padding: var(--space-2) var(--space-3);
+  border-style: solid;
+  box-shadow: var(--shadow-sm);
+}
+
+.placement-tray__title {
+  font-weight: 800;
+}
+
+.match-mission .placement-tray__dock {
+  gap: var(--space-2);
+  min-height: 4.5rem;
+}
+
+.match-mission .placement-tray .placement-piece {
+  min-width: 4.75rem;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.match-mission .placement-tray .placement-piece__image {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+.match-cards {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.match-cards__count {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.match-cards__list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.match-card {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+}
+
+.match-card__who {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.match-card__portrait {
+  width: 4.5rem;
+  border-width: 3px;
+}
+
+.match-card__about {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.match-card__name {
+  font-size: var(--text-lg);
+}
+
+/* Balão de pensamento saindo do retrato: duas bolinhas entre o retrato e o balão. */
+.match-card__bubble {
+  position: relative;
+  display: flex;
+  padding-left: 2rem;
+}
+
+.match-card__bubble::before,
+.match-card__bubble::after {
+  content: "";
+  position: absolute;
+  border: 3px solid var(--color-border);
+  border-radius: 50%;
+}
+
+.match-card__bubble::before {
+  top: 0;
+  left: 1.6rem;
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.match-card__bubble::after {
+  top: -0.85rem;
+  left: 1rem;
+  width: 0.55rem;
+  height: 0.55rem;
+}
+
+.match-card .placement-slot {
+  flex: 1;
+  max-width: 14rem;
+  min-height: 7rem;
+  border-radius: var(--radius-xl);
+}
+
+.match-card .placement-slot__dock {
+  width: 100%;
+}
+
+.match-card .placement-slot__empty {
+  width: 100%;
+  min-height: 7rem;
+}
+
+.match-card .placement-piece {
+  min-width: 6rem;
+}
+
+/* Resposta do amigo, logo abaixo do balão. */
+.match-card__reply {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-height: 3em;
+  color: var(--color-text-muted);
+}
+
+.match-card__reply.is-answer {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-muted);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.match-card__reply .icon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.2rem;
+  color: var(--module-strong);
+}
+
+/* Combinou: borda forte + fundo + estrela na resposta (não depende só da cor). */
+.match-card.is-matched {
+  border-color: var(--module-strong);
+  background-color: var(--module-soft);
+}
+
+.match-card.is-matched .match-card__bubble::before,
+.match-card.is-matched .match-card__bubble::after {
+  border-color: var(--module-strong);
+}
+
+.match-card.is-matched .match-card__reply.is-answer {
+  background-color: var(--color-surface);
+}
+
+.match-card.is-hinted {
+  box-shadow: 0 0 0 4px var(--module-accent);
+}
+
+@media (min-width: 48rem) {
+  .match-cards__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Arrumar a cena (cantinho da calma) ---------- */
+.arrange-scene {
+  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  justify-self: center;
+}
+
+.arrange-scene__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+}
+
+/* Lugares na cena: crescem com a ilustração (nunca menos de 68px), não com o texto. */
+.arrange-scene .placement-slot {
+  position: absolute;
+  box-sizing: border-box;
+  width: max(68px, 12%);
+  height: auto;
+  aspect-ratio: 1;
+  min-width: 0;
+  min-height: 0;
+  background-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  transform: translate(-50%, -50%);
+}
+
+.arrange-scene .placement-slot__dock {
+  width: 100%;
+  height: 100%;
+}
+
+.arrange-scene .placement-piece {
+  width: 82%;
+  aspect-ratio: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 2px;
+  border-width: 0;
+  background-color: transparent;
+}
+
+.arrange-scene .placement-piece[aria-pressed="true"] {
+  border-width: var(--border-width);
+}
+
+.arrange-scene .placement-piece .placement-piece__image {
+  width: 88%;
+  height: auto;
+}
+
+/* Na cena os lugares são pequenos: sem o texto "Toque aqui" (o + já indica). */
+.arrange-scene .placement-slot.is-choosing .placement-slot__hint {
+  display: none;
+}
+
+/* Na cena, o nome fica só para leitor de tela (a peça já tem aria-label). */
+.arrange-scene .placement-piece__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Selo: coração (ajuda a acalmar) ou alto-falante (barulhento). */
+.arrange-scene__mark {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--module-strong);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  color: var(--module-strong);
+}
+
+.arrange-scene__mark:empty {
+  display: none;
+}
+
+.arrange-scene__mark .icon {
+  width: 14px;
+  height: 14px;
+}
+
+.arrange-scene .placement-slot.is-calm .arrange-scene__mark {
+  background-color: var(--module-strong);
+  color: var(--color-on-primary);
+}
+
+.arrange-scene .placement-slot.is-noisy {
+  border-style: dashed;
+}
+
+.arrange-scene .placement-slot.is-hinted {
+  box-shadow: 0 0 0 4px var(--module-accent);
+}
+
+.arrange-reaction {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: var(--border-width) solid var(--module-accent);
+  border-radius: var(--radius-lg);
+  background-color: var(--module-soft);
+  font-size: var(--text-lg);
+}
+
+.arrange-reaction[hidden] {
+  display: none;
+}
+
+.arrange-reaction.is-noisy {
+  border-style: dashed;
+  background-color: var(--color-surface);
+}
+
+.arrange-reaction__image {
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+}

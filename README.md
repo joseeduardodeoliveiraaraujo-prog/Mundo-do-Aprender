@@ -6,7 +6,7 @@ Plataforma educativa digital para crianças de **8 a 12 anos com Transtorno do E
 
 | Módulo | Rota | Situação |
 | --- | --- | --- |
-| Mundo das Emoções | `#/emocoes` | **Pronto** (11 atividades) |
+| Mundo das Emoções | `#/emocoes` | **Pronto** (13 atividades, em expansão) |
 | Minha Rotina | `#/rotina` | **Pronto** (8 atividades) |
 | Explorando os Animais | `#/animais` | **Pronto** (11 atividades; sons: ver abaixo) |
 | Eu Me Comunico | `#/comunicacao` | Tela provisória |
@@ -50,6 +50,9 @@ Mundo do Aprender/
 │   ├── components.css      # Botão, painel, cartão, cabeçalho de tela, progresso, feedback, diálogos
 │   ├── home.css            # Tela inicial
 │   ├── games.css           # Estrutura comum: atividade, alternativas, lista reordenável, fluxo
+│   ├── emotions.css        # Mundo das Emoções: rostos e "Monte o rosto"
+│   ├── emotions-detective.css  # Mundo das Emoções: Detetive (lupa, pistas, desafio)
+│   ├── emotions-missions.css   # Mundo das Emoções: missões com peças
 │   ├── routine.css         # Estilos específicos da Minha Rotina
 │   ├── animals.css         # Estilos específicos de Explorando os Animais e do painel de som
 │   └── accessibility.css   # Foco, contraste, tamanho de texto, animações (sempre por último)
@@ -75,6 +78,7 @@ Mundo do Aprender/
 │   │   ├── activityFrame.js    # Moldura padrão de atividade (instrução, repetir, navegação)
 │   │   ├── choiceButton.js     # Alternativas de resposta
 │   │   ├── sortableList.js     # Cartões reordenáveis (arrastar e soltar + setas)
+│   │   ├── placementBoard.js   # Quebra-cabeça peça → lugar (tocar e tocar, arrastar, teclado)
 │   │   ├── activityControls.js # Desfazer · Recomeçar · Conferir
 │   │   ├── soundPlayer.js      # "Ouvir o som" / "Ver o som escrito"
 │   │   ├── moduleFlow.js       # Fluxo comum: apresentação → atividades → conclusão
@@ -90,7 +94,7 @@ Mundo do Aprender/
 └── assets/
     ├── icons/              # logo.svg + ícones dos módulos
     ├── images/modules/     # Ilustrações dos cartões dos módulos
-    ├── images/emotions/    # Rostos (faces/) e cenas (scenes/) do Mundo das Emoções
+    ├── images/emotions/    # Rostos (faces/), peças para montar rostos (parts/) e cenas (scenes/)
     ├── images/routine/     # Pictogramas da Minha Rotina (atividades e objetos)
     ├── images/animals/     # Animais, habitats e alimentos (originais; ver CREDITS.md)
     └── sounds/
@@ -111,15 +115,16 @@ Ajustes em relação à estrutura sugerida:
 - **Progresso:** calculado só a partir de atividades que existem. Enquanto não houver atividades, mostra "Atividades em preparação"; nenhum número é inventado.
 - **Responsivo:** celular (1 coluna), tablet retrato e paisagem (2 colunas), computador ≥ 1152px (4 colunas).
 
-## Mundo das Emoções (Etapa 3)
+## Mundo das Emoções (Etapa 3, gameplay revisado)
 
 Três partes, uma atividade por vez, com ilustração, alternativas, "Repetir instrução", "Anterior"/"Próxima" e tela de conclusão:
 
 | Parte | Atividades | Como funciona |
 | --- | --- | --- |
-| Reconhecendo expressões | 4 (felicidade, tristeza, raiva, surpresa) | Há uma resposta esperada; as outras recebem uma pista gentil. O rosto é tratado como pista, não como prova. |
-| Situações do dia a dia | 4 (inclui medo e calma) | Mais de uma emoção pode ser aceita. Respostas menos prováveis recebem "Vamos pensar juntos". |
-| Como posso me expressar? | 3 | Todas as alternativas são válidas (conversar, pedir ajuda, silêncio, pausa). |
+| Reconhecendo expressões | 2 de olhar (felicidade, tristeza) + 2 de **montar o rosto** (surpresa, raiva) | Olhar: uma resposta esperada, com pista gentil. Montar: a criança escolhe sobrancelhas, olhos e boca, vê o rosto mudar e aperta "Conferir o rosto". Mais de uma peça pode combinar; a pista fala só da peça a trocar. Desfazer/Recomeçar. |
+| Detetive das emoções | 4 cenas (inclui medo e calma) | **Usar a lupa** liga o modo de investigação: pessoas e objetos da cena ganham borda tracejada. Tocar neles revela a pista, mostrada aumentada pela lupa logo abaixo da cena (borda contínua + ✓ nos já encontrados; caderno para ver de novo). **Preciso de uma dica** mostra onde olhar. Com as 3 pistas, o **Desafio do detetive**: pôr um rosto no balão de pensamento do personagem (mais de uma emoção aceita) e mostrar qual pista ajudou. |
+| Detetive das emoções (cont.) | Missão **Cada um com seu sentimento** | **Arrastar e soltar** (mouse ou dedo): segurar um rosto e levar até o balão de Marina, Davi ou Pedro. O balão sob o rosto fica destacado ("Solte aqui"). Rosto que combina encaixa e o amigo diz "É isso…"; o que não combina volta para a caixa e o amigo responde com gentileza ("Hum… acho que não"). No celular a página rola sozinha perto da borda. Teclado: Enter no rosto e no balão. Pedro aceita calma ou felicidade; sobra um rosto. Dica, Desfazer, Recomeçar. |
+| Como posso me expressar? | Missão **O cantinho da calma** + 3 | Cantinho: cena maior (480×300) com 4 lugares. Cada objeto responde ao ser colocado; o tambor convida a trocar por algo mais silencioso. Pronto quando os 4 lugares têm objetos que acalmam. Depois, 3 situações em que todas as formas de se expressar são válidas. |
 
 - Uma atividade conta como feita quando recebe uma resposta válida.
 - A posição é guardada: ao voltar, a criança pode "Continuar de onde parei".

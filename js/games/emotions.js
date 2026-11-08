@@ -2,26 +2,33 @@
  * Módulo "Mundo das Emoções".
  *
  * Fluxo (apresentação → atividades → conclusão): components/moduleFlow.js.
- * Conteúdo e textos: ../data/emotions.js. Este arquivo só contém a lógica
- * de cada tipo de atividade.
+ * Conteúdo e textos: ../data/emotions.js. Tipos de atividade:
+ *
+ *   recognize    olhar um rosto e escolher a emoção            (aqui)
+ *   buildFace    montar um rosto peça por peça e conferir      (emotions/faceBuilder.js)
+ *   investigate  encontrar pistas na cena e escolher a emoção  (emotions/investigation.js)
+ *   express      escolher uma forma de se expressar            (aqui)
+ *   matchEmotions  levar rostos ao balão de cada amigo       (emotions/emotionMatch.js)
+ *   arrangeScene   arrumar uma cena levando objetos          (emotions/sceneArrange.js)
  *
  * - O progresso é salvo ao dar uma resposta válida.
  * - "Anterior" e "Próxima" ficam sempre disponíveis: a criança decide o ritmo.
  */
 
 import { el } from '../components/dom.js';
-import { createActivityFrame, showResult } from '../components/activityFrame.js';
-import { createChoiceButton, createChoiceGroup, setSelectedChoice } from '../components/choiceButton.js';
+import { createActivityFrame } from '../components/activityFrame.js';
 import { startModuleFlow, fillTemplate } from '../components/moduleFlow.js';
 import { emotionsData } from '../data/emotions.js';
+import { createSingleChoice } from './emotions/singleChoice.js';
+import { renderBuildFace } from './emotions/faceBuilder.js';
+import { renderInvestigate } from './emotions/investigation.js';
+import { renderMatchEmotions } from './emotions/emotionMatch.js';
+import { renderArrangeScene } from './emotions/sceneArrange.js';
 
 const { emotions, expressions, parts, activities, messages } = emotionsData;
 
-/**
- * Para cada tipo de atividade: como montar as alternativas e como
- * responder a cada escolha. `completes` indica resposta válida.
- */
-const ACTIVITY_TYPES = Object.freeze({
+/** Atividades de uma resposta: como montar as alternativas e responder a cada escolha. */
+const SINGLE_CHOICE_TYPES = Object.freeze({
   recognize: {
     choices: (activity) => activity.options.map((id) => ({ id, label: emotions[id].name })),
     evaluate: (activity, choiceId) => (choiceId === activity.answer
@@ -33,27 +40,8 @@ const ACTIVITY_TYPES = Object.freeze({
       }
       : { completes: false, tone: 'encourage', title: messages.recognize.retry, message: activity.hint }),
   },
-  situation: {
-    choices: (activity) => activity.options.map(({ emotion }) => ({
-      id: emotion, label: emotions[emotion].name, image: emotions[emotion].face,
-    })),
-    evaluate: (activity, choiceId) => {
-      const option = activity.options.find(({ emotion }) => emotion === choiceId);
-      if (option.fit === 'unlikely') {
-        return { completes: false, tone: 'encourage', title: messages.situation.unlikely, message: option.message };
-      }
-      return {
-        completes: true,
-        tone: 'success',
-        title: messages.situation[option.fit],
-        message: `${option.message} ${messages.notes.feelings}`,
-      };
-    },
-  },
   express: {
-    choices: (activity) => activity.options.map((id) => ({
-      id, label: expressions[id].label, icon: expressions[id].icon,
-    })),
+    choices: (activity) => activity.options.map((id) => ({ id, label: expressions[id].label, icon: expressions[id].icon })),
     evaluate: (_, choiceId) => ({
       completes: true,
       tone: 'success',
@@ -63,16 +51,8 @@ const ACTIVITY_TYPES = Object.freeze({
   },
 });
 
-function createEmotionsList() {
-  return el('ul', { className: 'emotions-faces', attrs: { role: 'list' } },
-    Object.values(emotions).map((emotion) => el('li', { className: 'emotions-face' }, [
-      el('img', { attrs: { src: emotion.face, alt: '', width: 72, height: 72 } }),
-      el('span', { text: emotion.name }),
-    ])));
-}
-
-function renderActivity(activity, index, { navigation, complete }) {
-  const type = ACTIVITY_TYPES[activity.type];
+function renderSingleChoice(activity, navigation, complete) {
+  const type = SINGLE_CHOICE_TYPES[activity.type];
   const frame = createActivityFrame({
     ...navigation,
     title: activity.title,
@@ -82,19 +62,36 @@ function renderActivity(activity, index, { navigation, complete }) {
       attrs: { src: activity.image.src, alt: activity.image.alt, width: 240, height: 200 },
     }),
   });
-
-  let group;
-  const choices = type.choices(activity).map((choice) => createChoiceButton({
-    ...choice,
-    onSelect: (button) => {
-      setSelectedChoice(group, button);
-      showResult(frame, type.evaluate(activity, choice.id), complete);
-    },
+  frame.choicesSlot.append(createSingleChoice({
+    frame,
+    label: messages.choicesLabel,
+    choices: type.choices(activity),
+    evaluate: (choiceId) => type.evaluate(activity, choiceId),
+    complete,
   }));
-  group = createChoiceGroup({ label: messages.choicesLabel, choices });
-  frame.choicesSlot.append(group);
+  return frame;
+}
 
+const RENDER_BY_TYPE = Object.freeze({
+  recognize: renderSingleChoice,
+  express: renderSingleChoice,
+  buildFace: renderBuildFace,
+  investigate: renderInvestigate,
+  matchEmotions: renderMatchEmotions,
+  arrangeScene: renderArrangeScene,
+});
+
+function renderActivity(activity, index, { navigation, complete }) {
+  const frame = RENDER_BY_TYPE[activity.type](activity, navigation, complete);
   return { element: frame.element, focusTarget: frame.heading };
+}
+
+function createEmotionsList() {
+  return el('ul', { className: 'emotions-faces', attrs: { role: 'list' } },
+    Object.values(emotions).map((emotion) => el('li', { className: 'emotions-face' }, [
+      el('img', { attrs: { src: emotion.face, alt: '', width: 72, height: 72 } }),
+      el('span', { text: emotion.name }),
+    ])));
 }
 
 export function render(view, module) {

@@ -16,6 +16,8 @@ const ICON_SHAPES = Object.freeze({
   arrowLeft: [['path', { d: 'M19 12H5' }], ['path', { d: 'M12 19l-7-7 7-7' }]],
   arrowRight: [['path', { d: 'M5 12h14' }], ['path', { d: 'M12 5l7 7-7 7' }]],
   check: [['path', { d: 'M20 6L9 17l-5-5' }]],
+  plus: [['path', { d: 'M12 5v14' }], ['path', { d: 'M5 12h14' }]],
+  search: [['circle', { cx: 11, cy: 11, r: 7 }], ['path', { d: 'M21 21l-5-5' }]],
   help: [
     ['circle', { cx: 12, cy: 12, r: 10 }],
     ['path', { d: 'M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3' }],

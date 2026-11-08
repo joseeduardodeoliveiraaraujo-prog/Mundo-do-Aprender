@@ -56,6 +56,8 @@
    ========================================================================== */
 .activity {
   display: grid;
+  /* minmax(0, 1fr): conteúdo largo (ex.: texto "Muito grande") não alarga a tela. */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
 }
 
@@ -453,32 +455,4 @@
 
 .flow-screen--done .flow-actions {
   justify-content: center;
-}
-
-/* ==========================================================================
-   Mundo das Emoções (js/games/emotions.js)
-   ========================================================================== */
-.emotions-faces {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
-  width: 100%;
-}
-
-@media (min-width: 48rem) {
-  .emotions-faces {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-
-.emotions-face {
-  display: grid;
-  justify-items: center;
-  gap: var(--space-1);
-  font-weight: 600;
-}
-
-.emotions-face img {
-  width: 4.5rem;
-  height: 4.5rem;
 }

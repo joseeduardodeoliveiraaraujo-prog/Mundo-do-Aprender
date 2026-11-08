@@ -92,6 +92,7 @@ export function render(view, module) {
 | Tela de atividade (uma por vez) | `createActivityFrame` — `components/activityFrame.js` (progresso, instrução, "Repetir instrução", Anterior/Próxima) |
 | Alternativas de resposta | `createChoiceButton`, `createChoiceGroup`, `setSelectedChoice` — `components/choiceButton.js` (seleção múltipla: controle `aria-pressed` direto) |
 | Ordenar cartões | `createSortableList` — `components/sortableList.js` (Pointer Events + botões ↑/↓) |
+| Quebra-cabeça "peça → lugar" | `createPlacementBoard` — `components/placementBoard.js` (arrastar e soltar com cópia que segue o dedo/mouse, destaque do lugar, rolagem automática na borda, encaixe e retorno animados; toque→toque opcional com `tapToPlace`; teclado sempre). `accepts` decide o que cada lugar aceita (o resto volta, com `onReject`). O módulo posiciona os lugares (`slots`) e reage em `onPlace`. |
 | Desfazer / Recomeçar / Conferir | `createActivityControls` — `components/activityControls.js` |
 | Mostrar resultado e registrar progresso | `showResult(frame, resultado, complete)` — `components/activityFrame.js` |
 | Som opcional | `createSoundPlayer({ sound })` — `components/soundPlayer.js` ("Ouvir o som"/"Ouvir de novo" + "Ver o som escrito") |
@@ -108,7 +109,7 @@ export function render(view, module) {
 - **Cartão clicável:** a área de toque usa `.card__action::after`. Nunca aplique `transform`, `translate`, `filter` ou `position` em `.card__action` ou nos estados dele (`:hover`, `:active`) — isso encolhe a área clicável. Para "pressionado", use `box-shadow`; para hover, mude a cor.
 - Telas devem funcionar de 320px a 1920px sem rolagem horizontal, inclusive com texto "Muito grande".
 - **Arrastar e soltar:** use Pointer Events (o drag-and-drop nativo do HTML não funciona com toque). Sempre ofereça uma alternativa por botões. Ouça `pointermove/pointerup` na janela (mover o elemento no DOM solta a captura do ponteiro) e desligue `overflow-anchor` durante o arrasto (senão a página "pula" em telas roladas). No toque, arraste por uma alça com `touch-action: none`, para o resto do cartão continuar rolando a página.
-- Estilos específicos de um módulo podem ir para `css/<modulo>.css` (ex.: `css/routine.css`), carregado antes do `accessibility.css`.
+- Estilos específicos de um módulo podem ir para `css/<modulo>.css` (ex.: `css/emotions.css`, `css/routine.css`; módulos grandes podem dividir: `css/emotions-detective.css`), carregado antes do `accessibility.css`.
 
 ## 6. Diretrizes de design para TEA (obrigatórias)
 

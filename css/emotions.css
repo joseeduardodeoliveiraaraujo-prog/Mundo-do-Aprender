@@ -1,0 +1,150 @@
+/* ==========================================================================
+   emotions.css — estilos específicos do Mundo das Emoções (js/games/emotions*):
+   rostos e "Monte o rosto". Detetive: emotions-detective.css. Missões: emotions-missions.css.
+   Estruturas comuns (atividade, alternativas, controles) ficam em games.css.
+   ========================================================================== */
+
+/* ---------- Rostos na tela de conclusão ---------- */
+.emotions-faces {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  width: 100%;
+}
+
+@media (min-width: 48rem) {
+  .emotions-faces {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.emotions-face {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  font-weight: 600;
+}
+
+.emotions-face img {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+/* ==========================================================================
+   Monte o rosto (js/games/emotions/faceBuilder.js)
+   ========================================================================== */
+.face-builder {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+/* Fica preso no topo enquanto a criança rola até a boca: o rosto está sempre à vista. */
+.face-builder__stage {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: var(--space-2);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--module-soft);
+}
+
+.face-builder__face {
+  position: relative;
+  width: 100%;
+  max-width: 7.5rem;
+}
+
+.face-builder__base {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/*
+ * Cada peça tem o viewBox da sua região no rosto de 200×200
+ * (ver js/data/emotions/faceParts.js). As porcentagens abaixo são essa
+ * região: x / 200, y / 200 e largura / 200.
+ */
+.face-builder__layer {
+  position: absolute;
+  height: auto;
+}
+
+/* O reset (img { display: block }) venceria o atributo hidden. */
+.face-builder__layer[hidden] {
+  display: none;
+}
+
+.face-builder__layer--brows { left: 28%; top: 38%; width: 44%; }
+.face-builder__layer--eyes { left: 30%; top: 50%; width: 40%; }
+.face-builder__layer--mouth { left: 36%; top: 63%; width: 28%; }
+
+.face-builder__rows {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.face-builder__row {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+}
+
+.face-builder__row-title {
+  font-size: var(--text-lg);
+}
+
+/* Celular: peça ao lado do nome, para as três regiões caberem na tela. */
+.face-builder .choice-button {
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: var(--space-2) var(--space-3);
+  text-align: start;
+}
+
+.face-builder .choice-button__image {
+  width: 5rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  background-color: var(--module-soft);
+  object-fit: contain;
+}
+
+@media (min-width: 36rem) {
+  .face-builder .choice-group[data-count="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .face-builder .choice-button {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* Tablet e computador: rosto fixo ao lado das peças. */
+@media (min-width: 48rem) {
+  .face-builder {
+    grid-template-columns: minmax(12rem, 1fr) minmax(0, 2fr);
+    align-items: start;
+  }
+
+  .face-builder__stage {
+    position: sticky;
+    top: var(--space-3);
+    padding: var(--space-4);
+  }
+
+  .face-builder__face {
+    max-width: 14rem;
+  }
+}

@@ -397,3 +397,191 @@
   accent-color: var(--color-primary);
   cursor: pointer;
 }
+
+/* ---------- Quebra-cabeça "peça → lugar" (js/components/placementBoard.js) ---------- */
+.placement-tray {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--border-width) dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+}
+
+.placement-tray__dock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 5.5rem;
+}
+
+.placement-tray__return {
+  justify-self: start;
+}
+
+.placement-tray__return[hidden] {
+  display: none;
+}
+
+.placement__status {
+  min-height: 1.5em;
+  font-weight: 600;
+}
+
+.placement-piece {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: 5.5rem;
+  min-height: var(--touch-target);
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 700;
+  cursor: grab;
+  /* A peça inteira é a alça de arrasto (peças são pequenas; o resto da tela rola). */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none; /* sem menu de "salvar imagem" ao segurar no celular */
+  transition: transform var(--transition-base), border-color var(--transition-fast);
+}
+
+.placement-piece__image {
+  width: 3.5rem;
+  height: 3.5rem;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+/* Escolhida: borda dupla + fundo + ✓ (não depende só da cor). */
+.placement-piece[aria-pressed="true"] {
+  border-color: var(--module-strong);
+  background-color: var(--module-soft);
+  box-shadow: inset 0 0 0 2px var(--module-strong);
+}
+
+.placement-piece[aria-pressed="true"]::after {
+  content: "✓";
+  position: absolute;
+  top: 0;
+  right: var(--space-1);
+  font-weight: 800;
+  color: var(--module-strong);
+}
+
+.placement-piece.is-moving {
+  z-index: 5;
+}
+
+/* Peça "levantada": fica apagadinha no lugar de onde saiu, enquanto a cópia segue o dedo. */
+.placement-piece.is-lifted {
+  border-style: dashed;
+  box-shadow: none;
+  opacity: 0.35;
+}
+
+.placement-piece.is-lifted::after {
+  content: none;
+}
+
+/* Cópia que acompanha o ponteiro durante o arrasto (criada em placementBoard.js). */
+.placement-piece--ghost {
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-sizing: border-box; /* mesmo tamanho exato da peça original (largura vem do JS) */
+  z-index: 1000;
+  margin: 0;
+  border-color: var(--module-strong);
+  box-shadow: var(--shadow-md);
+  pointer-events: none; /* deixa achar o lugar que está embaixo do dedo */
+  cursor: grabbing;
+  transition: none;
+  will-change: transform;
+}
+
+/* Durante o arrasto: nada é selecionado e o cursor mostra "segurando". */
+:root.is-dragging-piece,
+:root.is-dragging-piece * {
+  cursor: grabbing !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.placement-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 5rem;
+  min-height: 5rem;
+  border: 3px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+}
+
+.placement-slot.is-filled {
+  border-style: solid;
+  border-color: var(--module-accent);
+}
+
+/* Com uma peça escolhida, os lugares ficam destacados: "pode colocar aqui". */
+.placement-slot.is-choosing {
+  border-color: var(--module-strong);
+}
+
+.placement-slot.is-over,
+.placement-tray.is-over {
+  border-color: var(--module-strong);
+  background-color: var(--module-soft);
+}
+
+/* Lugar sob a peça arrastada: borda contínua + contorno + "Solte aqui" (não só cor). */
+.placement-slot.is-over {
+  border-style: solid;
+  box-shadow: 0 0 0 4px var(--module-accent);
+}
+
+.placement-slot__dock {
+  display: grid;
+  place-items: center;
+}
+
+.placement-slot__empty {
+  display: grid;
+  place-items: center;
+  gap: var(--space-1);
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.placement-slot__empty .icon {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.placement-slot.is-choosing .placement-slot__empty {
+  color: var(--module-strong);
+}
+
+/* "Toque aqui": só aparece com uma peça escolhida, mostrando onde tocar. */
+.placement-slot__hint {
+  display: none;
+  font-size: var(--text-sm);
+  font-weight: 800;
+}
+
+.placement-slot.is-choosing .placement-slot__hint {
+  display: block;
+}

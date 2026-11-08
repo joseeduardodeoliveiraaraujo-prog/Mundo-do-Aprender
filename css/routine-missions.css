@@ -1,0 +1,295 @@
+/* ==========================================================================
+   routine-missions.css — Minha Rotina: mecânicas (js/games/routine/).
+   A base das peças e lugares está em components.css (placement-*);
+   .mission e .mission__toolbar vêm de emotions-missions.css.
+   ========================================================================== */
+
+/* ---------- Cartões iguais na caixa, em qualquer largura ---------- */
+[data-module="routine"] .placement-tray__dock {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--space-2);
+}
+
+@media (min-width: 48rem) {
+  [data-module="routine"] .placement-tray__dock {
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  }
+}
+
+[data-module="routine"] .placement-piece {
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+[data-module="routine"] .placement-slot.is-hinted {
+  box-shadow: 0 0 0 4px var(--module-accent);
+}
+
+/* ---------- Trilha numerada (sequence e stepByStep) ---------- */
+.day-track {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.day-track__stop {
+  position: relative;
+  display: grid;
+}
+
+.day-track__number {
+  position: absolute;
+  top: -0.6rem;
+  left: -0.4rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--module-strong);
+  color: var(--color-on-primary);
+  font-weight: 800;
+}
+
+.day-track .placement-slot {
+  min-width: 0;
+  min-height: 7.5rem;
+}
+
+.day-track .placement-slot__dock,
+.day-track .placement-slot__empty,
+.day-track .placement-piece {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.day-track .placement-slot__empty {
+  min-height: 7.5rem;
+}
+
+.day-track .placement-piece {
+  min-width: 0;
+  border-width: 0;
+  background-color: transparent;
+}
+
+.day-track__count,
+.routine-bag__count {
+  font-weight: 700;
+}
+
+/* Passo da vez (stepByStep): borda contínua e contorno; não depende só da cor. */
+.day-track .placement-slot.is-next {
+  border-style: solid;
+  border-color: var(--module-strong);
+  background-color: var(--module-soft);
+  box-shadow: 0 0 0 3px var(--module-accent);
+}
+
+@media (min-width: 48rem) {
+  .day-track {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .day-track[data-count="4"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .day-track[data-count="5"] {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Mochila ---------- */
+.routine-bag {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-xl);
+  background-color: var(--module-soft);
+}
+
+.routine-bag__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.routine-bag__image {
+  width: 3.5rem;
+  height: 3.5rem;
+  flex-shrink: 0;
+}
+
+.routine-bag__pockets {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.routine-bag .placement-slot {
+  min-width: 0;
+  min-height: 7.5rem;
+}
+
+.routine-bag .placement-slot__dock,
+.routine-bag .placement-slot__empty,
+.routine-bag .placement-piece {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.routine-bag .placement-slot__empty {
+  min-height: 7.5rem;
+}
+
+.routine-bag .placement-piece {
+  min-width: 0;
+  border-width: 0;
+  background-color: transparent;
+}
+
+@media (min-width: 48rem) {
+  .routine-bag__pockets {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Ajudar Noa ---------- */
+.companion--stage .placement-slot__dock,
+.companion--stage .placement-piece {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.companion--stage .placement-piece {
+  border-width: 0;
+  background-color: transparent;
+}
+
+/* ---------- Cena em camadas ---------- */
+.scene-layers {
+  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  justify-self: center;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.scene-layers--small {
+  max-width: 26rem;
+}
+
+.scene-layers__base {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Troca suave de camada; invisível também não recebe toque. */
+.scene-layers__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+
+.scene-layers__layer.is-visible {
+  opacity: 1;
+}
+
+/* Área de toque: mínimo de 48px mesmo em telas pequenas. */
+.scene-spot {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border: 3px dashed var(--module-strong);
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--color-surface) 45%, transparent);
+  color: var(--module-strong);
+  cursor: pointer;
+}
+
+.scene-spot .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.scene-spot:hover {
+  background-color: color-mix(in srgb, var(--color-surface) 75%, transparent);
+}
+
+/* Feito: some o círculo (para ver a cena) e fica só a estrela no lugar da mão. */
+.scene-spot[aria-pressed="true"],
+.scene-spot[aria-pressed="true"]:hover {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.scene-spot[aria-pressed="true"] .icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 3px;
+  border-radius: 50%;
+  background-color: var(--module-strong);
+  color: var(--color-on-primary);
+  box-sizing: content-box;
+}
+
+.scene-mission {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.scene-checklist {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+}
+
+.scene-checklist__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+}
+
+.scene-checklist__mark {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 50%;
+}
+
+.scene-checklist__mark .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.scene-checklist__item.is-done .scene-checklist__mark {
+  border-color: var(--module-strong);
+  background-color: var(--module-strong);
+  color: var(--color-on-primary);
+}
+
+@media (min-width: 48rem) {
+  .scene-mission {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+}

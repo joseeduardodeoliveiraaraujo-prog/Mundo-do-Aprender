@@ -7,7 +7,7 @@ Plataforma educativa digital para crianças de **8 a 12 anos com Transtorno do E
 | Módulo | Rota | Situação |
 | --- | --- | --- |
 | Mundo das Emoções | `#/emocoes` | **Pronto** (13 atividades, em expansão) |
-| Minha Rotina | `#/rotina` | **Pronto** (8 atividades) |
+| Minha Rotina | `#/rotina` | **Pronto** (12 atividades) |
 | Explorando os Animais | `#/animais` | **Pronto** (11 atividades; sons: ver abaixo) |
 | Eu Me Comunico | `#/comunicacao` | Tela provisória |
 
@@ -53,7 +53,8 @@ Mundo do Aprender/
 │   ├── emotions.css        # Mundo das Emoções: rostos e "Monte o rosto"
 │   ├── emotions-detective.css  # Mundo das Emoções: Detetive (lupa, pistas, desafio)
 │   ├── emotions-missions.css   # Mundo das Emoções: missões com peças
-│   ├── routine.css         # Estilos específicos da Minha Rotina
+│   ├── routine.css         # Minha Rotina: Noa, trilha do dia, mapa e recompensas
+│   ├── routine-missions.css # Minha Rotina: mecânicas (trilha, mochila, cenas)
 │   ├── animals.css         # Estilos específicos de Explorando os Animais e do painel de som
 │   └── accessibility.css   # Foco, contraste, tamanho de texto, animações (sempre por último)
 ├── js/
@@ -95,7 +96,7 @@ Mundo do Aprender/
     ├── icons/              # logo.svg + ícones dos módulos
     ├── images/modules/     # Ilustrações dos cartões dos módulos
     ├── images/emotions/    # Rostos (faces/), peças para montar rostos (parts/) e cenas (scenes/)
-    ├── images/routine/     # Pictogramas da Minha Rotina (atividades e objetos)
+    ├── images/routine/     # Minha Rotina: pictogramas, Noa (noa/) e cenas em camadas (scenes/)
     ├── images/animals/     # Animais, habitats e alimentos (originais; ver CREDITS.md)
     └── sounds/
         └── animals/        # Espaço preparado para os sons (ver README.md da pasta)
@@ -130,17 +131,23 @@ Três partes, uma atividade por vez, com ilustração, alternativas, "Repetir in
 - A posição é guardada: ao voltar, a criança pode "Continuar de onde parei".
 - Instruções em voz alta usam a voz do navegador e só tocam com **Sons ligados** e ao tocar em "Repetir instrução".
 
-## Minha Rotina (Etapa 4)
+## Minha Rotina
 
-| Parte | Atividades | Como funciona |
+Um dia inteiro ao lado de **Noa**, que reage a cada ação em um balão de fala. São seis momentos; a criança pode ir a qualquer um, a qualquer hora.
+
+| Momento | Atividades | Como funciona |
 | --- | --- | --- |
-| Organizando meu dia | 1 (manhã, 6 cartões) | Ordenar cartões. Só duas regras: acordar primeiro e ir à escola por último. 24 ordens diferentes são aceitas. |
-| Preparando minha mochila | 2 (desenho, educação física) | Tocar nos objetos para colocar/tirar. Itens essenciais, opcionais (aceitos com ou sem) e que podem ficar em casa. |
-| O que preciso fazer? | 3 situações | Escolher um recurso. Mais de uma resposta é aceita. |
-| Organizando minhas tarefas | 2 (tarde, sábado) | Montar a lista. Na tarde, só "materiais antes da tarefa"; no sábado, qualquer ordem. |
+| Acordar | Bom dia, Noa! · Minha manhã | Tocar na cena (despertador, cortina, levantar) · arrastar cartões até os números |
+| Higiene | Lavar as mãos | Arrastar cada passo, na ordem; a pia mostra água, espuma e mãos limpas |
+| Alimentação | Hora do lanche | Arrastar até Noa o que pode ajudar |
+| Escola | Aula de desenho · Educação física · E agora? | Arrastar objetos até os bolsos da mochila · ajudar Noa |
+| Lazer | Depois da escola · Tarde · Sábado | Ajudar Noa · arrastar cartões (no sábado, qualquer ordem) |
+| Hora de dormir | Minha noite · Boa noite, Noa! | Arrastar cartões · tocar na cena para preparar o quarto |
 
-- **Reorganizar cartões:** arrastar com o dedo pela alça numerada, arrastar com o mouse, ou usar os botões ↑/↓ (teclado e leitor de tela). Cada mudança é anunciada ("Acordar: posição 1 de 6").
-- Todas as atividades têm **Desfazer** e **Recomeçar**; sequências e mochila têm **Conferir**.
+- **Sem "Conferir":** Noa responde quando a criança termina. As regras continuam flexíveis (só o que tem ordem de verdade, como lavar as mãos, tem ordem fixa).
+- **Recompensas:** uma estrela por atividade e uma figurinha por momento completo, calculadas do progresso salvo. Nada fica bloqueado.
+- **Formas de jogar:** arrastar com mouse ou dedo, tocar no cartão e depois no lugar, ou usar o teclado (Enter). Todas as atividades têm **Desfazer** e **Recomeçar**.
+- **Para criar outra atividade:** acrescente um objeto em `js/data/routine/activities.js` com um dos tipos descritos no início do arquivo.
 
 ## Explorando os Animais (Etapa 5)
 

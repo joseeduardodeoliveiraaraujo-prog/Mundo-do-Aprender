@@ -96,7 +96,7 @@ export function render(view, module) {
 | Desfazer / Recomeçar / Conferir | `createActivityControls` — `components/activityControls.js` |
 | Mostrar resultado e registrar progresso | `showResult(frame, resultado, complete)` — `components/activityFrame.js` |
 | Som opcional | `createSoundPlayer({ sound })` — `components/soundPlayer.js` ("Ouvir o som"/"Ouvir de novo" + "Ver o som escrito") |
-| Fluxo do módulo (apresentação, continuar, conclusão) | `startModuleFlow` — `components/moduleFlow.js`. Todo módulo novo deve usá-lo; o módulo só implementa `renderActivity`. |
+| Fluxo do módulo (apresentação, continuar, conclusão) | `startModuleFlow` — `components/moduleFlow.js`. Todo módulo novo deve usá-lo; o módulo só implementa `renderActivity`. Opcionais: `renderPartsOverview` (troca a lista de partes da apresentação) e `renderCompletionExtra`; ambos recebem `{ goToActivity }`. |
 | Diálogo | `<dialog>` no index.html + botão com `data-dialog-open="id"` — `components/dialog.js` |
 
 ### 5.2 Identidade visual

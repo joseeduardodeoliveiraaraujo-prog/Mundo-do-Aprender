@@ -46,10 +46,13 @@ export function fillTemplate(text, values) {
  * @param {ReadonlyArray<{ id: string, part: string }>} options.activities
  * @param {FlowTexts} options.texts
  * @param {(activity: Object, index: number, context: ActivityContext) => { element: HTMLElement, focusTarget: HTMLElement }} options.renderActivity
- * @param {() => Node} [options.renderCompletionExtra]  conteúdo extra na conclusão
+ * @param {(flow: { goToActivity: (index: number) => void }) => Node} [options.renderCompletionExtra]  conteúdo extra na conclusão
+ * @param {(flow: { goToActivity: (index: number) => void }) => Node} [options.renderPartsOverview]  substitui a lista de partes da apresentação
  * @returns {() => void} limpeza (para o roteador)
  */
-export function startModuleFlow({ view, module, parts, activities, texts, renderActivity, renderCompletionExtra }) {
+export function startModuleFlow({
+  view, module, parts, activities, texts, renderActivity, renderCompletionExtra, renderPartsOverview,
+}) {
   const lastIndex = activities.length - 1;
   const stage = el('div', { className: 'flow-stage' });
   view.append(el('section', { className: 'game-screen', dataset: { module: module.id } }, [
@@ -132,7 +135,7 @@ export function startModuleFlow({ view, module, parts, activities, texts, render
     const element = el('div', { className: 'flow-screen panel' }, [
       heading,
       el('p', { className: 'flow-lead', text: texts.intro.text }),
-      createPartsList(),
+      renderPartsOverview ? renderPartsOverview({ goToActivity }) : createPartsList(),
       el('p', { className: 'flow-note', text: texts.intro.note }),
       !getSettings().soundEnabled && isSpeechAvailable() && el('p', { className: 'flow-note', text: texts.intro.soundHint }),
       completed > 0 && createProgressSummary(),
@@ -151,7 +154,7 @@ export function startModuleFlow({ view, module, parts, activities, texts, render
       el('img', { className: 'flow-screen__art', attrs: { src: module.illustration, alt: '', width: 240, height: 160 } }),
       heading,
       el('p', { className: 'flow-lead', text: texts.completion.text }),
-      renderCompletionExtra?.(),
+      renderCompletionExtra?.({ goToActivity }),
       createProgressSummary(),
       hasPending && el('p', { className: 'flow-note', text: texts.completion.pending }),
       el('div', { className: 'flow-actions' }, [

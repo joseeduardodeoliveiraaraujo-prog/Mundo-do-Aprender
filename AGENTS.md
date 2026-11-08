@@ -99,6 +99,8 @@ export function render(view, module) {
 | Fluxo do módulo (apresentação, continuar, conclusão) | `startModuleFlow` — `components/moduleFlow.js`. Todo módulo novo deve usá-lo; o módulo só implementa `renderActivity`. Opcionais: `renderPartsOverview` (troca a lista de partes da apresentação) e `renderCompletionExtra`; ambos recebem `{ goToActivity }`. |
 | Trilha, mapa, estrelas e figurinhas de um módulo | `createJourney` — `components/journey.js` (cada parte precisa de `sticker`; calculado do progresso salvo) |
 | Ligar/desligar sons dentro da atividade | `createSoundToggle` — `components/soundToggle.js` (chame `destroy()` na limpeza) |
+| Personagem com balão de fala | `createCompanion` — `components/companion.js` (recebe `character: { name, poses }`; `say` lê em voz alta, `show` não) |
+| Cena em camadas que muda com a ação | `createSceneLayers` — `components/sceneLayers.js` |
 | Diálogo | `<dialog>` no index.html + botão com `data-dialog-open="id"` — `components/dialog.js` |
 
 ### 5.2 Identidade visual
@@ -111,7 +113,7 @@ export function render(view, module) {
 - **Cartão clicável:** a área de toque usa `.card__action::after`. Nunca aplique `transform`, `translate`, `filter` ou `position` em `.card__action` ou nos estados dele (`:hover`, `:active`) — isso encolhe a área clicável. Para "pressionado", use `box-shadow`; para hover, mude a cor.
 - Telas devem funcionar de 320px a 1920px sem rolagem horizontal, inclusive com texto "Muito grande".
 - **Arrastar e soltar:** use Pointer Events (o drag-and-drop nativo do HTML não funciona com toque). Sempre ofereça uma alternativa por botões. Ouça `pointermove/pointerup` na janela (mover o elemento no DOM solta a captura do ponteiro) e desligue `overflow-anchor` durante o arrasto (senão a página "pula" em telas roladas). No toque, arraste por uma alça com `touch-action: none`, para o resto do cartão continuar rolando a página.
-- Estilos específicos de um módulo podem ir para `css/<modulo>.css` (ex.: `css/emotions.css`, `css/routine.css`; módulos grandes podem dividir: `css/emotions-detective.css`), carregado antes do `accessibility.css`.
+- Estilos específicos de um módulo podem ir para `css/<modulo>.css` (ex.: `css/emotions.css`, `css/animals.css`; módulos grandes podem dividir: `css/emotions-detective.css`), carregado antes do `accessibility.css`.
 
 ## 6. Diretrizes de design para TEA (obrigatórias)
 

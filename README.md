@@ -8,8 +8,8 @@ Plataforma educativa digital para crianças de **8 a 12 anos com Transtorno do E
 | --- | --- | --- |
 | Mundo das Emoções | `#/emocoes` | **Pronto** (13 atividades, em expansão) |
 | Minha Rotina | `#/rotina` | **Pronto** (12 atividades) |
-| Explorando os Animais | `#/animais` | **Pronto** (11 atividades; sons: ver abaixo) |
-| Eu Me Comunico | `#/comunicacao` | Tela provisória |
+| Explorando os Animais | `#/animais` | **Pronto** (15 atividades; sons: ver abaixo) |
+| Eu Me Comunico | `#/comunicacao` | **Pronto** (14 atividades) |
 
 ## Tecnologias
 
@@ -53,9 +53,11 @@ Mundo do Aprender/
 │   ├── emotions.css        # Mundo das Emoções: rostos e "Monte o rosto"
 │   ├── emotions-detective.css  # Mundo das Emoções: Detetive (lupa, pistas, desafio)
 │   ├── emotions-missions.css   # Mundo das Emoções: missões com peças
-│   ├── routine.css         # Minha Rotina: Noa, trilha do dia, mapa e recompensas
+│   ├── companion.css       # Personagem com balão de fala (Noa)
 │   ├── routine-missions.css # Minha Rotina: mecânicas (trilha, mochila, cenas)
 │   ├── animals.css         # Estilos específicos de Explorando os Animais e do painel de som
+│   ├── communication.css   # Eu Me Comunico: cenário, balão e frase
+│   ├── communication-talk.css # Eu Me Comunico: conversa, associação e prancha
 │   └── accessibility.css   # Foco, contraste, tamanho de texto, animações (sempre por último)
 ├── js/
 │   ├── main.js             # Ponto de entrada: liga configurações, diálogos, ícones e rotas
@@ -82,6 +84,8 @@ Mundo do Aprender/
 │   │   ├── placementBoard.js   # Quebra-cabeça peça → lugar (tocar e tocar, arrastar, teclado)
 │   │   ├── activityControls.js # Desfazer · Recomeçar · Conferir
 │   │   ├── soundPlayer.js      # "Ouvir o som" / "Ver o som escrito"
+│   │   ├── companion.js        # Personagem com balão de fala
+│   │   ├── sceneLayers.js      # Cena em camadas
 │   │   ├── moduleFlow.js       # Fluxo comum: apresentação → atividades → conclusão
 │   │   ├── feedback.js         # Mensagens de feedback (sucesso, incentivo, aviso)
 │   │   ├── dialog.js           # Abre/fecha diálogos
@@ -98,6 +102,7 @@ Mundo do Aprender/
     ├── images/emotions/    # Rostos (faces/), peças para montar rostos (parts/) e cenas (scenes/)
     ├── images/routine/     # Minha Rotina: pictogramas, Noa (noa/) e cenas em camadas (scenes/)
     ├── images/animals/     # Animais, habitats e alimentos (originais; ver CREDITS.md)
+    ├── images/communication/ # Pessoas, cartões, cenários e camadas de Eu Me Comunico
     └── sounds/
         └── animals/        # Espaço preparado para os sons (ver README.md da pasta)
 ```
@@ -171,6 +176,25 @@ A criança visita cinco lugares e descobre 12 animais. Pode ir a qualquer lugar,
 Enquanto não houver arquivo, "Ouvir o som" usa a voz do aparelho para imitar o som e avisa isso na tela.
 Para incluir gravações reais, siga `assets/sounds/animals/README.md` (nomes, volume, duração, licença).
 Nada toca sozinho, e todas as atividades funcionam sem áudio.
+
+## Eu Me Comunico
+
+A criança ajuda **Noa** a se comunicar em quatro lugares. Pode ir a qualquer um, a qualquer hora.
+
+| Lugar | Atividades | Como funciona |
+| --- | --- | --- |
+| Em casa | Sede · Pote · Lanche · Conversa | Arrastar um cartão até o balão de Noa · montar a frase · conversar em turnos |
+| Na escola | Oi, Téo · Lápis · Barulho · Gestos | Conversar · arrastar cartão · levar cada gesto até a situação |
+| Brincando | Jogar junto · Escolher · Carrinho | Arrastar cartão · montar a frase · conversar |
+| O que eu sinto | Hoje eu sinto · Dizer não · Situações | Montar as frases · conversar · levar cada cartão até a situação |
+
+- **Todos os jeitos valem:** fala, cartões, gestos e imagens. Dizer "não" ou "agora não" é sempre aceito e respeitado pela outra pessoa.
+- **Sem resposta certa nas escolhas pessoais.** Só volta o cartão que não combina com a situação, e Noa explica com calma.
+- **A cena responde:** a água aparece, o pote abre, o barulho para; cada resposta muda o que a outra pessoa diz.
+- **Recompensas:** uma estrela e um cartão por atividade, uma figurinha por lugar completo e a **prancha de comunicação** na tela final, tudo calculado do progresso salvo.
+- **Som:** botão "Sons" em cada atividade (a mesma opção de Configurações). A voz só toca depois de uma ação da criança.
+- **Formas de jogar:** arrastar com mouse ou dedo, tocar no cartão e depois no lugar, ou teclado (Enter). Todas têm **Desfazer** e **Recomeçar**.
+- **Para criar outra atividade:** siga os tipos descritos em `js/data/communication/activities.js`.
 
 ## Acessibilidade (já disponível)
 

@@ -1,0 +1,142 @@
+/* ==========================================================================
+   communication.css — Eu Me Comunico: cenário, balão e frase (js/games/communication/).
+   Conversa, associação e prancha: communication-talk.css.
+   Base das peças e lugares: components.css (placement-*);
+   Noa e o balão: companion.css; .mission: emotions-missions.css.
+   ========================================================================== */
+
+/* A conversa e o cenário ficam visíveis: Noa rola junto com a página. */
+[data-module="communication"] .companion {
+  position: static;
+}
+
+/* ---------- Cartões iguais na caixa, em qualquer largura ---------- */
+[data-module="communication"] .placement-tray__dock {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--space-2);
+}
+
+@media (min-width: 48rem) {
+  [data-module="communication"] .placement-tray__dock {
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  }
+}
+
+[data-module="communication"] .placement-piece {
+  min-width: 0; /* com texto muito grande, o cartão não passa da coluna */
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+[data-module="communication"] .placement-piece[hidden] {
+  display: none;
+}
+
+/* ---------- Cenário com pessoas ---------- */
+.talk-scene__person {
+  position: absolute;
+  bottom: 3%;
+  z-index: 1;
+  width: auto;
+  height: 60%;
+  animation: talk-arrive 300ms ease-out 1;
+}
+
+.talk-scene__person--noa { left: 5%; }
+.talk-scene__person--listener { right: 5%; }
+
+.talk-scene__person.is-happy {
+  animation: noa-hop 350ms ease-out 1;
+}
+
+/* Faixa baixa: o espaço da tela fica para a conversa e os cartões. */
+.talk-scene--banner .scene-layers__base {
+  height: clamp(7rem, 26vw, 10rem);
+  object-fit: cover;
+  object-position: center 60%;
+}
+
+.talk-scene--banner .talk-scene__person {
+  height: 88%;
+}
+
+@keyframes talk-arrive {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
+/* ---------- Balão de Noa (lugar de soltar) ---------- */
+[data-module="communication"] .companion--stage .placement-slot,
+[data-module="communication"] .companion--stage .placement-slot__empty {
+  border-radius: var(--radius-xl);
+}
+
+.talk-balloon__caption {
+  order: -1;
+  padding: var(--space-1) var(--space-2) 0;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Com o cartão no lugar, ele mesmo mostra o que Noa diz. */
+.placement-slot.is-filled .talk-balloon__caption {
+  display: none;
+}
+
+[data-module="communication"] .companion--stage .placement-slot {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Montar a frase ---------- */
+.sentence-strip {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-xl);
+  background-color: var(--module-soft);
+}
+
+.sentence-strip__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+.sentence-strip__text {
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
+.sentence-strip .placement-slot {
+  flex: 1 1 8rem;
+  min-width: 0;
+  min-height: 7rem;
+}
+
+.sentence-strip .placement-slot__dock,
+.sentence-strip .placement-slot__empty,
+.sentence-strip .placement-piece {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sentence-strip .placement-slot__empty {
+  min-height: 7rem;
+}
+
+.sentence-strip .placement-piece {
+  min-width: 0;
+  border-width: 0;
+  background-color: transparent;
+}
+
+/* Lugar da vez: borda contínua e contorno; não depende só da cor. */
+.sentence-strip .placement-slot.is-next {
+  border-style: solid;
+  border-color: var(--module-strong);
+  box-shadow: 0 0 0 3px var(--module-accent);
+}

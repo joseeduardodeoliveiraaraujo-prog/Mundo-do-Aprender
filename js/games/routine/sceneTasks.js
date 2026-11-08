@@ -13,7 +13,7 @@ import { createActivityControls } from '../../components/activityControls.js';
 import { createHistory } from '../../undoHistory.js';
 import { routineData } from '../../data/routine.js';
 import { createCompanion } from './companion.js';
-import { createSceneLayers } from './sceneLayers.js';
+import { createSceneLayers } from '../../components/sceneLayers.js';
 
 const texts = routineData.messages.sceneTasks;
 const asList = (value) => (Array.isArray(value) ? value : [value]);

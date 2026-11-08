@@ -1,0 +1,183 @@
+/* ==========================================================================
+   communication-talk.css — Eu Me Comunico: conversa, associação e prancha.
+   ========================================================================== */
+
+/* ---------- Conversa em turnos ---------- */
+.talk-log {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.talk-bubble {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  max-width: 34rem;
+  animation: talk-arrive 240ms ease-out 1;
+}
+
+.talk-bubble--noa {
+  flex-direction: row-reverse;
+  justify-self: end;
+}
+
+.talk-bubble__person {
+  width: 2.75rem;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.talk-bubble__body {
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-width) solid var(--module-accent);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  font-weight: 600;
+}
+
+.talk-bubble--noa .talk-bubble__body {
+  background-color: var(--module-soft);
+}
+
+.talk-bubble__name {
+  font-size: var(--text-sm);
+  font-weight: 800;
+}
+
+.talk-bubble__card {
+  display: block;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+/* ---------- Associação ---------- */
+.talk-match {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.talk-match__situation {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-xl);
+  background-color: var(--module-soft);
+}
+
+.talk-match__image {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.talk-match__label {
+  font-size: var(--text-base);
+}
+
+.talk-match__count {
+  font-weight: 700;
+}
+
+.talk-match .placement-slot {
+  grid-column: 1 / -1;
+  min-width: 0;
+  min-height: 7rem;
+}
+
+.talk-match .placement-slot__dock,
+.talk-match .placement-slot__empty,
+.talk-match .placement-piece {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.talk-match .placement-slot__empty {
+  min-height: 7rem;
+}
+
+.talk-match .placement-piece {
+  min-width: 0;
+  border-width: 0;
+  background-color: transparent;
+}
+
+@media (min-width: 48rem) {
+  .talk-match {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Minha prancha ---------- */
+.communication-completion {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.my-board {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.my-board__title {
+  font-size: var(--text-lg);
+}
+
+.my-board__count {
+  font-weight: 700;
+}
+
+.my-board__display {
+  min-height: 1.5em;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--module-soft);
+  font-weight: 800;
+}
+
+.my-board__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(7.5rem, 100%), 1fr));
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.my-board__item {
+  display: grid;
+  min-width: 0;
+}
+
+.my-board__card {
+  box-sizing: border-box;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--space-1);
+  width: 100%;
+  min-height: 7rem;
+  padding: var(--space-2);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.my-board__card {
+  border: var(--border-width) solid var(--module-accent);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.my-board__card:hover {
+  background-color: var(--module-soft);
+}
+
+.my-board__card img {
+  width: 3.5rem;
+  height: 3.5rem;
+}

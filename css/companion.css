@@ -1,9 +1,7 @@
 /* ==========================================================================
-   routine.css — Minha Rotina: Noa e o balão de fala
-   (js/games/routine/companion.js).
-   As mecânicas ficam em routine-missions.css.
+   companion.css — personagem com balão de fala
+   (js/components/companion.js), usada em mais de um módulo.
    ========================================================================== */
-/* ---------- Noa e o balão de fala ---------- */
 .companion {
   position: sticky;
   top: 0;
@@ -73,7 +71,7 @@
   position: static;
 }
 
-/* Atividade de ajudar: Noa maior, com o espaço de soltar ao lado. */
+/* Com lugar de soltar: personagem maior, com o espaço ao lado. */
 .companion--stage {
   position: static;
   flex-wrap: wrap;
@@ -102,4 +100,15 @@
   .companion--stage .placement-slot {
     flex: 0 0 12rem;
   }
+}
+
+.companion--stage .placement-slot__dock,
+.companion--stage .placement-piece {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.companion--stage .placement-piece {
+  border-width: 0;
+  background-color: transparent;
 }

@@ -838,3 +838,38 @@
   max-width: 100%;
   white-space: normal;
 }
+
+/* ---------- Cena em camadas ---------- */
+.scene-layers {
+  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  justify-self: center;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.scene-layers--small {
+  max-width: 26rem;
+}
+
+.scene-layers__base {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Troca suave de camada; invisível também não recebe toque. */
+.scene-layers__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+
+.scene-layers__layer.is-visible {
+  opacity: 1;
+}

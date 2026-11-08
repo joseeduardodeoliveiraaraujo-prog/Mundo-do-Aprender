@@ -4,7 +4,7 @@
  * que dá a sensação de que a cena responde à criança.
  */
 
-import { el } from '../../components/dom.js';
+import { el } from './dom.js';
 
 /**
  * @param {{ src: string, alt: string, width: number, height: number }} scene

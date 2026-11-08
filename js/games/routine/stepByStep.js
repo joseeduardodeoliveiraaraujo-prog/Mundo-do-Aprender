@@ -13,7 +13,7 @@ import { createPlacementBoard } from '../../components/placementBoard.js';
 import { createHistory } from '../../undoHistory.js';
 import { routineData } from '../../data/routine.js';
 import { createCompanion } from './companion.js';
-import { createSceneLayers } from './sceneLayers.js';
+import { createSceneLayers } from '../../components/sceneLayers.js';
 
 const texts = routineData.messages.stepByStep;
 const slotId = (index) => `step-${index + 1}`;

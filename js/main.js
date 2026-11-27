@@ -4,12 +4,11 @@
  */
 
 import { applySettings } from './settings.js';
-import { registerRoute, startRouter } from './navigation.js';
+import { registerRoute, startRouter, navigateTo } from './navigation.js';
 import { MODULES } from './modules.js';
 import { hydrateIcons } from './components/icons.js';
 import { connectDialogs } from './components/dialog.js';
 import { initSettingsPanel } from './components/settingsPanel.js';
-import { renderHome } from './views/home.js';
 import { renderNotFound, renderLoadError } from './views/messages.js';
 
 function setupSkipLink(link, target) {
@@ -21,14 +20,13 @@ function setupSkipLink(link, target) {
 }
 
 function registerRoutes() {
-  registerRoute('/', (view) => renderHome(view, MODULES));
-
-  MODULES.forEach((module) => {
-    registerRoute(module.route, async (view) => {
-      const game = await module.load();
-      return game.render(view, module);
-    });
+  // O app inteiro é o jogo "Bairro do Noa"; os módulos viraram desafios dentro dele.
+  registerRoute('/', async (view) => {
+    const game = await import('./games/world.js');
+    return game.render(view);
   });
+  // Endereços antigos dos módulos levam ao jogo.
+  MODULES.forEach((module) => registerRoute(module.route, () => navigateTo('/')));
 }
 
 function init() {

@@ -19,6 +19,7 @@ Este arquivo orienta qualquer pessoa ou agente de IA que trabalhe no projeto. **
 - HTML5, CSS3, JavaScript puro com **ES Modules** (`import`/`export`, caminhos relativos **com** extensão `.js`).
 - `localStorage` como único armazenamento.
 - **Proibido:** React, Vue, Angular, Svelte, jQuery ou qualquer framework de interface; backend, banco de dados, autenticação; bundlers, transpiladores ou etapa de build; dependências via npm/CDN sem aprovação.
+- **Dependência aprovada:** **Phaser 4** (jogos 2D), arquivo local em `js/vendor/phaser.esm.min.js` (sem npm, sem CDN). Use-o só por meio de `createGameStage` (`js/components/gameStage.js`), que o carrega sob demanda. O Phaser desenha **apenas a cena**: textos, instruções, botões e falas ficam em HTML, fora do canvas. Toda ação feita na cena precisa de alternativa por teclado e por botões HTML.
 - Deve funcionar em navegadores atuais (Chrome, Edge, Firefox, Safari) servido por servidor estático simples.
 
 ## 4. Arquitetura e responsabilidades
@@ -35,8 +36,12 @@ Este arquivo orienta qualquer pessoa ou agente de IA que trabalhe no projeto. **
 | `js/undoHistory.js` | `createHistory(inicial)` para Desfazer/Recomeçar. |
 | `js/modules.js` | Catálogo dos módulos (fonte única de id, rota, título, ícone, carregamento). |
 | `js/components/` | Peças de interface reutilizáveis, sem conteúdo de atividade (ver seção 5.1). |
+| `js/vendor/` | Bibliotecas de terceiros aprovadas, sem alteração. Origem, versão e licença em `js/vendor/CREDITS.md`. |
 | `js/views/` | Telas que não são jogos (início, avisos). |
 | `js/games/<modulo>.js` | Ponto de entrada de cada jogo: exporta `render(view, module)`. |
+| `js/games/world.js` | **Tela principal do app**: o jogo "Bairro do Noa" (rota `/`). Liga a cena, as falas de Noa, os botões e os desafios. |
+| `js/games/world/` | Motor do jogo (Phaser, pixel art visto de cima): `worldScene.js` (mapa, câmera, portas, marcadores), `freeWalker.js` (Noa andando livremente), `mapModel.js` (o que bloqueia), `grid.js` (caminho mais curto), `keyboard.js`, `worldState.js` (posição salva) e `challengePanel.js` (abre as atividades de uma parte de um módulo como desafio). |
+| `js/data/world/` | Dados do jogo: `world.js` (mapas, início, textos), `tiles.js` (nomes dos tiles) e `maps/<lugar>.js` (um arquivo por mapa). |
 | `js/data/<modulo>.js` | **Somente dados** das atividades. Sem lógica, sem acesso ao DOM. |
 | `css/global.css` | Tokens, reset e layout do app (cabeçalho, área principal). |
 | `css/components.css` | Estilos dos componentes de `js/components/`. |
@@ -57,6 +62,12 @@ export function render(view, module) {
 
 - Se um jogo crescer, divida em subpasta `js/games/<modulo>/` mantendo `js/games/<modulo>.js` como ponto de entrada.
 - Conteúdo (textos, imagens, respostas) vem de `js/data/`, nunca escrito direto na lógica do jogo.
+
+### O jogo e os módulos
+
+O app abre direto no jogo "Bairro do Noa". Os módulos continuam existindo como **conteúdo**: cada `js/games/<modulo>.js` exporta `renderChallengeActivity(activity, navigation, complete)`, e um lugar do mapa com `challenge: { module, part }` abre as atividades daquela parte. As rotas antigas (`#/rotina` etc.) levam ao jogo.
+
+Para colocar um desafio novo no mundo: crie a atividade nos dados do módulo e, se for uma parte nova, adicione um lugar (`spots`) num mapa de `js/data/world/maps/`.
 
 ### Adicionar um novo módulo
 
@@ -101,6 +112,7 @@ export function render(view, module) {
 | Ligar/desligar sons dentro da atividade | `createSoundToggle` — `components/soundToggle.js` (chame `destroy()` na limpeza) |
 | Personagem com balão de fala | `createCompanion` — `components/companion.js` (recebe `character: { name, poses }`; `say` lê em voz alta, `show` não) |
 | Cena em camadas que muda com a ação | `createSceneLayers` — `components/sceneLayers.js` |
+| Cena de jogo 2D (Phaser) | `createGameStage({ width, height, label, texts, createScene })` — `components/gameStage.js` (carrega o Phaser sob demanda, ajusta à largura, `scene.registry.get('reduceMotion')`, sem som e sem teclado do Phaser; destrói o jogo sozinho quando sai da tela) |
 | Diálogo | `<dialog>` no index.html + botão com `data-dialog-open="id"` — `components/dialog.js` |
 
 ### 5.2 Identidade visual

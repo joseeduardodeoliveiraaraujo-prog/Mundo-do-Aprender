@@ -86,6 +86,11 @@ function renderActivity(activity, index, { navigation, complete }) {
   return { element: frame.element, focusTarget: frame.heading };
 }
 
+/** Uma atividade avulsa, para os desafios do jogo (js/games/world/challengePanel.js). */
+export function renderChallengeActivity(activity, navigation, complete) {
+  return renderActivity(activity, 0, { navigation, complete });
+}
+
 function createEmotionsList() {
   return el('ul', { className: 'emotions-faces', attrs: { role: 'list' } },
     Object.values(emotions).map((emotion) => el('li', { className: 'emotions-face' }, [

@@ -53,6 +53,12 @@ function createNotebook() {
     }));
 }
 
+/** Uma atividade avulsa, para os desafios do jogo (js/games/world/challengePanel.js). */
+export function renderChallengeActivity(activity, navigation, complete) {
+  const frame = RENDER_BY_TYPE[activity.type](activity, navigation, complete);
+  return { element: frame.element, focusTarget: frame.heading };
+}
+
 export function render(view, module) {
   const soundToggle = createSoundToggle();
   const stopFlow = startModuleFlow({

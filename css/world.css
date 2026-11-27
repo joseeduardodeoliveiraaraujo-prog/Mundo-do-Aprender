@@ -1,0 +1,138 @@
+/* ==========================================================================
+   world.css — jogo "Bairro do Noa" (js/games/world.js e js/games/world/).
+   A base do palco está em components.css (.game-stage).
+   ========================================================================== */
+
+.world {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 60rem;
+  margin-inline: auto;
+}
+
+.world__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+}
+
+.world__place {
+  margin: 0;
+  font-size: var(--text-xl);
+}
+
+.world__stars {
+  margin: 0;
+  margin-inline-end: auto;
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+
+.world__explore {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.world__explore[hidden] {
+  display: none;
+}
+
+.world__play {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.world__play .game-stage {
+  /* Cabe na altura da janela (proporção 3:2), para os botões ficarem à vista. */
+  width: min(100%, calc(65vh * 1.5));
+  justify-self: center;
+  background-color: var(--color-text);
+}
+
+.world__how-to {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.world__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.world__near {
+  margin: 0;
+  font-weight: 700;
+}
+
+.world__places {
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface);
+}
+
+.world__places summary {
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.world__places-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+}
+
+.world__place-button {
+  font-size: var(--text-sm);
+}
+
+/* ---------- Painel de desafio ---------- */
+.challenge {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+}
+
+.challenge__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.challenge__module,
+.challenge__progress,
+.challenge__note {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.challenge__title {
+  margin: 0;
+}
+
+/* O botão "Começar" só aparece perto de um lugar com desafio. */
+.world__actions .button[hidden] {
+  display: none;
+}

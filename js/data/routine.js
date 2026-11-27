@@ -122,7 +122,7 @@ const messages = Object.freeze({
 
 export const routineData = Object.freeze({
   moduleId: 'routine',
-  version: 3,
+  version: 4,
   companion,
   cards,
   objects,

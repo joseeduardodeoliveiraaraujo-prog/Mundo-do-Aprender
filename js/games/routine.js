@@ -37,6 +37,12 @@ function renderActivity(activity, index, { navigation, complete }) {
   return journey.wrapActivity(activity, complete, (onComplete) => RENDER_BY_TYPE[activity.type](activity, navigation, onComplete));
 }
 
+/** Uma atividade avulsa, para os desafios do jogo (js/games/world/challengePanel.js). */
+export function renderChallengeActivity(activity, navigation, complete) {
+  const frame = RENDER_BY_TYPE[activity.type](activity, navigation, complete);
+  return { element: frame.element, focusTarget: frame.heading };
+}
+
 export function render(view, module) {
   return startModuleFlow({
     view,

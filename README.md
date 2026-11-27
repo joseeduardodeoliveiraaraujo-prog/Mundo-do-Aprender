@@ -2,20 +2,29 @@
 
 Plataforma educativa digital para crianças de **8 a 12 anos com Transtorno do Espectro Autista (TEA)**, pensada para diferentes necessidades de suporte.
 
-## Módulos
+## O jogo: Bairro do Noa
 
-| Módulo | Rota | Situação |
-| --- | --- | --- |
-| Mundo das Emoções | `#/emocoes` | **Pronto** (13 atividades, em expansão) |
-| Minha Rotina | `#/rotina` | **Pronto** (12 atividades) |
-| Explorando os Animais | `#/animais` | **Pronto** (15 atividades; sons: ver abaixo) |
-| Eu Me Comunico | `#/comunicacao` | **Pronto** (14 atividades) |
+O app abre direto num **jogo 2D em pixel art, visto de cima** (estilo RPG). A criança leva o Noa livremente pela **casa** (quarto, banheiro, cozinha e sala) e pelo **bairro** (praça, escola, fazendinha, zoológico e rio). Pessoas e objetos com um balão **!** têm um desafio; quando tudo ali foi feito, o balão vira uma estrela.
+
+| Onde | Desafio (parte do módulo) |
+| --- | --- |
+| Casa: despertador, cama, pia, mesa, sofá, mochila | Minha Rotina: Acordar, Hora de dormir, Higiene, Alimentação, Lazer, Escola |
+| Casa: geladeira · gato | Eu Me Comunico: Em casa · Explorando os Animais: Em casa |
+| Praça: Lia, Davi, banco | Mundo das Emoções: Reconhecer, Detetive, Expressar |
+| Praça: crianças brincando, Bia · Escola | Eu Me Comunico: Brincando, O que eu sinto · Na escola |
+| Fazendinha, placa, zoológico, rio | Explorando os Animais: Fazenda, Cada um no seu lugar, Savana, Rio e floresta |
+
+- **Formas de jogar:** tocar no mapa (Noa encontra o caminho), setas ou W A S D + Enter com o mapa focado, ou os botões **Ir até um lugar** e **Começar**.
+- **Desafios:** abrem as atividades daquela parte, uma por vez, começando pela que falta. **Voltar a explorar** retorna ao mapa. O progresso e a posição do Noa ficam salvos.
+- **Sem tempo, sem inimigos, sem punição.** Com "Reduzir animações", Noa chega direto e as portas trocam de mapa sem transição.
+- Mapas em `js/data/world/maps/` (uma letra por bloco), fáceis de editar.
 
 ## Tecnologias
 
 - HTML5, CSS3 e JavaScript puro (ES Modules).
 - `localStorage` para preferências e progresso.
-- Sem frameworks, sem backend, sem dependências, sem etapa de build.
+- Sem frameworks, sem backend, sem etapa de build.
+- **Phaser 4** (motor de jogos 2D), copiado em `js/vendor/` (sem npm). Só é carregado nas atividades de jogo 2D. Origem e licença em `js/vendor/CREDITS.md`.
 
 ## Como executar
 
@@ -55,6 +64,7 @@ Mundo do Aprender/
 │   ├── emotions-missions.css   # Mundo das Emoções: missões com peças
 │   ├── companion.css       # Personagem com balão de fala (Noa)
 │   ├── routine-missions.css # Minha Rotina: mecânicas (trilha, mochila, cenas)
+│   ├── world.css           # Jogo "Bairro do Noa" e painel de desafio
 │   ├── animals.css         # Estilos específicos de Explorando os Animais e do painel de som
 │   ├── communication.css   # Eu Me Comunico: cenário, balão e frase
 │   ├── communication-talk.css # Eu Me Comunico: conversa, associação e prancha
@@ -86,6 +96,7 @@ Mundo do Aprender/
 │   │   ├── soundPlayer.js      # "Ouvir o som" / "Ver o som escrito"
 │   │   ├── companion.js        # Personagem com balão de fala
 │   │   ├── sceneLayers.js      # Cena em camadas
+│   │   ├── gameStage.js        # Palco de jogo 2D (Phaser) dentro da tela
 │   │   ├── moduleFlow.js       # Fluxo comum: apresentação → atividades → conclusão
 │   │   ├── feedback.js         # Mensagens de feedback (sucesso, incentivo, aviso)
 │   │   ├── dialog.js           # Abre/fecha diálogos
@@ -94,7 +105,10 @@ Mundo do Aprender/
 │   ├── views/              # Telas que não são jogos
 │   │   ├── home.js
 │   │   └── messages.js
+│   ├── vendor/             # Bibliotecas de terceiros, sem alteração (Phaser; ver CREDITS.md)
 │   ├── games/              # Um ponto de entrada por módulo
+│   │   ├── world.js        # Tela principal: o jogo "Bairro do Noa"
+│   │   └── world/          # Motor do jogo (cena, Noa andando, portas, desafios)
 │   └── data/               # Conteúdo das atividades (somente dados)
 └── assets/
     ├── icons/              # logo.svg + ícones dos módulos
@@ -103,6 +117,7 @@ Mundo do Aprender/
     ├── images/routine/     # Minha Rotina: pictogramas, Noa (noa/) e cenas em camadas (scenes/)
     ├── images/animals/     # Animais, habitats e alimentos (originais; ver CREDITS.md)
     ├── images/communication/ # Pessoas, cartões, cenários e camadas de Eu Me Comunico
+    ├── images/world/       # Pixel art do Bairro do Noa (Kenney CC0 + peças próprias; ver CREDITS.md)
     └── sounds/
         └── animals/        # Espaço preparado para os sons (ver README.md da pasta)
 ```

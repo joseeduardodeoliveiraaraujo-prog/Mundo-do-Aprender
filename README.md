@@ -4,17 +4,18 @@ Plataforma educativa digital para crianças de **8 a 12 anos com Transtorno do E
 
 ## O jogo: Bairro do Noa
 
-O app abre direto num **jogo 2D em pixel art, visto de cima** (estilo RPG). A criança leva o Noa livremente pela **casa** (quarto, banheiro, cozinha e sala) e pelo **bairro** (praça, escola, fazendinha, zoológico e rio). Pessoas e objetos com um balão **!** têm um desafio; quando tudo ali foi feito, o balão vira uma estrela.
+O app abre direto num **jogo 2D em pixel art, visto de cima** (estilo RPG). A criança leva o Noa livremente pela **casa** (quarto, banheiro, cozinha e sala), pelo **bairro** (praça, fazendinha, zoológico e rio) e pela **escola** (sala de aula). Pessoas e objetos com um balão **!** têm um desafio; quando tudo ali foi feito, o balão vira uma estrela.
 
 | Onde | Desafio (parte do módulo) |
 | --- | --- |
 | Casa: despertador, cama, pia, mesa, sofá, mochila | Minha Rotina: Acordar, Hora de dormir, Higiene, Alimentação, Lazer, Escola |
 | Casa: geladeira · gato | Eu Me Comunico: Em casa · Explorando os Animais: Em casa |
 | Praça: Lia, Davi, banco | Mundo das Emoções: Reconhecer, Detetive, Expressar |
-| Praça: crianças brincando, Bia · Escola | Eu Me Comunico: Brincando, O que eu sinto · Na escola |
+| Praça: crianças brincando, Bia · Escola: professora Ana | Eu Me Comunico: Brincando, O que eu sinto · Na escola |
 | Fazendinha, placa, zoológico, rio | Explorando os Animais: Fazenda, Cada um no seu lugar, Savana, Rio e floresta |
 
 - **Animais pelo bairro:** vaca, cavalo, galinha e pato na fazendinha; leão, elefante e girafa no zoológico; peixe e tartaruga no rio; macaco na árvore e cachorro perto de casa. Tocar num animal faz o Noa dizer o nome, o som e uma curiosidade (dados de `js/data/animals/catalog.js`).
+- **Escola por dentro:** a porta da escola leva à sala de aula, com quadro, carteiras, a professora Ana (desafio) e os colegas Gabi e Teo, que conversam com o Noa.
 - **Formas de jogar:** tocar no mapa (Noa encontra o caminho), setas ou W A S D + Enter com o mapa focado, ou os botões **Ir até um lugar** e **Começar**.
 - **Desafios:** abrem as atividades daquela parte, uma por vez, começando pela que falta. **Voltar a explorar** retorna ao mapa. O progresso e a posição do Noa ficam salvos.
 - **Sem tempo, sem inimigos, sem punição.** Com "Reduzir animações", Noa chega direto e as portas trocam de mapa sem transição.

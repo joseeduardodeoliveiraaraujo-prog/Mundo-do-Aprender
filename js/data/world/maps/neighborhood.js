@@ -59,7 +59,7 @@ export const neighborhoodMap = Object.freeze({
     e: { tile: 'roofGrey', solid: true },
     F: { tile: 'roofGreyRight', solid: true },
     h: { tile: 'stoneWall', solid: true },
-    i: { tile: 'stoneDoor', solid: true },
+    i: { tile: 'stoneDoor' },
     j: { tile: 'stoneWindow', solid: true },
     '[': { tile: 'fenceTopLeft', solid: true, base: 'grass' },
     '-': { tile: 'fenceTop', solid: true, base: 'grass' },
@@ -75,15 +75,9 @@ export const neighborhoodMap = Object.freeze({
   ],
   doors: [
     { x: 4, y: 4, to: 'house', spawn: { x: 19, y: 8 }, facing: 'up', label: 'Entrar em casa' },
+    { x: 23, y: 4, to: 'school', spawn: { x: 8, y: 8 }, facing: 'up', label: 'Entrar na escola' },
   ],
   spots: [
-    {
-      id: 'hood-school',
-      label: 'Escola',
-      cells: [{ x: 23, y: 4 }],
-      prompt: 'Esta é a minha escola. Vamos treinar como falar com a professora e os colegas?',
-      challenge: { module: 'communication', part: 'school' },
-    },
     {
       id: 'hood-neighbor',
       label: 'Vizinha Lia',

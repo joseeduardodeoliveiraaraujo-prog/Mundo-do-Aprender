@@ -41,6 +41,10 @@ export const TILES = Object.freeze({
   stool: ['dungeon', 73],
   chest: ['dungeon', 89],
   backpack: ['town', 107],
+  boardLeft: ['home', 34],
+  boardMiddle: ['home', 35],
+  boardRight: ['home', 36],
+  plant: ['home', 37],
   // Marcadores de desafio (acima do lugar)
   markTodo: ['home', 12],
   markDone: ['home', 13],

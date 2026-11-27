@@ -20,10 +20,11 @@
 
 import { houseMap } from './maps/house.js';
 import { neighborhoodMap } from './maps/neighborhood.js';
+import { schoolMap } from './maps/school.js';
 
 export const worldData = Object.freeze({
   version: 1,
-  maps: Object.freeze({ house: houseMap, neighborhood: neighborhoodMap }),
+  maps: Object.freeze({ house: houseMap, neighborhood: neighborhoodMap, school: schoolMap }),
   start: Object.freeze({ map: 'house', x: 2, y: 4, facing: 'down' }),
   /** Tamanho da janela do jogo, em blocos (a câmera segue Noa em mapas maiores). */
   view: Object.freeze({ cols: 15, rows: 10 }),

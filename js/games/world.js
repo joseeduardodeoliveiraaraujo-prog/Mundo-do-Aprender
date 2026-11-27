@@ -15,7 +15,7 @@ import { createButton } from '../components/button.js';
 import { createGameStage } from '../components/gameStage.js';
 import { createCompanion } from '../components/companion.js';
 import { createSoundToggle } from '../components/soundToggle.js';
-import { fillTemplate } from '../components/moduleFlow.js';
+import { fillTemplate } from '../components/text.js';
 import { MODULES } from '../modules.js';
 import { getModuleProgress } from '../progress.js';
 import { worldData } from '../data/world/world.js';

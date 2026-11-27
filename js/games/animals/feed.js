@@ -8,7 +8,7 @@ import { el } from '../../components/dom.js';
 import { createIcon } from '../../components/icons.js';
 import { createActivityFrame, showResult } from '../../components/activityFrame.js';
 import { createPlacementBoard } from '../../components/placementBoard.js';
-import { fillTemplate } from '../../components/moduleFlow.js';
+import { fillTemplate } from '../../components/text.js';
 import { animalsData } from '../../data/animals.js';
 import { articleOf, createGuide } from './explorerKit.js';
 

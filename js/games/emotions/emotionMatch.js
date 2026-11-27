@@ -27,7 +27,7 @@ import { createButton } from '../../components/button.js';
 import { createActivityFrame, showResult } from '../../components/activityFrame.js';
 import { createActivityControls } from '../../components/activityControls.js';
 import { createPlacementBoard } from '../../components/placementBoard.js';
-import { fillTemplate } from '../../components/moduleFlow.js';
+import { fillTemplate } from '../../components/text.js';
 import { createHistory } from '../../undoHistory.js';
 import { speak } from '../../speech.js';
 import { emotionsData } from '../../data/emotions.js';

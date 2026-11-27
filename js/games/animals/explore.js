@@ -9,7 +9,7 @@ import { createIcon } from '../../components/icons.js';
 import { createButton } from '../../components/button.js';
 import { createActivityFrame, showResult } from '../../components/activityFrame.js';
 import { createSoundPlayer } from '../../components/soundPlayer.js';
-import { fillTemplate } from '../../components/moduleFlow.js';
+import { fillTemplate } from '../../components/text.js';
 import { stopSound } from '../../audio.js';
 import { speak } from '../../speech.js';
 import { animalsData } from '../../data/animals.js';

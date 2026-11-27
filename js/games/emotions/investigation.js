@@ -18,7 +18,7 @@ import { el } from '../../components/dom.js';
 import { createIcon } from '../../components/icons.js';
 import { createButton } from '../../components/button.js';
 import { createActivityFrame, showResult } from '../../components/activityFrame.js';
-import { fillTemplate } from '../../components/moduleFlow.js';
+import { fillTemplate } from '../../components/text.js';
 import { speak } from '../../speech.js';
 import { emotionsData } from '../../data/emotions.js';
 import { createClueZoom } from './clueZoom.js';

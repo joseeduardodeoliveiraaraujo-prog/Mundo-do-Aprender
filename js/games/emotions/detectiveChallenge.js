@@ -14,7 +14,7 @@
 import { el } from '../../components/dom.js';
 import { showResult } from '../../components/activityFrame.js';
 import { createChoiceButton, createChoiceGroup, setSelectedChoice } from '../../components/choiceButton.js';
-import { fillTemplate } from '../../components/moduleFlow.js';
+import { fillTemplate } from '../../components/text.js';
 import { emotionsData } from '../../data/emotions.js';
 import { createClueZoom } from './clueZoom.js';
 

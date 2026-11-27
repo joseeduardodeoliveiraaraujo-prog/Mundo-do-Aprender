@@ -5,30 +5,6 @@
    ========================================================================== */
 
 /* ---------- Rostos na tela de conclusão ---------- */
-.emotions-faces {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-3);
-  width: 100%;
-}
-
-@media (min-width: 48rem) {
-  .emotions-faces {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-}
-
-.emotions-face {
-  display: grid;
-  justify-items: center;
-  gap: var(--space-1);
-  font-weight: 600;
-}
-
-.emotions-face img {
-  width: 4.5rem;
-  height: 4.5rem;
-}
 
 /* ==========================================================================
    Monte o rosto (js/games/emotions/faceBuilder.js)

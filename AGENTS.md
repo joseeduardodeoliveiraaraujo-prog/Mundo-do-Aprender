@@ -45,7 +45,7 @@ Este arquivo orienta qualquer pessoa ou agente de IA que trabalhe no projeto. **
 | `js/data/<modulo>.js` | **Somente dados** das atividades. Sem lógica, sem acesso ao DOM. |
 | `css/global.css` | Tokens, reset e layout do app (cabeçalho, área principal). |
 | `css/components.css` | Estilos dos componentes de `js/components/`. |
-| `css/home.css` | Tela inicial. |
+| `css/world.css` | Jogo "Bairro do Noa" e painel de desafio. |
 | `css/games.css` | Estrutura comum dos jogos e estilos específicos com prefixo do módulo. |
 | `css/accessibility.css` | Preferências do usuário e recursos de acessibilidade. **Sempre o último CSS.** |
 
@@ -95,9 +95,7 @@ Para colocar um desafio novo no mundo: crie a atividade nos dados do módulo e, 
 | Criar elementos | `el()` — `components/dom.js` |
 | Ícone de interface | `createIcon(nome)` ou `<span data-icon="nome">` — `components/icons.js` |
 | Botão de ação / link com cara de botão | `createButton` / `createLinkButton` — `components/button.js` (variantes: primary, secondary, ghost, module) |
-| Botão voltar | `createBackButton` — `components/backButton.js` |
-| Cabeçalho de tela interna | `createScreenHeader` — `components/screenHeader.js` |
-| Cartão | `createCard` — `components/card.js` |
+| Preencher textos com valores (`'{name}'`) | `fillTemplate` — `components/text.js` |
 | Progresso | `createProgressBar`, `createStepIndicator` — `components/progressIndicators.js` |
 | Feedback | `createFeedback({ tone: 'success' | 'encourage' | 'info' })` — `components/feedback.js` (use `announce: false` dentro de uma região `role="status"`) |
 | Tela de atividade (uma por vez) | `createActivityFrame` — `components/activityFrame.js` (progresso, instrução, "Repetir instrução", Anterior/Próxima) |
@@ -107,8 +105,7 @@ Para colocar um desafio novo no mundo: crie a atividade nos dados do módulo e, 
 | Desfazer / Recomeçar / Conferir | `createActivityControls` — `components/activityControls.js` |
 | Mostrar resultado e registrar progresso | `showResult(frame, resultado, complete)` — `components/activityFrame.js` |
 | Som opcional | `createSoundPlayer({ sound })` — `components/soundPlayer.js` ("Ouvir o som"/"Ouvir de novo" + "Ver o som escrito") |
-| Fluxo do módulo (apresentação, continuar, conclusão) | `startModuleFlow` — `components/moduleFlow.js`. Todo módulo novo deve usá-lo; o módulo só implementa `renderActivity`. Opcionais: `renderPartsOverview` (troca a lista de partes da apresentação) e `renderCompletionExtra`; ambos recebem `{ goToActivity }`. |
-| Trilha, mapa, estrelas e figurinhas de um módulo | `createJourney` — `components/journey.js` (cada parte precisa de `sticker`; calculado do progresso salvo) |
+| Abrir as atividades de uma parte de um módulo | Lugar no mapa com `challenge: { module, part }` — `games/world/challengePanel.js` (o módulo só exporta `renderChallengeActivity`) |
 | Ligar/desligar sons dentro da atividade | `createSoundToggle` — `components/soundToggle.js` (chame `destroy()` na limpeza) |
 | Personagem com balão de fala | `createCompanion` — `components/companion.js` (recebe `character: { name, poses }`; `say` lê em voz alta, `show` não) |
 | Cena em camadas que muda com a ação | `createSceneLayers` — `components/sceneLayers.js` |
@@ -130,7 +127,7 @@ Para colocar um desafio novo no mundo: crie a atividade nos dados do módulo e, 
 ## 6. Diretrizes de design para TEA (obrigatórias)
 
 **Previsibilidade**
-- Layout consistente: cabeçalho e botão "Voltar" sempre no mesmo lugar (`createScreenHeader`).
+- Layout consistente: cabeçalho do app, fala do Noa, mapa e botões sempre no mesmo lugar; no desafio, "Voltar a explorar" sempre no topo.
 - Antes de cada atividade, mostrar o que vai acontecer e quantos passos tem.
 - Nada muda na tela sem ação da criança (sem trocas automáticas, carrosséis ou pop-ups inesperados).
 

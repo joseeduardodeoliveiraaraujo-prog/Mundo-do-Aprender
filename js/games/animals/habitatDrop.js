@@ -10,7 +10,7 @@ import { el } from '../../components/dom.js';
 import { createActivityFrame, showResult } from '../../components/activityFrame.js';
 import { createActivityControls } from '../../components/activityControls.js';
 import { createPlacementBoard } from '../../components/placementBoard.js';
-import { fillTemplate } from '../../components/moduleFlow.js';
+import { fillTemplate } from '../../components/text.js';
 import { createHistory } from '../../undoHistory.js';
 import { animalsData } from '../../data/animals.js';
 import { createGuide } from './explorerKit.js';

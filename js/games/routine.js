@@ -1,8 +1,7 @@
 /**
- * Módulo "Minha Rotina": um dia inteiro ao lado de Noa, em seis momentos.
+ * Módulo "Minha Rotina": um dia inteiro ao lado de Noa.
  *
- * Fluxo (apresentação → atividades → conclusão): components/moduleFlow.js.
- * Trilha, mapa e recompensas: components/journey.js.
+ * As atividades abrem como desafios no jogo (js/games/world/challengePanel.js).
  * Conteúdo e textos: ../data/routine.js. Cada mecânica fica em ./routine/:
  *
  *   sceneTasks  tocar nos elementos da cena         sceneTasks.js
@@ -12,16 +11,11 @@
  *   choice      arrastar até Noa o que pode ajudar  helpNoa.js
  */
 
-import { startModuleFlow } from '../components/moduleFlow.js';
-import { createJourney } from '../components/journey.js';
-import { routineData } from '../data/routine.js';
 import { renderSceneTasks } from './routine/sceneTasks.js';
 import { renderStepByStep } from './routine/stepByStep.js';
 import { renderSequence } from './routine/dayTrack.js';
 import { renderPack } from './routine/packBag.js';
 import { renderChoice } from './routine/helpNoa.js';
-
-const { moduleId, parts, activities, companion, messages } = routineData;
 
 const RENDER_BY_TYPE = Object.freeze({
   sceneTasks: renderSceneTasks,
@@ -31,27 +25,8 @@ const RENDER_BY_TYPE = Object.freeze({
   choice: renderChoice,
 });
 
-const journey = createJourney({ moduleId, parts, activities, texts: messages.journey, mapArt: companion.poses.happy });
-
-function renderActivity(activity, index, { navigation, complete }) {
-  return journey.wrapActivity(activity, complete, (onComplete) => RENDER_BY_TYPE[activity.type](activity, navigation, onComplete));
-}
-
 /** Uma atividade avulsa, para os desafios do jogo (js/games/world/challengePanel.js). */
 export function renderChallengeActivity(activity, navigation, complete) {
   const frame = RENDER_BY_TYPE[activity.type](activity, navigation, complete);
   return { element: frame.element, focusTarget: frame.heading };
-}
-
-export function render(view, module) {
-  return startModuleFlow({
-    view,
-    module,
-    parts,
-    activities,
-    texts: messages,
-    renderActivity,
-    renderPartsOverview: journey.createMap,
-    renderCompletionExtra: journey.createMap,
-  });
 }

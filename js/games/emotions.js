@@ -1,7 +1,7 @@
 /**
  * Módulo "Mundo das Emoções".
  *
- * Fluxo (apresentação → atividades → conclusão): components/moduleFlow.js.
+ * As atividades abrem como desafios no jogo (js/games/world/challengePanel.js).
  * Conteúdo e textos: ../data/emotions.js. Tipos de atividade:
  *
  *   recognize    olhar um rosto e escolher a emoção            (aqui)
@@ -11,13 +11,12 @@
  *   matchEmotions  levar rostos ao balão de cada amigo       (emotions/emotionMatch.js)
  *   arrangeScene   arrumar uma cena levando objetos          (emotions/sceneArrange.js)
  *
- * - O progresso é salvo ao dar uma resposta válida.
- * - "Anterior" e "Próxima" ficam sempre disponíveis: a criança decide o ritmo.
+ * O progresso é salvo ao dar uma resposta válida.
  */
 
 import { el } from '../components/dom.js';
 import { createActivityFrame } from '../components/activityFrame.js';
-import { startModuleFlow, fillTemplate } from '../components/moduleFlow.js';
+import { fillTemplate } from '../components/text.js';
 import { emotionsData } from '../data/emotions.js';
 import { createSingleChoice } from './emotions/singleChoice.js';
 import { renderBuildFace } from './emotions/faceBuilder.js';
@@ -25,7 +24,7 @@ import { renderInvestigate } from './emotions/investigation.js';
 import { renderMatchEmotions } from './emotions/emotionMatch.js';
 import { renderArrangeScene } from './emotions/sceneArrange.js';
 
-const { emotions, expressions, parts, activities, messages } = emotionsData;
+const { emotions, expressions, messages } = emotionsData;
 
 /** Atividades de uma resposta: como montar as alternativas e responder a cada escolha. */
 const SINGLE_CHOICE_TYPES = Object.freeze({
@@ -81,32 +80,8 @@ const RENDER_BY_TYPE = Object.freeze({
   arrangeScene: renderArrangeScene,
 });
 
-function renderActivity(activity, index, { navigation, complete }) {
-  const frame = RENDER_BY_TYPE[activity.type](activity, navigation, complete);
-  return { element: frame.element, focusTarget: frame.heading };
-}
-
 /** Uma atividade avulsa, para os desafios do jogo (js/games/world/challengePanel.js). */
 export function renderChallengeActivity(activity, navigation, complete) {
-  return renderActivity(activity, 0, { navigation, complete });
-}
-
-function createEmotionsList() {
-  return el('ul', { className: 'emotions-faces', attrs: { role: 'list' } },
-    Object.values(emotions).map((emotion) => el('li', { className: 'emotions-face' }, [
-      el('img', { attrs: { src: emotion.face, alt: '', width: 72, height: 72 } }),
-      el('span', { text: emotion.name }),
-    ])));
-}
-
-export function render(view, module) {
-  return startModuleFlow({
-    view,
-    module,
-    parts,
-    activities,
-    texts: messages,
-    renderActivity,
-    renderCompletionExtra: createEmotionsList,
-  });
+  const frame = RENDER_BY_TYPE[activity.type](activity, navigation, complete);
+  return { element: frame.element, focusTarget: frame.heading };
 }

@@ -9,7 +9,7 @@
 
 import { el } from '../../components/dom.js';
 import { createButton } from '../../components/button.js';
-import { fillTemplate } from '../../components/moduleFlow.js';
+import { fillTemplate } from '../../components/text.js';
 import { MODULES } from '../../modules.js';
 import { getCompletedActivityIds, markActivityCompleted } from '../../progress.js';
 import { stopSound } from '../../audio.js';

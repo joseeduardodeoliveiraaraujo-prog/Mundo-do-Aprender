@@ -59,7 +59,6 @@ Mundo do Aprender/
 ├── css/
 │   ├── global.css          # Tokens de design (cores, tipografia, espaços), reset, layout do app
 │   ├── components.css      # Botão, painel, cartão, cabeçalho de tela, progresso, feedback, diálogos
-│   ├── home.css            # Tela inicial
 │   ├── games.css           # Estrutura comum: atividade, alternativas, lista reordenável, fluxo
 │   ├── emotions.css        # Mundo das Emoções: rostos e "Monte o rosto"
 │   ├── emotions-detective.css  # Mundo das Emoções: Detetive (lupa, pistas, desafio)
@@ -69,7 +68,7 @@ Mundo do Aprender/
 │   ├── world.css           # Jogo "Bairro do Noa" e painel de desafio
 │   ├── animals.css         # Estilos específicos de Explorando os Animais e do painel de som
 │   ├── communication.css   # Eu Me Comunico: cenário, balão e frase
-│   ├── communication-talk.css # Eu Me Comunico: conversa, associação e prancha
+│   ├── communication-talk.css # Eu Me Comunico: conversa e associação
 │   └── accessibility.css   # Foco, contraste, tamanho de texto, animações (sempre por último)
 ├── js/
 │   ├── main.js             # Ponto de entrada: liga configurações, diálogos, ícones e rotas
@@ -85,10 +84,6 @@ Mundo do Aprender/
 │   │   ├── dom.js              # el(): cria elementos com segurança
 │   │   ├── icons.js            # Ícones de interface (SVG embutido)
 │   │   ├── button.js           # createButton / createLinkButton
-│   │   ├── backButton.js       # Botão "Voltar" padrão
-│   │   ├── card.js             # Cartão genérico
-│   │   ├── moduleCard.js       # Cartão de módulo da tela inicial
-│   │   ├── screenHeader.js     # Cabeçalho das telas internas
 │   │   ├── progressIndicators.js # Barra de progresso e indicador de passos
 │   │   ├── activityFrame.js    # Moldura padrão de atividade (instrução, repetir, navegação)
 │   │   ├── choiceButton.js     # Alternativas de resposta
@@ -99,13 +94,11 @@ Mundo do Aprender/
 │   │   ├── companion.js        # Personagem com balão de fala
 │   │   ├── sceneLayers.js      # Cena em camadas
 │   │   ├── gameStage.js        # Palco de jogo 2D (Phaser) dentro da tela
-│   │   ├── moduleFlow.js       # Fluxo comum: apresentação → atividades → conclusão
 │   │   ├── feedback.js         # Mensagens de feedback (sucesso, incentivo, aviso)
 │   │   ├── dialog.js           # Abre/fecha diálogos
 │   │   ├── settingsPanel.js    # Formulário de configurações
-│   │   └── comingSoon.js       # Tela provisória dos módulos
+│   │   └── text.js             # fillTemplate: textos com valores
 │   ├── views/              # Telas que não são jogos
-│   │   ├── home.js
 │   │   └── messages.js
 │   ├── vendor/             # Bibliotecas de terceiros, sem alteração (Phaser; ver CREDITS.md)
 │   ├── games/              # Um ponto de entrada por módulo
@@ -125,22 +118,23 @@ Mundo do Aprender/
 ```
 
 Ajustes em relação à estrutura sugerida:
-- **`js/modules.js`**: catálogo único dos módulos. A tela inicial e o roteador leem dele, sem repetir títulos e rotas.
+- **`js/modules.js`**: catálogo único dos módulos (título, dados, carregamento). O jogo e o roteador leem dele, sem repetir títulos e rotas.
 - **`js/progress.js`** e **`css/components.css`** (Etapa 2): progresso separado do armazenamento genérico; estilos de componentes separados do `global.css`.
-- **`js/views/`**: telas que não são jogos (início, aviso de erro) ficam separadas de `games/` e `components/`.
+- **`js/views/`**: telas que não são jogos (avisos de erro) ficam separadas de `games/` e `components/`.
 - **Projeto na raiz da pasta atual**: a pasta "Mundo do Aprender" já é a raiz, então não foi criada uma subpasta `mundo-do-aprender/`.
 
-## Interface (Etapa 2)
+## Interface
 
-- **Tela inicial:** boas-vindas com apresentação, quatro cartões (ilustração, título, descrição, cor própria e botão **Começar**; o cartão inteiro é clicável) e a área **Meu progresso**.
-- **Cabeçalho:** logotipo (volta ao início), **Ajuda** e **Configurações**. Em telas estreitas, os botões mostram só o ícone.
-- **Telas dos módulos:** botão **Voltar ao início**, título com ícone, apresentação do módulo e aviso de que está em preparação.
-- **Progresso:** calculado só a partir de atividades que existem. Enquanto não houver atividades, mostra "Atividades em preparação"; nenhum número é inventado.
-- **Responsivo:** celular (1 coluna), tablet retrato e paisagem (2 colunas), computador ≥ 1152px (4 colunas).
+- **Cabeçalho:** logotipo (volta ao jogo), **Ajuda** e **Configurações**. Em telas estreitas, os botões mostram só o ícone.
+- **Tela do jogo:** nome do lugar, **Estrelas: X de 54** (progresso real), botão de som, fala do Noa, mapa, aviso "Perto de você" com **Começar** e a lista **Ir até um lugar**.
+- **Desafio:** nome do módulo e da parte, atividades feitas, **Voltar a explorar** e as atividades uma por vez, com "Anterior"/"Próxima".
+- **Responsivo:** de 320px a 1920px; o mapa cabe na altura da janela.
+
+> As seções abaixo descrevem as atividades de cada módulo. Elas abrem como desafios dentro do jogo.
 
 ## Mundo das Emoções (Etapa 3, gameplay revisado)
 
-Três partes, uma atividade por vez, com ilustração, alternativas, "Repetir instrução", "Anterior"/"Próxima" e tela de conclusão:
+Três partes, uma atividade por vez, com ilustração, alternativas, "Repetir instrução" e "Anterior"/"Próxima":
 
 | Parte | Atividades | Como funciona |
 | --- | --- | --- |
@@ -150,7 +144,7 @@ Três partes, uma atividade por vez, com ilustração, alternativas, "Repetir in
 | Como posso me expressar? | Missão **O cantinho da calma** + 3 | Cantinho: cena maior (480×300) com 4 lugares. Cada objeto responde ao ser colocado; o tambor convida a trocar por algo mais silencioso. Pronto quando os 4 lugares têm objetos que acalmam. Depois, 3 situações em que todas as formas de se expressar são válidas. |
 
 - Uma atividade conta como feita quando recebe uma resposta válida.
-- A posição é guardada: ao voltar, a criança pode "Continuar de onde parei".
+- O desafio começa pela primeira atividade que ainda falta.
 - Instruções em voz alta usam a voz do navegador e só tocam com **Sons ligados** e ao tocar em "Repetir instrução".
 
 ## Minha Rotina
@@ -167,7 +161,7 @@ Um dia inteiro ao lado de **Noa**, que reage a cada ação em um balão de fala.
 | Hora de dormir | Minha noite · Boa noite, Noa! | Arrastar cartões · tocar na cena para preparar o quarto |
 
 - **Sem "Conferir":** Noa responde quando a criança termina. As regras continuam flexíveis (só o que tem ordem de verdade, como lavar as mãos, tem ordem fixa).
-- **Recompensas:** uma estrela por atividade e uma figurinha por momento completo, calculadas do progresso salvo. Nada fica bloqueado.
+- **Recompensas:** cada atividade feita soma uma estrela no jogo; quando o momento inteiro está feito, o balão do lugar vira estrela. Nada fica bloqueado.
 - **Formas de jogar:** arrastar com mouse ou dedo, tocar no cartão e depois no lugar, ou usar o teclado (Enter). Todas as atividades têm **Desfazer** e **Recomeçar**.
 - **Para criar outra atividade:** acrescente um objeto em `js/data/routine/activities.js` com um dos tipos descritos no início do arquivo.
 
@@ -185,7 +179,7 @@ A criança visita cinco lugares e descobre 12 animais. Pode ir a qualquer lugar,
 
 - **Ficha do animal:** nome, onde vive, o que come, curiosidade e som.
 - **Movimento:** os animais chegam à cena e dão um pulinho ao serem tocados, sempre uma vez só (o projeto não permite animação em repetição).
-- **Recompensas:** uma estrela por atividade, uma figurinha por lugar completo e o caderno com os animais já vistos, tudo calculado do progresso salvo.
+- **Recompensas:** cada atividade feita soma uma estrela no jogo; os animais também aparecem pelo bairro.
 - **Som:** botão "Sons" em cada atividade (a mesma opção de Configurações). Nada toca sozinho e tudo funciona sem som.
 - **Para criar outra atividade ou região:** edite `js/data/animals/activities.js` e `js/data/animals/catalog.js`.
 
@@ -208,7 +202,7 @@ A criança ajuda **Noa** a se comunicar em quatro lugares. Pode ir a qualquer um
 - **Todos os jeitos valem:** fala, cartões, gestos e imagens. Dizer "não" ou "agora não" é sempre aceito e respeitado pela outra pessoa.
 - **Sem resposta certa nas escolhas pessoais.** Só volta o cartão que não combina com a situação, e Noa explica com calma.
 - **A cena responde:** a água aparece, o pote abre, o barulho para; cada resposta muda o que a outra pessoa diz.
-- **Recompensas:** uma estrela e um cartão por atividade, uma figurinha por lugar completo e a **prancha de comunicação** na tela final, tudo calculado do progresso salvo.
+- **Recompensas:** cada atividade feita soma uma estrela no jogo; quando a parte inteira está feita, o balão do lugar vira estrela.
 - **Som:** botão "Sons" em cada atividade (a mesma opção de Configurações). A voz só toca depois de uma ação da criança.
 - **Formas de jogar:** arrastar com mouse ou dedo, tocar no cartão e depois no lugar, ou teclado (Enter). Todas têm **Desfazer** e **Recomeçar**.
 - **Para criar outra atividade:** siga os tipos descritos em `js/data/communication/activities.js`.

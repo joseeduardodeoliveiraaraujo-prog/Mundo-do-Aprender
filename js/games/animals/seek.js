@@ -10,7 +10,7 @@ import { el } from '../../components/dom.js';
 import { createIcon } from '../../components/icons.js';
 import { createActivityFrame, showResult } from '../../components/activityFrame.js';
 import { createSoundPlayer } from '../../components/soundPlayer.js';
-import { fillTemplate } from '../../components/moduleFlow.js';
+import { fillTemplate } from '../../components/text.js';
 import { animalsData } from '../../data/animals.js';
 import { articleOf, createAnimalScene, createGuide } from './explorerKit.js';
 

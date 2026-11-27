@@ -9,7 +9,7 @@
 
 import { el } from '../../components/dom.js';
 import { createCompanion } from '../../components/companion.js';
-import { fillTemplate } from '../../components/moduleFlow.js';
+import { fillTemplate } from '../../components/text.js';
 import { createSceneLayers } from '../../components/sceneLayers.js';
 import { communicationData } from '../../data/communication.js';
 

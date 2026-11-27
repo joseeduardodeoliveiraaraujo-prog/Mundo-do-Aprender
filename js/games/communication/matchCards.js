@@ -9,7 +9,7 @@ import { el } from '../../components/dom.js';
 import { createActivityFrame, showResult } from '../../components/activityFrame.js';
 import { createActivityControls } from '../../components/activityControls.js';
 import { createPlacementBoard } from '../../components/placementBoard.js';
-import { fillTemplate } from '../../components/moduleFlow.js';
+import { fillTemplate } from '../../components/text.js';
 import { createHistory } from '../../undoHistory.js';
 import { speak } from '../../speech.js';
 import { communicationData } from '../../data/communication.js';

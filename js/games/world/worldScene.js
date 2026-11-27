@@ -6,10 +6,11 @@
  * (`onMapChange`, `onNearChange`, `onArrive`) e mostra falas e botões em HTML.
  */
 
-import { TILESETS, TILES, TILE_SIZE } from '../../data/world/tiles.js';
+import { TILESETS, TILE_SIZE } from '../../data/world/tiles.js';
 import { findPath, neighborsOf, directionBetween } from './grid.js';
 import { createMapModel } from './mapModel.js';
 import { createFreeWalker } from './freeWalker.js';
+import { createMapView } from './mapView.js';
 
 const MAX_STEP_MS = 100;  // evita saltos depois de uma pausa da aba
 const REACH = 10;         // pixels entre os pés de Noa e o lugar para valer "perto"
@@ -36,50 +37,15 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
   let scene = null;
   let model = null;
   let walker = null;
-  let highlight = null;
-  let spotImages = new Map();
-  let markers = new Map();
+  let view = null;
   let near = null;
   let hovered = null;
   let lastTile = null;
   let lastTime = 0;
   let changingMap = false;
-  let highlightColor = 0x1d6479;
 
   const isReduced = () => scene?.registry.get('reduceMotion') === true;
   const map = () => data.maps[current.map];
-  const draw = (name, x, y, depth) => scene.add.image(x * TILE_SIZE, y * TILE_SIZE, ...TILES[name]).setOrigin(0).setDepth(depth);
-
-  function drawMap() {
-    map().ground.forEach((line, y) => [...line].forEach((char, x) => {
-      const legend = map().legend[char];
-      if (legend.base) draw(legend.base, x, y, 0);
-      draw(legend.tile, x, y, 0);
-    }));
-    map().furniture.forEach(({ tile, x, y }) => draw(tile, x, y, 1));
-    spotImages = new Map();
-    markers = new Map();
-    model.spots.forEach((spot) => {
-      if (removed.has(spot.id)) return;
-      const tiles = spot.tiles ?? [];
-      spotImages.set(spot.id, tiles.map(({ tile, x, y }, index) => (
-        draw(used.has(spot.id) && spot.usedTiles ? spot.usedTiles[index] ?? tile : tile, x, y, 2))));
-      if (spot.challenge) {
-        const top = Math.min(...spot.cells.map(({ y }) => y));
-        const left = Math.min(...spot.cells.map(({ x }) => x));
-        markers.set(spot.id, scene.add.image(left * TILE_SIZE, top * TILE_SIZE - 11, ...TILES.markTodo).setOrigin(0).setDepth(15));
-      }
-    });
-    refreshMarkers();
-  }
-
-  function refreshMarkers() {
-    markers.forEach((image, id) => {
-      const status = statusOf(model.spots.find((spot) => spot.id === id));
-      image.setVisible(Boolean(status));
-      if (status) image.setTexture(...TILES[status === 'done' ? 'markDone' : 'markTodo']);
-    });
-  }
 
   function walkTo(isGoal, finalPoint, onEnd) {
     const path = findPath(tileOf(feetPoint(walker.position)), isGoal, model.isWalkable);
@@ -137,18 +103,6 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
     if (next !== near) { near = next; onNearChange(near); }
   }
 
-  function drawHighlight() {
-    highlight.clear();
-    const spot = hovered ?? near;
-    if (!spot || removed.has(spot.id)) return;
-    const xs = spot.cells.map(({ x }) => x);
-    const ys = spot.cells.map(({ y }) => y);
-    const left = Math.min(...xs) * TILE_SIZE;
-    const top = Math.min(...ys) * TILE_SIZE;
-    highlight.lineStyle(1, highlightColor, 1);
-    highlight.strokeRect(left + 0.5, top + 0.5, (Math.max(...xs) + 1) * TILE_SIZE - left - 1, (Math.max(...ys) + 1) * TILE_SIZE - top - 1);
-  }
-
   function createScene() {
     return {
       key: 'world',
@@ -163,9 +117,7 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
         near = null;
         hovered = null;
         model = createMapModel(map(), (id) => removed.has(id));
-        drawMap();
-        const token = getComputedStyle(this.game.canvas).getPropertyValue('--module-strong').trim();
-        if (/^#[0-9a-f]{6}$/i.test(token)) highlightColor = Number.parseInt(token.slice(1), 16);
+        view = createMapView(this, { map: map(), model, used, removed, statusOf });
 
         // Se o lugar salvo estiver ocupado (ex.: um objeto voltou), começa no bloco livre mais perto.
         if (!model.isWalkable(current)) Object.assign(current, findPath(current, model.isWalkable, model.inside)?.pop() ?? data.start);
@@ -177,7 +129,6 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
           isReduced,
         });
         lastTile = tileOf(feetPoint(walker.position));
-        highlight = this.add.graphics().setDepth(20);
 
         const camera = this.cameras.main;
         camera.setBounds(0, 0, model.cols * TILE_SIZE, model.rows * TILE_SIZE).setRoundPixels(true);
@@ -204,7 +155,7 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
           if (door) { changeMap(door); return; }
         }
         updateNear();
-        drawHighlight();
+        view.drawHighlight(hovered ?? near);
       },
     };
   }
@@ -231,16 +182,14 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
       const spot = model?.spots.find((item) => item.id === id);
       if (!spot || used.has(id)) return;
       used.add(id);
+      view.showUsed(spot);
       if (spot.removeOnUse) {
         removed.add(id);
-        spotImages.get(id)?.forEach((image) => image.destroy());
         if (near === spot) { near = null; onNearChange(null); }
-      } else if (spot.usedTiles) {
-        spotImages.get(id)?.forEach((image, index) => image.setTexture(...TILES[spot.usedTiles[index]]));
       }
     },
     isUsed: (id) => used.has(id),
-    refreshMarkers() { if (model) refreshMarkers(); },
+    refreshMarkers() { view?.refreshMarkers(); },
     pause() { walker?.hold(0, 0); scene?.scene.pause(); },
     resume() { scene?.scene.resume(); },
     /** Onde Noa está (para salvar e voltar depois). */

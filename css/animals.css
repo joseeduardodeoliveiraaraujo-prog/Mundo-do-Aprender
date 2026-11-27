@@ -401,51 +401,5 @@
 }
 
 /* ---------- Caderno da conclusão ---------- */
-.animal-completion {
-  display: grid;
-  gap: var(--space-4);
-  width: 100%;
-}
-
-.animal-gallery__item.is-locked {
-  color: var(--color-text-muted);
-  font-weight: 400;
-}
 
 /* Ainda não visto: cinza e apagado, com o texto dizendo o mesmo. */
-.animal-gallery__item.is-locked img {
-  filter: grayscale(1);
-  opacity: 0.45;
-}
-
-/* ---------- Galeria da conclusão ---------- */
-.animal-gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
-  width: 100%;
-}
-
-@media (min-width: 36rem) {
-  .animal-gallery {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (min-width: 64rem) {
-  .animal-gallery {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-
-.animal-gallery__item {
-  display: grid;
-  justify-items: center;
-  gap: var(--space-1);
-  font-weight: 600;
-}
-
-.animal-gallery__item img {
-  width: 4.5rem;
-  height: 4.5rem;
-}

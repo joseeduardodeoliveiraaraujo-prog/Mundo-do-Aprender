@@ -1,0 +1,110 @@
+/**
+ * Casa do Noa: quarto (esquerda), banheiro (meio) e cozinha com sala (direita).
+ * Somente dados. Formato dos mapas: ver js/data/world/world.js.
+ */
+
+export const houseMap = Object.freeze({
+  id: 'house',
+  name: 'Casa do Noa',
+  welcome: 'Estou em casa. Os balões mostram onde tem desafio.',
+  ground: [
+    'WWJWWWJWXWWJWWWXWWJWWWJW',
+    '........X______X........',
+    '.....,..X______X.....,..',
+    '........X______X........',
+    '...,....X______X.,......',
+    '...rr.,.X______X........',
+    '...rr....______...,.rr..',
+    '..,......______.........',
+    '........X______X......,.',
+    'XXXXXXXXXXXXXXXXXXXEXXXX',
+  ],
+  legend: {
+    W: { tile: 'woodWall', solid: true },
+    J: { tile: 'woodWindow', solid: true },
+    X: { tile: 'void', solid: true },
+    E: { tile: 'woodDoor' },
+    '.': { tile: 'floor' },
+    ',': { tile: 'floorDots' },
+    _: { tile: 'bathFloor' },
+    r: { tile: 'rug' },
+  },
+  furniture: [
+    { tile: 'drawers', x: 4, y: 1 },
+    { tile: 'shelf', x: 5, y: 1 },
+    { tile: 'chest', x: 7, y: 8 },
+    { tile: 'stool', x: 19, y: 3 },
+    { tile: 'stool', x: 21, y: 3 },
+    { tile: 'tv', x: 20, y: 5 },
+  ],
+  doors: [
+    { x: 19, y: 9, to: 'neighborhood', spawn: { x: 4, y: 5 }, facing: 'down', label: 'Sair para o bairro' },
+  ],
+  spots: [
+    {
+      id: 'house-alarm',
+      label: 'Despertador',
+      tiles: [{ tile: 'nightstandRinging', x: 1, y: 1 }],
+      usedTiles: ['nightstandQuiet'],
+      prompt: 'Desliguei o despertador. Bom dia! Vamos começar a manhã?',
+      challenge: { module: 'routine', part: 'wake' },
+    },
+    {
+      id: 'house-bed',
+      label: 'Cama',
+      tiles: [{ tile: 'bedTop', x: 0, y: 1 }, { tile: 'bedBottom', x: 0, y: 2 }],
+      prompt: 'Esta é a minha cama. Vamos preparar a hora de dormir?',
+      challenge: { module: 'routine', part: 'sleep' },
+    },
+    {
+      id: 'house-toys',
+      label: 'Brinquedos',
+      tiles: [{ tile: 'toys', x: 5, y: 4 }],
+      removeOnUse: true,
+      prompt: 'Guardei os brinquedos. O quarto ficou arrumado.',
+      donePrompt: 'Os brinquedos já estão guardados.',
+    },
+    {
+      id: 'house-sink',
+      label: 'Pia do banheiro',
+      tiles: [{ tile: 'sink', x: 11, y: 1 }],
+      prompt: 'Aqui eu lavo as mãos. Vamos aprender o passo a passo?',
+      challenge: { module: 'routine', part: 'hygiene' },
+    },
+    {
+      id: 'house-fridge',
+      label: 'Geladeira',
+      tiles: [{ tile: 'fridge', x: 17, y: 1 }],
+      prompt: 'Estou com sede. Vamos mostrar o que eu quero?',
+      challenge: { module: 'communication', part: 'home' },
+    },
+    {
+      id: 'house-table',
+      label: 'Mesa da cozinha',
+      tiles: [{ tile: 'table', x: 20, y: 3 }],
+      prompt: 'Hora do lanche! Antes de comer, o que eu faço?',
+      challenge: { module: 'routine', part: 'food' },
+    },
+    {
+      id: 'house-sofa',
+      label: 'Sofá',
+      tiles: [{ tile: 'sofa', x: 20, y: 7 }, { tile: 'sofa', x: 21, y: 7 }],
+      prompt: 'Depois da escola eu descanso. Vamos escolher o que fazer?',
+      challenge: { module: 'routine', part: 'leisure' },
+    },
+    {
+      id: 'house-backpack',
+      label: 'Mochila',
+      tiles: [{ tile: 'backpack', x: 17, y: 8 }],
+      prompt: 'Minha mochila da escola. Vamos arrumar?',
+      challenge: { module: 'routine', part: 'school' },
+    },
+    {
+      id: 'house-cat',
+      label: 'Gato',
+      tiles: [{ tile: 'cat', x: 23, y: 3 }],
+      prompt: 'Este é o meu gato. Vamos conhecer os animais que moram com a gente?',
+      challenge: { module: 'animals', part: 'house' },
+    },
+  ],
+});

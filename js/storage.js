@@ -15,6 +15,7 @@ const KEY_PREFIX = 'mundo-do-aprender:';
 export const STORAGE_KEYS = Object.freeze({
   SETTINGS: 'settings',
   PROGRESS: 'progress',
+  WORLD: 'world',
 });
 
 const memoryFallback = new Map();

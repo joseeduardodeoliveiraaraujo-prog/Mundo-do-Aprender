@@ -44,11 +44,10 @@ export const worldData = Object.freeze({
     animalSays: '{name}: "{sound}" {fact}',
     animalQuiet: '{name}. {sound} {fact}',
     challenge: {
-      progress: 'Atividades feitas: {completed} de {total}',
+      progress: 'Atividades feitas aqui: {completed} de {total}',
       back: 'Voltar a explorar',
-      next: 'Próxima',
       finish: 'Voltar a explorar',
-      allDone: 'Você já fez tudo aqui! Pode fazer de novo, se quiser.',
+      allDone: 'Você já fez tudo aqui! Esta é para fazer de novo, se quiser.',
     },
   }),
 });

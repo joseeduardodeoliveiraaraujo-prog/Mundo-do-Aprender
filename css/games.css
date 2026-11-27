@@ -32,19 +32,6 @@
   gap: var(--space-4);
 }
 
-.activity__progress {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2) var(--space-4);
-}
-
-.activity__part {
-  font-weight: 700;
-  color: var(--module-strong);
-}
-
 .activity__card {
   display: grid;
   overflow: hidden;
@@ -110,15 +97,6 @@
 
 .activity__feedback:empty {
   display: none;
-}
-
-.activity__nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--space-3);
-  padding-top: var(--space-2);
-  border-top: var(--border-thin) solid var(--color-border);
 }
 
 /* ==========================================================================

@@ -14,7 +14,6 @@
 
 import { el } from './dom.js';
 import { createButton } from './button.js';
-import { createStepIndicator } from './progressIndicators.js';
 import { speak } from '../speech.js';
 import { createFeedback } from './feedback.js';
 
@@ -34,21 +33,15 @@ export function showResult(frame, result, complete) {
 }
 
 /**
+ * Moldura de uma atividade dentro do desafio do jogo. A navegação (voltar a
+ * explorar) fica no painel de desafio (js/games/world/challengePanel.js).
  * @param {Object} options
- * @param {string} [options.partTitle]
- * @param {number} options.current          posição da atividade (começa em 1)
- * @param {number} options.total
  * @param {string} options.title
  * @param {string} options.instruction
  * @param {Node} [options.media]
- * @param {(() => void) | null} [options.onPrevious]  null desativa "Anterior"
- * @param {() => void} options.onNext
- * @param {string} [options.nextLabel='Próxima']
  * @returns {{ element: HTMLElement, heading: HTMLElement, choicesSlot: HTMLElement, feedbackSlot: HTMLElement }}
  */
-export function createActivityFrame({
-  partTitle, current, total, title, instruction, media, onPrevious, onNext, nextLabel = 'Próxima',
-}) {
+export function createActivityFrame({ title, instruction, media }) {
   const heading = el('h2', { className: 'activity__title', text: title });
   const instructionText = el('p', { className: 'activity__instruction', text: instruction });
   const announcer = el('p', { className: 'visually-hidden', attrs: { 'aria-live': 'polite' } });
@@ -72,10 +65,6 @@ export function createActivityFrame({
   const feedbackSlot = el('div', { className: 'activity__feedback', attrs: { role: 'status' } });
 
   const element = el('section', { className: 'activity' }, [
-    el('div', { className: 'activity__progress' }, [
-      partTitle && el('p', { className: 'activity__part', text: partTitle }),
-      createStepIndicator({ current, total, label: 'Atividade' }),
-    ]),
     el('div', { className: 'activity__card panel' }, [
       media && el('div', { className: 'activity__media' }, [media]),
       el('div', { className: 'activity__prompt' }, [
@@ -93,24 +82,6 @@ export function createActivityFrame({
     ]),
     choicesSlot,
     feedbackSlot,
-    el('nav', { className: 'activity__nav', attrs: { 'aria-label': 'Navegar entre as atividades' } }, [
-      createButton({
-        label: 'Anterior',
-        variant: 'secondary',
-        icon: 'arrowLeft',
-        className: 'activity__previous',
-        onClick: onPrevious ?? undefined,
-        attrs: { disabled: !onPrevious },
-      }),
-      createButton({
-        label: nextLabel,
-        variant: 'module',
-        icon: 'arrowRight',
-        iconPosition: 'end',
-        className: 'activity__next',
-        onClick: onNext,
-      }),
-    ]),
   ]);
 
   return { element, heading, choicesSlot, feedbackSlot };

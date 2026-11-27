@@ -95,60 +95,9 @@
 
 /* Título longo com texto "Muito grande": desce para baixo do ícone em vez de vazar. */
 
-/* ---------- Barra de progresso ---------- */
-.progress-bar {
-  width: 100%;
-  height: 0.875rem;
-  overflow: hidden;
-  border: var(--border-thin) solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-muted);
-}
-
-.progress-bar__fill {
-  display: block;
-  width: var(--progress, 0%);
-  height: 100%;
-  border-radius: inherit;
-  background-color: var(--module-strong);
-  transition: width var(--transition-base);
-}
-
 /* ---------- Indicador de passos ---------- */
-.step-indicator {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-3);
-}
-
-.step-indicator__steps {
-  display: flex;
-  flex-wrap: wrap; /* muitas etapas ou texto grande: os pontos quebram linha */
-  gap: var(--space-2);
-  padding: 0;
-  list-style: none;
-}
 
 /* Estado também diferenciado por forma (preenchido / anel grosso / anel fino). */
-.step-indicator__step {
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid var(--module-strong);
-  border-radius: 50%;
-}
-
-.step-indicator__step--done {
-  background-color: var(--module-strong);
-}
-
-.step-indicator__step--current {
-  border-width: 5px;
-}
-
-.step-indicator__text {
-  font-weight: 600;
-}
 
 /* ---------- Feedback ---------- */
 .feedback {

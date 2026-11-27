@@ -96,9 +96,8 @@ Para colocar um desafio novo no mundo: crie a atividade nos dados do módulo e, 
 | Ícone de interface | `createIcon(nome)` ou `<span data-icon="nome">` — `components/icons.js` |
 | Botão de ação / link com cara de botão | `createButton` / `createLinkButton` — `components/button.js` (variantes: primary, secondary, ghost, module) |
 | Preencher textos com valores (`'{name}'`) | `fillTemplate` — `components/text.js` |
-| Progresso | `createProgressBar`, `createStepIndicator` — `components/progressIndicators.js` |
 | Feedback | `createFeedback({ tone: 'success' | 'encourage' | 'info' })` — `components/feedback.js` (use `announce: false` dentro de uma região `role="status"`) |
-| Tela de atividade (uma por vez) | `createActivityFrame` — `components/activityFrame.js` (progresso, instrução, "Repetir instrução", Anterior/Próxima) |
+| Tela de atividade | `createActivityFrame` — `components/activityFrame.js` (título, instrução, "Repetir instrução", alternativas e feedback; a saída fica no painel de desafio) |
 | Alternativas de resposta | `createChoiceButton`, `createChoiceGroup`, `setSelectedChoice` — `components/choiceButton.js` (seleção múltipla: controle `aria-pressed` direto) |
 | Ordenar cartões | `createSortableList` — `components/sortableList.js` (Pointer Events + botões ↑/↓) |
 | Quebra-cabeça "peça → lugar" | `createPlacementBoard` — `components/placementBoard.js` (arrastar e soltar com cópia que segue o dedo/mouse, destaque do lugar, rolagem automática na borda, encaixe e retorno animados; toque→toque opcional com `tapToPlace`; teclado sempre). `accepts` decide o que cada lugar aceita (o resto volta, com `onReject`). O módulo posiciona os lugares (`slots`) e reage em `onPlace`. |

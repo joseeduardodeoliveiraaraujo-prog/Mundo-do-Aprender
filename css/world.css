@@ -136,3 +136,12 @@
 .world__actions .button[hidden] {
   display: none;
 }
+
+.challenge__finish {
+  display: flex;
+  justify-content: center;
+}
+
+.challenge__finish[hidden] {
+  display: none;
+}

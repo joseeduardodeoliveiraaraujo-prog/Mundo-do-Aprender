@@ -17,7 +17,7 @@ O app abre direto num **jogo 2D em pixel art, visto de cima** (estilo RPG). A cr
 - **Animais pelo bairro:** vaca, cavalo, galinha e pato na fazendinha; leão, elefante e girafa no zoológico; peixe e tartaruga no rio; macaco na árvore e cachorro perto de casa. Tocar num animal faz o Noa dizer o nome, o som e uma curiosidade (dados de `js/data/animals/catalog.js`).
 - **Escola por dentro:** a porta da escola leva à sala de aula, com quadro, carteiras, a professora Ana (desafio) e os colegas Gabi e Teo, que conversam com o Noa.
 - **Formas de jogar:** tocar no mapa (Noa encontra o caminho), setas ou W A S D + Enter com o mapa focado, ou os botões **Ir até um lugar** e **Começar**.
-- **Desafios:** abrem as atividades daquela parte, uma por vez, começando pela que falta. **Voltar a explorar** retorna ao mapa. O progresso e a posição do Noa ficam salvos.
+- **Desafios:** cada visita a um lugar abre **uma** atividade daquela parte: a próxima que falta (ou, se tudo já foi feito, uma para repetir). Ao terminar, **Voltar a explorar** retorna ao mapa. O progresso e a posição do Noa ficam salvos.
 - **Sem tempo, sem inimigos, sem punição.** Com "Reduzir animações", Noa chega direto e as portas trocam de mapa sem transição.
 - Mapas em `js/data/world/maps/` (uma letra por bloco), fáceis de editar.
 
@@ -84,7 +84,6 @@ Mundo do Aprender/
 │   │   ├── dom.js              # el(): cria elementos com segurança
 │   │   ├── icons.js            # Ícones de interface (SVG embutido)
 │   │   ├── button.js           # createButton / createLinkButton
-│   │   ├── progressIndicators.js # Barra de progresso e indicador de passos
 │   │   ├── activityFrame.js    # Moldura padrão de atividade (instrução, repetir, navegação)
 │   │   ├── choiceButton.js     # Alternativas de resposta
 │   │   ├── sortableList.js     # Cartões reordenáveis (arrastar e soltar + setas)
@@ -127,14 +126,14 @@ Ajustes em relação à estrutura sugerida:
 
 - **Cabeçalho:** logotipo (volta ao jogo), **Ajuda** e **Configurações**. Em telas estreitas, os botões mostram só o ícone.
 - **Tela do jogo:** nome do lugar, **Estrelas: X de 54** (progresso real), botão de som, fala do Noa, mapa, aviso "Perto de você" com **Começar** e a lista **Ir até um lugar**.
-- **Desafio:** nome do módulo e da parte, atividades feitas, **Voltar a explorar** e as atividades uma por vez, com "Anterior"/"Próxima".
+- **Desafio:** nome do módulo e da parte, atividades feitas ali, **Voltar a explorar** no topo e, ao concluir, também embaixo da atividade.
 - **Responsivo:** de 320px a 1920px; o mapa cabe na altura da janela.
 
 > As seções abaixo descrevem as atividades de cada módulo. Elas abrem como desafios dentro do jogo.
 
 ## Mundo das Emoções (Etapa 3, gameplay revisado)
 
-Três partes, uma atividade por vez, com ilustração, alternativas, "Repetir instrução" e "Anterior"/"Próxima":
+Três partes, com ilustração, alternativas e "Repetir instrução":
 
 | Parte | Atividades | Como funciona |
 | --- | --- | --- |

@@ -86,8 +86,10 @@ export function renderDialogue(activity, navigation, complete) {
     const finished = refresh();
     if (!finished) noa.show(texts.keepGoing, 'happy');
     speak(`${card.label}. ${option.reply} ${nextTurn?.say ?? activity.success}`);
-    // O botão tocado saiu da tela: leva o foco para a próxima escolha.
-    (options.querySelector('button') ?? frame.element.querySelector('.activity__next')).focus({ preventScroll: true });
+    // O botão tocado saiu da tela: leva o foco para a próxima escolha (ou ao título, no fim).
+    const nextFocus = options.querySelector('button') ?? frame.heading;
+    if (nextFocus === frame.heading) frame.heading.tabIndex = -1;
+    nextFocus.focus({ preventScroll: true });
     (finished ? frame.feedbackSlot : options).scrollIntoView({ block: 'nearest' });
   }
 

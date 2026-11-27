@@ -16,7 +16,8 @@ O app abre direto num **jogo 2D em pixel art, visto de cima** (estilo RPG). A cr
 
 - **Animais pelo bairro:** vaca, cavalo, galinha e pato na fazendinha; leão, elefante e girafa no zoológico; peixe e tartaruga no rio; macaco na árvore e cachorro perto de casa. Tocar num animal faz o Noa dizer o nome, o som e uma curiosidade (dados de `js/data/animals/catalog.js`).
 - **Escola por dentro:** a porta da escola leva à sala de aula, com quadro, carteiras, a professora Ana (desafio) e os colegas Gabi e Teo, que conversam com o Noa.
-- **Formas de jogar:** tocar no mapa (Noa encontra o caminho), setas ou W A S D + Enter com o mapa focado, ou os botões **Ir até um lugar** e **Começar**.
+- **Formas de jogar:** tocar no mapa (Noa encontra o caminho); setas ou W A S D a qualquer momento (sem rolar a página) e Enter ou Espaço com o mapa focado; ou os botões **Ir até um lugar** e **Começar**.
+- **Tela:** o mapa é o maior possível na altura da janela; em telas largas, a fala do Noa e os botões ficam numa coluna ao lado.
 - **Desafios:** cada visita a um lugar abre **uma** atividade daquela parte: a próxima que falta (ou, se tudo já foi feito, uma para repetir). Ao terminar, **Voltar a explorar** retorna ao mapa. O progresso e a posição do Noa ficam salvos.
 - **Sem tempo, sem inimigos, sem punição.** Com "Reduzir animações", Noa chega direto e as portas trocam de mapa sem transição.
 - **Visual:** pixel art no estilo aconchegante do **Sprout Lands** (Cup Nooble; uso não comercial, com crédito), com Noa e pessoas do **Ninja Adventure** (CC0) e peças próprias. Grama, terra, paredes e cercas se encaixam sozinhas; o Noa anda animado nas 4 direções, tem sombra e passa atrás das copas das árvores. Créditos e licenças em `assets/images/world/CREDITS.md`.

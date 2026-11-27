@@ -94,7 +94,15 @@ export function createGameStage({
       scene: sceneConfig,
     });
 
-    stopListening = onSettingsChange(({ reduceMotion }) => game?.registry.set('reduceMotion', reduceMotion));
+    const stopSettings = onSettingsChange(({ reduceMotion }) => game?.registry.set('reduceMotion', reduceMotion));
+    // O Phaser mede o espaço só ao iniciar: quando o palco muda de tamanho
+    // (layout, giro do tablet, tamanho do texto), ele precisa medir de novo.
+    const resizeObserver = new ResizeObserver(() => game?.scale.refresh());
+    resizeObserver.observe(canvasHost);
+    stopListening = () => {
+      stopSettings();
+      resizeObserver.disconnect();
+    };
     game.events.on('poststep', () => {
       if (!element.isConnected) destroy();
     });

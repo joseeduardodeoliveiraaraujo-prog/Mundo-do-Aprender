@@ -143,6 +143,7 @@ export function render(view) {
       if (near?.challenge && selected === near) startChallenge();
       else if (!world.useNearest()) companion.say(texts.notNear, 'thinking');
     },
+    isActive: () => !explore.hidden,
   });
   const save = () => saveWorldState(world.getState());
   window.addEventListener('pagehide', save);

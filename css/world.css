@@ -3,12 +3,17 @@
    A base do palco está em components.css (.game-stage).
    ========================================================================== */
 
+/* A tela do jogo usa mais largura que as outras telas do app. */
+.app-main:has(.world) {
+  max-width: 120rem;
+  padding-top: var(--space-3);
+}
+
 .world {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
   width: 100%;
-  max-width: 60rem;
   margin-inline: auto;
 }
 
@@ -47,10 +52,33 @@
 }
 
 .world__play .game-stage {
-  /* Cabe na altura da janela (proporção 3:2), para os botões ficarem à vista. */
-  width: min(100%, calc(65vh * 1.5));
+  /* O maior possível, cabendo na altura da janela (proporção 3:2). */
+  width: min(100%, calc((100vh - 13rem) * 1.5));
+  min-width: min(100%, 18rem);
   justify-self: center;
   background-color: var(--color-text);
+}
+
+/* Telas largas: mapa grande à esquerda; fala do Noa e botões numa coluna ao lado. */
+@media (min-width: 64rem) {
+  .world__explore {
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+    grid-template-rows: auto auto 1fr;
+    align-items: start;
+  }
+
+  .world__play {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+  }
+
+  .world__explore > :not(.world__play) {
+    grid-column: 2;
+  }
+
+  .world__play .game-stage {
+    width: min(100%, calc((100vh - 10rem) * 1.5));
+  }
 }
 
 .world__how-to {

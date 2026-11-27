@@ -873,3 +873,43 @@
 .scene-layers__layer.is-visible {
   opacity: 1;
 }
+
+/* ---------- Palco de jogo 2D (components/gameStage.js) ---------- */
+/* A proporção vem do JS (aspect-ratio). O canvas do Phaser ocupa todo o palco. */
+.game-stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: var(--module-soft, var(--color-surface-muted));
+}
+
+.game-stage__canvas,
+.game-stage__canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.game-stage__status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: var(--space-4);
+  color: var(--color-text);
+  font-size: var(--text-base);
+  text-align: center;
+}
+
+/* Palco interativo: foco bem visível (as setas movem o personagem). */
+.game-stage__canvas:focus-visible {
+  outline: 4px solid var(--color-focus);
+  outline-offset: -4px;
+}
+
+/* Pixel art: ampliar sem borrar. */
+.game-stage--pixel canvas {
+  image-rendering: pixelated;
+}

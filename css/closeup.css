@@ -1,0 +1,36 @@
+/* ==========================================================================
+   closeup.css — cenas de perto (js/games/world/closeup/): a pia, o quarto,
+   a mochila e o quadro da rotina, por cima do mapa.
+   ========================================================================== */
+
+/* Cena de perto: no mesmo lugar do mapa, por cima dele. */
+.world__closeup {
+  grid-area: 1 / 1;
+}
+
+.world__closeup {
+  z-index: 1;
+}
+
+.world__closeup[hidden] {
+  display: none;
+}
+
+/* Arrastar e esfregar com o dedo não rola a página. */
+.world__closeup canvas {
+  touch-action: none;
+}
+
+/* Na cena de perto, o painel fica embaixo dela (a cena inteira à vista),
+   e a cena encolhe um pouco para os dois caberem na janela. */
+.world__screen:has(> .world__closeup:not([hidden])) {
+  width: min(100%, calc((100vh - 26rem) * 1.5));
+  min-width: min(100%, 24rem);
+}
+
+.world__screen:has(> .world__closeup:not([hidden])) > .quest-hud,
+.world__screen:has(> .world__closeup:not([hidden])) > .quest-dialog {
+  grid-area: auto;
+  margin: 0;
+  max-height: none;
+}

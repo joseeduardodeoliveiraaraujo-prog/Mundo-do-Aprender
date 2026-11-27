@@ -1,6 +1,6 @@
 """Desenha as molduras em pixel art da interface do jogo (9 partes, para `border-image`).
 
-Uso, na pasta do projeto:  python tools/draw_ui.py
+Uso, na pasta do projeto:  python tools/art/draw_ui.py
 Gera, em assets/images/world/ui/ (12×12 px; cortes de 4 px; o CSS mostra 2×):
   frame-wood.png   moldura de madeira em volta do mapa (meio transparente)
   frame-panel.png  painel creme com relevo, para a caixa de fala e o painel de objetivo
@@ -11,7 +11,7 @@ luz de cima/esquerda e sombra embaixo/direita.
 from pathlib import Path
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / 'assets/images/world/ui'
 OUT.mkdir(parents=True, exist_ok=True)
 SIZE = 12

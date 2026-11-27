@@ -35,12 +35,12 @@ const SCENES = 'assets/images/emotions/scenes';
 
 /** As seis emoções trabalhadas no módulo. */
 const emotions = Object.freeze({
-  happiness: { name: 'Felicidade', face: `${FACES}/happiness.svg` },
-  sadness: { name: 'Tristeza', face: `${FACES}/sadness.svg` },
-  anger: { name: 'Raiva', face: `${FACES}/anger.svg` },
-  fear: { name: 'Medo', face: `${FACES}/fear.svg` },
-  surprise: { name: 'Surpresa', face: `${FACES}/surprise.svg` },
-  calm: { name: 'Calma', face: `${FACES}/calm.svg` },
+  happiness: { name: 'Felicidade', face: `${FACES}/happiness.png` },
+  sadness: { name: 'Tristeza', face: `${FACES}/sadness.png` },
+  anger: { name: 'Raiva', face: `${FACES}/anger.png` },
+  fear: { name: 'Medo', face: `${FACES}/fear.png` },
+  surprise: { name: 'Surpresa', face: `${FACES}/surprise.png` },
+  calm: { name: 'Calma', face: `${FACES}/calm.png` },
 });
 
 /** Formas de comunicar o que sente (parte 3). Todas são válidas. */
@@ -94,11 +94,11 @@ const activities = Object.freeze([
     id: 'emotions-recognize-happiness',
     type: 'recognize',
     part: 'recognize',
-    title: 'O rosto de Ana',
-    instruction: 'Olhe o rosto de Ana. Que emoção ele pode estar mostrando?',
+    title: 'O rosto de Malu',
+    instruction: 'Olhe o rosto de Malu. Que emoção ele pode estar mostrando?',
     image: {
-      src: `${FACES}/happiness.svg`,
-      alt: 'Rosto de Ana. A boca está aberta e curvada para cima. As bochechas estão rosadas.',
+      src: `${FACES}/happiness.png`,
+      alt: 'Rosto de Malu. A boca está aberta e curvada para cima. As bochechas estão rosadas.',
     },
     options: ['sadness', 'happiness', 'anger'],
     answer: 'happiness',
@@ -108,11 +108,11 @@ const activities = Object.freeze([
     id: 'emotions-recognize-sadness',
     type: 'recognize',
     part: 'recognize',
-    title: 'O rosto de Caio',
-    instruction: 'Olhe o rosto de Caio. Que emoção ele pode estar mostrando?',
+    title: 'O rosto de Leo',
+    instruction: 'Olhe o rosto de Leo. Que emoção ele pode estar mostrando?',
     image: {
-      src: `${FACES}/sadness.svg`,
-      alt: 'Rosto de Caio. A boca está curvada para baixo, as sobrancelhas estão levantadas no meio e há uma lágrima perto do olho.',
+      src: `${FACES}/sadness.png`,
+      alt: 'Rosto de Leo. A boca está curvada para baixo, as sobrancelhas estão levantadas no meio e há uma lágrima perto do olho.',
     },
     options: ['surprise', 'calm', 'sadness'],
     answer: 'sadness',
@@ -221,12 +221,12 @@ const activities = Object.freeze([
     type: 'investigate',
     part: 'situation',
     title: 'O barulho da noite',
-    instruction: 'Use a lupa para investigar a cena. Encontre 3 pistas sobre o que aconteceu com Davi.',
+    instruction: 'Use a lupa para investigar a cena. Encontre 3 pistas sobre o que aconteceu com Tom.',
     image: {
       src: `${SCENES}/loud-noise.svg`,
-      alt: 'À noite, Davi está sentado na cama. Perto da porta aparecem ondas de som e a palavra BUM.',
+      alt: 'À noite, Tom está sentado na cama. Perto da porta aparecem ondas de som e a palavra BUM.',
     },
-    character: { name: 'Davi', clue: 2 },
+    character: { name: 'Tom', clue: 2 },
     clues: [
       {
         label: 'A janela',
@@ -241,14 +241,14 @@ const activities = Object.freeze([
         hint: 'Olhe para a palavra BUM.',
       },
       {
-        label: 'Davi',
+        label: 'Tom',
         area: { x: 33, y: 14, w: 21, h: 62 },
         focus: { x: 34, y: 14, w: 19, h: 30 },
-        text: 'Davi acordou e se sentou na cama, no meio da noite.',
+        text: 'Tom acordou e se sentou na cama, no meio da noite.',
         hint: 'Olhe para o menino na cama.',
       },
     ],
-    question: 'O que Davi pode estar sentindo?',
+    question: 'O que Tom pode estar sentindo?',
     options: [
       { emotion: 'calm', fit: 'unlikely', message: 'Lembre das pistas: o barulho foi muito alto e veio de repente. Você pode escolher outro rosto.' },
       { emotion: 'fear', fit: 'likely', message: 'Barulhos altos e inesperados podem dar medo.' },
@@ -259,13 +259,13 @@ const activities = Object.freeze([
     id: 'emotions-investigate-surprise-party',
     type: 'investigate',
     part: 'situation',
-    title: 'A festa de Lia',
-    instruction: 'Use a lupa para investigar a cena. Encontre 3 pistas sobre o que aconteceu com Lia.',
+    title: 'A festa de Nina',
+    instruction: 'Use a lupa para investigar a cena. Encontre 3 pistas sobre o que aconteceu com Nina.',
     image: {
       src: `${SCENES}/surprise-party.svg`,
-      alt: 'Uma sala com bandeirinhas e balões. Lia está em pé e dois amigos estão ao lado dela.',
+      alt: 'Uma sala com bandeirinhas e balões. Nina está em pé e dois amigos estão ao lado dela.',
     },
-    character: { name: 'Lia', clue: 2 },
+    character: { name: 'Nina', clue: 2 },
     clues: [
       {
         label: 'Os enfeites',
@@ -276,18 +276,18 @@ const activities = Object.freeze([
       {
         label: 'Os amigos',
         area: { x: 48, y: 36, w: 38, h: 53 },
-        text: 'Os amigos de Lia prepararam a festa para ela, em segredo.',
+        text: 'Os amigos de Nina prepararam a festa para ela, em segredo.',
         hint: 'Olhe para as duas crianças à direita.',
       },
       {
-        label: 'Lia',
+        label: 'Nina',
         area: { x: 20, y: 35, w: 22, h: 54 },
         focus: { x: 21, y: 34, w: 20, h: 28 },
-        text: 'Lia acabou de entrar na sala. Ela não sabia da festa.',
+        text: 'Nina acabou de entrar na sala. Ela não sabia da festa.',
         hint: 'Olhe para a menina de cabelo amarelo.',
       },
     ],
-    question: 'O que Lia pode estar sentindo?',
+    question: 'O que Nina pode estar sentindo?',
     options: [
       { emotion: 'surprise', fit: 'likely', message: 'Ela não sabia da festa, então pode ter ficado surpresa.' },
       { emotion: 'happiness', fit: 'possible', message: 'Muitas pessoas ficam felizes com uma festa feita para elas.' },

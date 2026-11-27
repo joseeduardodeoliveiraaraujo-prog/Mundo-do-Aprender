@@ -89,7 +89,13 @@ export function render(view) {
       attrs: { src: 'assets/images/world/title.png', alt: texts.imageAlt, width: 192, height: 96 },
     }),
     el('div', { className: 'title-screen__panel' }, [
-      el('h1', { className: 'title-screen__heading', text: texts.heading }),
+      // Título em pixel art (tools/art/draw_title.py); o texto vai no alt, para o leitor de tela.
+      el('h1', { className: 'title-screen__heading', dataset: { pageTitle: texts.heading } }, [
+        el('img', {
+          className: 'title-screen__logo',
+          attrs: { src: 'assets/images/world/title-logo.png', alt: texts.heading, width: 140, height: 18 },
+        }),
+      ]),
       el('p', { className: 'title-screen__subtitle', text: texts.subtitle }),
       menu,
       confirm,

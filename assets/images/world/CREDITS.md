@@ -41,11 +41,11 @@ Pato, elefante, girafa, tartaruga, TV e sofá foram redesenhados no estilo do Sp
 
 ## Pisos e molduras próprios
 
-Desenhados para o Mundo do Aprender na paleta do Sprout Lands: os pisos de madeira, da cozinha e da escola (`floorWood`, `floorKitchen`, `floorSchool` no atlas; `tools/atlas/build_atlas.py`) e as molduras da interface em `ui/` (`frame-wood.png`, `frame-panel.png`; `tools/draw_ui.py`).
+Desenhados para o Mundo do Aprender na paleta do Sprout Lands: os pisos de madeira, da cozinha e da escola (`floorWood`, `floorKitchen`, `floorSchool` no atlas; `tools/atlas/build_atlas.py`) e as molduras da interface em `ui/` (`frame-wood.png`, `frame-panel.png`; `tools/art/draw_ui.py`).
 
 ## Tela inicial (`title.png`)
 
-Montada com peças do próprio atlas (mesmas origens e licenças acima: grama, árvores, flores e placa do Sprout Lands; Noa, Gabi, gato e cachorro do Ninja Adventure) pelo script `tools/draw_title.py`.
+O título `title-logo.png` ("Bairro do Noa") usa uma fonte de pixels própria. A cena foi montada com peças do próprio atlas (mesmas origens e licenças acima: grama, árvores, flores e placa do Sprout Lands; Noa, Gabi, gato e cachorro do Ninja Adventure) pelo script `tools/art/draw_title.py`.
 
 ## Cenas de perto (`closeup/`)
 

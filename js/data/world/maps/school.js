@@ -82,11 +82,12 @@ export const schoolMap = Object.freeze({
     },
     {
       id: 'school-classmate',
-      label: 'Colega Teo',
+      label: 'Colega Téo',
+      name: 'Téo',
       art: 'personTeo',
       x: 10,
       y: 5,
-      prompt: 'Oi, Noa! Eu sou o Teo. Eu gosto de desenhar carros.',
+      prompt: 'Oi, Noa! Eu sou o Téo. Eu gosto de desenhar carros.',
     },
     {
       id: 'school-drawers',

@@ -29,9 +29,19 @@
 }
 
 .title-screen__heading {
+  display: flex;
+  justify-content: center;
+  width: 100%;
   margin: 0;
-  color: var(--color-routine-strong);
-  font-size: var(--text-2xl, 2rem);
+  line-height: 0;
+}
+
+/* Título em pixel art: até 3× o tamanho real (140 px), sem borrar. */
+.title-screen__logo {
+  display: block;
+  width: min(100%, 420px);
+  height: auto;
+  image-rendering: pixelated;
 }
 
 .title-screen__subtitle,

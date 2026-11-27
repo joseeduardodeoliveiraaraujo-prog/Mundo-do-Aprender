@@ -30,6 +30,7 @@ import { createQuestHud } from './world/quest/questHud.js';
 import { createQuestRunner } from './world/quest/questRunner.js';
 import { buildQuest } from './world/quest/adapters/index.js';
 import { animalLine } from './world/quest/adapters/animals.js';
+import { speakerOf, NOA } from './world/quest/adapters/common.js';
 import { createCloseup, createCloseupHost } from './world/closeup/closeup.js';
 
 const { texts } = worldData;
@@ -89,7 +90,9 @@ export function render(view) {
       selected = spot;
       const firstUse = !world.isUsed(spot.id);
       world.markUsed(spot.id);
-      companion.say(promptOf(spot, firstUse), 'happy');
+      // Pessoas falam com a própria voz: o balão mostra o rosto e o nome delas.
+      const who = speakerOf(spot);
+      companion.say(promptOf(spot, firstUse), 'happy', who === NOA ? null : { name: who.name, image: who.face });
     },
   });
 
@@ -149,12 +152,14 @@ export function render(view) {
     });
   }
 
+  // O mapa vem primeiro (no celular ele aparece logo no topo); em telas largas
+  // a fala do Noa e os botões ficam numa coluna ao lado (world.css).
   const explore = el('div', { className: 'world__explore' }, [
-    companion.element,
     el('div', { className: 'world__play' }, [
       el('div', { className: 'world__screen' }, [stage.element, closeupHost, hud.element, dialog.element, board]),
       el('p', { className: 'world__how-to', text: texts.howTo }),
     ]),
+    companion.element,
     el('div', { className: 'world__actions' }, [nearText, startButton]),
     el('details', { className: 'world__places' }, [el('summary', { text: texts.places }), placesList]),
   ]);

@@ -14,3 +14,6 @@ desktop.ini
 
 # Cache do Python (ferramentas em tools/)
 __pycache__/
+
+# Configuração local do Claude Code (a pasta .claude/skills/ pode ser versionada)
+.claude/settings.local.json

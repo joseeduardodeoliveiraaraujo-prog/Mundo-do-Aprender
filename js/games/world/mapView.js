@@ -140,11 +140,15 @@ export function createMapView(scene, { map, model, used, removed, statusOf }) {
     markers.forEach((marker, id) => {
       const status = statusOf(model.spots.find((spot) => spot.id === id));
       marker.setVisible(Boolean(status));
-      if (status) marker.setFrame(status === 'done' ? 'markDone' : 'markTodo');
+      // Alto contraste: marcadores com contorno preto grosso (markTodoHc / markDoneHc).
+      if (status) marker.setFrame(`${status === 'done' ? 'markDone' : 'markTodo'}${scene.registry.get('highContrast') ? 'Hc' : ''}`);
     });
   }
 
   refreshMarkers();
+  // A criança pode ligar o alto contraste com o jogo aberto.
+  scene.registry.events.on('changedata-highContrast', refreshMarkers);
+  scene.events.once('shutdown', () => scene.registry.events.off('changedata-highContrast', refreshMarkers));
 
   return {
     refreshMarkers,

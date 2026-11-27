@@ -45,9 +45,12 @@ Este arquivo orienta qualquer pessoa ou agente de IA que trabalhe no projeto. **
 | `js/data/<modulo>.js` | **Somente dados** das atividades. Sem lógica, sem acesso ao DOM. |
 | `css/global.css` | Tokens, reset e layout do app (cabeçalho, área principal). |
 | `css/components.css` | Estilos dos componentes de `js/components/`. |
-| `css/world.css` | Jogo "Bairro do Noa" e painel de desafio. |
+| `css/world.css` | Jogo "Bairro do Noa": tela, mapa, moldura e painel de desafio. |
+| `css/quest.css` | Missões no mapa: caixa de diálogo, painel de objetivo, cartões de resposta e mesa. |
+| `css/closeup.css` | Cenas de perto (pia, quarto, mochila, quadro da rotina). |
 | `css/title.css` | Tela inicial do jogo. |
 | `tools/` | Ferramentas de desenvolvimento, fora do app (ver `tools/README.md`): servidor sem cache, geradores de arte (atlas, mapas, cenas de perto, molduras, tela inicial) e testes no Chrome sem janela. |
+| `.claude/skills/` | Skills do Claude Code para este projeto (ex.: `pixel-art-art-director`, direção de arte da pixel art). Não são carregadas pelo app. |
 | `css/games.css` | Estrutura comum dos jogos e estilos específicos com prefixo do módulo. |
 | `css/accessibility.css` | Preferências do usuário e recursos de acessibilidade. **Sempre o último CSS.** |
 
@@ -121,6 +124,7 @@ Cada atividade vira uma **missão no mapa** por um tradutor em `js/games/world/q
 - Cartões e painéis: cantos `--radius-xl`, borda fina, sombra `--shadow-sm`. Botões: formato pílula.
 - Sem gradientes, sem sombras pesadas, sem animações decorativas.
 - Ilustrações em `assets/images/modules/` (SVG, estilo chapado, poucas cores da paleta, sem contorno grosso).
+- **Pixel art do jogo:** siga `assets/images/world/PALETTE.md` (tamanho do pixel por cena, contorno `#6b4b5b`, luz de cima/esquerda, 3 tons por material, sombras translúcidas). Desenhe pelos geradores de `tools/` (ver `tools/README.md`).
 - **Media queries:** `1rem` = 16px (padrão do navegador), não 18px. Pontos de quebra atuais: 36rem (576px), 40rem (640px), 48rem (768px), 72rem (1152px).
 - **Cartão clicável:** a área de toque usa `.card__action::after`. Nunca aplique `transform`, `translate`, `filter` ou `position` em `.card__action` ou nos estados dele (`:hover`, `:active`) — isso encolhe a área clicável. Para "pressionado", use `box-shadow`; para hover, mude a cor.
 - Telas devem funcionar de 320px a 1920px sem rolagem horizontal, inclusive com texto "Muito grande".

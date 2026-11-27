@@ -8,11 +8,18 @@
 const IMG = 'assets/images/communication';
 const pic = (name) => `${IMG}/cards/${name}.svg`;
 const routinePic = (name) => `assets/images/routine/${name}.svg`;
-const face = (name) => `assets/images/emotions/faces/${name}.svg`;
+const face = (name) => `assets/images/emotions/faces/${name}.png`; // rostos em pixel art (tools/art/draw_faces.py)
 const person = (id) => ({ neutral: `${IMG}/people/${id}-neutral.svg`, happy: `${IMG}/people/${id}-happy.svg` });
+/** Pessoas que só existem no jogo: o rosto em pixel art (assets/images/world/faces/). */
+const worldPerson = (art) => ({ neutral: `assets/images/world/faces/${art}.png`, happy: `assets/images/world/faces/${art}.png` });
 export const layer = (name) => `${IMG}/layers/${name}.svg`;
 
-/** Noa é a mesma personagem de Minha Rotina. As outras pessoas respondem a Noa. */
+/**
+ * Noa é a mesma personagem de Minha Rotina. As outras pessoas respondem a Noa.
+ * Quem responde numa atividade (`listener`) é a pessoa que está no lugar do mapa
+ * onde ela acontece: Gabi na cozinha, Caio e Bia na praça, a professora Ana e o
+ * Téo na escola. Lia é a vizinha (adulta) da praça.
+ */
 export const people = Object.freeze({
   noa: {
     name: 'Noa',
@@ -26,6 +33,9 @@ export const people = Object.freeze({
   gabi: { name: 'Gabi', poses: person('gabi') },
   lia: { name: 'Lia', poses: person('lia') },
   teo: { name: 'Téo', poses: person('teo') },
+  caio: { name: 'Caio', poses: worldPerson('personKid') },
+  bia: { name: 'Bia', poses: worldPerson('personBia') },
+  ana: { name: 'Ana', poses: worldPerson('personTeacher') },
 });
 
 const scene = (name, alt) => ({ src: `${IMG}/scenes/${name}.svg`, alt, width: 480, height: 300 });

@@ -108,7 +108,34 @@ def sofa():
     return img
 
 
-PIECES = {'elephant': elephant, 'giraffe': giraffe, 'turtle': turtle, 'duck': duck, 'tv': tv, 'sofa': sofa}
+BLACK = (0, 0, 0, 255)
+
+
+def mark_todo_hc():
+    """Balão "!" para o alto contraste: contorno preto de 2 px, fundo branco, "!" preto."""
+    img = canvas()
+    d = ImageDraw.Draw(img)
+    d.rectangle((2, 0, 13, 12), fill=BLACK)
+    d.rectangle((4, 2, 11, 10), fill=WHITE)
+    d.polygon([(5, 12), (9, 12), (5, 15)], fill=BLACK)          # rabinho do balão
+    d.rectangle((7, 3, 8, 7), fill=BLACK)
+    d.rectangle((7, 9, 8, 9), fill=BLACK)                       # "!"
+    return img
+
+
+def mark_done_hc():
+    """Estrela para o alto contraste: contorno preto grosso, amarelo forte."""
+    img = canvas()
+    star = [(8, 0), (10, 5), (15, 5), (11, 9), (13, 15), (8, 11), (3, 15), (5, 9), (1, 5), (6, 5)]
+    d = ImageDraw.Draw(img)
+    d.polygon(star, fill=BLACK)
+    inner = [(8, 3), (9, 7), (12, 7), (10, 9), (11, 12), (8, 10), (5, 12), (6, 9), (4, 7), (7, 7)]
+    d.polygon(inner, fill=(255, 214, 0, 255))
+    return img
+
+
+PIECES = {'elephant': elephant, 'giraffe': giraffe, 'turtle': turtle, 'duck': duck, 'tv': tv, 'sofa': sofa,
+          'markTodoHc': mark_todo_hc, 'markDoneHc': mark_done_hc}
 
 
 def draw_all():

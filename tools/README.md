@@ -6,8 +6,7 @@ Execute sempre **na pasta do projeto**.
 | Ferramenta | Para que serve | Como usar |
 | --- | --- | --- |
 | `serve.py` | Servidor local sem cache (mudanças aparecem ao recarregar) | `python tools/serve.py` → <http://localhost:8123> |
-| `draw_title.py` | Imagem da tela inicial (`assets/images/world/title.png`) | `python tools/draw_title.py` |
-| `draw_ui.py` | Molduras em pixel art da interface (`assets/images/world/ui/`) | `python tools/draw_ui.py` |
+| `art/` | Arte avulsa em pixel art: `draw_title.py` (tela inicial: `title.png`, `title-logo.png`), `draw_faces.py` (rostos das emoções, `assets/images/emotions/faces/*.png`) e `draw_ui.py` (molduras da interface, `assets/images/world/ui/`) | `python tools/art/draw_ui.py` (rostos: `python tools/art/draw_faces.py [previa.png]`) |
 | `closeup/` | Cenas de perto (pia, quarto, mochila, quadro). `pixkit.py` tem a paleta e o contorno automático | `python tools/closeup/draw_bedroom.py . <pasta-da-previa>` |
 | `atlas/build_atlas.py` | Atlas do mapa (`atlas.png` + `js/data/world/atlas.js`). Peças próprias desenhadas em código ficam em `atlas/own_art.py` (prévia: `python tools/atlas/own_art.py previa.png`) | `python tools/atlas/build_atlas.py <pasta-dos-pacotes> tools/atlas/sources/home.png .` |
 | `atlas/compare_atlas.py` | Compara dois atlas peça por peça (faltando, novas, diferentes) | `python tools/atlas/compare_atlas.py <pasta-do-projeto-antes> .` |

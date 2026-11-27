@@ -11,9 +11,9 @@ export const playAndFeelings = [
     prize: 'canPlay',
     title: 'Quero jogar também',
     instruction: 'Arraste um cartão até o balão de Noa.',
-    greeting: 'Téo está com a bola. Eu quero jogar também. Como eu mostro isso?',
+    greeting: 'Caio está com a bola. Eu quero jogar também. Como eu mostro isso?',
     scene: 'playground',
-    listener: 'teo',
+    listener: 'caio',
     before: [layer('ball-far')],
     after: [layer('ball-near')],
     options: [
@@ -30,9 +30,9 @@ export const playAndFeelings = [
     prize: 'ball',
     title: 'Do que vamos brincar?',
     instruction: 'Arraste uma peça para completar a frase.',
-    greeting: 'Téo perguntou do que eu quero brincar. Você escolhe para mim?',
+    greeting: 'Caio perguntou do que eu quero brincar. Você escolhe para mim?',
     scene: 'playground',
-    listener: 'teo',
+    listener: 'caio',
     lines: [[{ text: 'Eu quero brincar de' }, { slot: 'game', label: 'Brincadeira' }]],
     pieces: [
       { card: 'ball', group: 'game' },
@@ -49,10 +49,10 @@ export const playAndFeelings = [
     prize: 'callAdult',
     title: 'O carrinho de Noa',
     instruction: 'Toque em um cartão para Noa responder.',
-    greeting: 'Téo pegou o meu carrinho. O que eu faço?',
+    greeting: 'Caio pegou o meu carrinho. O que eu faço?',
     mood: 'worried',
     scene: 'playground',
-    listener: 'teo',
+    listener: 'caio',
     turns: [
       {
         say: 'Posso brincar com o seu carrinho?',
@@ -85,7 +85,7 @@ export const playAndFeelings = [
     instruction: 'Arraste as peças para montar as frases.',
     greeting: 'Eu quero contar o que eu sinto. Você me ajuda?',
     scene: 'livingRoom',
-    listener: 'gabi',
+    listener: 'bia',
     lines: [
       [{ text: 'Eu sinto' }, { slot: 'feeling', label: 'Sentimento' }],
       [{ text: 'Eu preciso de' }, { slot: 'need', label: 'O que ajuda' }],
@@ -111,7 +111,7 @@ export const playAndFeelings = [
     instruction: 'Toque em um cartão para Noa responder.',
     greeting: 'Eu posso dizer sim ou não. As duas respostas valem.',
     scene: 'playground',
-    listener: 'teo',
+    listener: 'bia',
     turns: [
       {
         say: 'Oi, Noa! Posso te dar um abraço?',
@@ -129,7 +129,7 @@ export const playAndFeelings = [
         ],
       },
     ],
-    success: 'Cada pessoa decide sobre o próprio corpo. Téo perguntou e respeitou a resposta.',
+    success: 'Cada pessoa decide sobre o próprio corpo. Bia perguntou e respeitou a resposta.',
   },
   {
     id: 'communication-feelings-match',

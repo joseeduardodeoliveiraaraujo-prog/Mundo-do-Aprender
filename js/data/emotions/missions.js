@@ -42,14 +42,14 @@ export const matchFeelingsMission = Object.freeze({
     },
     {
       id: 'davi',
-      name: 'Davi',
+      name: 'Tom',
       image: `${SCENES}/loud-noise.svg`,
       portrait: { x: 34, y: 12, w: 19, h: 32 },
       situation: 'Ouviu um BUM no meio da noite.',
       accepts: ['fear'],
       fits: { fear: 'É isso. Aquele barulho me deu medo.' },
       otherwise: 'Hum... acho que não. O barulho foi muito alto e de repente.',
-      hint: 'Davi ouviu um barulho muito alto, no escuro.',
+      hint: 'Tom ouviu um barulho muito alto, no escuro.',
     },
     {
       id: 'pedro',

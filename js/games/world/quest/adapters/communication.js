@@ -11,13 +11,24 @@ import { communicationData } from '../../../../data/communication.js';
 import { NOA, fits } from './common.js';
 
 const { cards, people } = communicationData;
-const FACE_BY_PERSON = Object.freeze({ gabi: 'personGabi', lia: 'personLia', teo: 'personTeo' });
+/** Pessoa dos dados → personagem do mapa (mesma imagem no atlas e no rosto da conversa). */
+const ART_BY_PERSON = Object.freeze({
+  gabi: 'personGabi', lia: 'personLia', teo: 'personTeo', caio: 'personKid', bia: 'personBia', ana: 'personTeacher',
+});
 
-/** Quem responde: a pessoa da atividade (Gabi, Lia, Téo) ou quem está no lugar. */
-function listenerOf(activity, speaker) {
+/**
+ * Quem responde: a pessoa da atividade, ou quem está no lugar. Ela precisa estar
+ * no mapa (de preferência no próprio lugar), senão a conversa mostraria alguém
+ * que a criança não vê: aí avisa no console, para corrigir os dados.
+ */
+function listenerOf(activity, speaker, world) {
   const person = people[activity.listener];
   if (!person) return speaker;
-  return { name: person.name, face: `assets/images/world/faces/${FACE_BY_PERSON[activity.listener]}.png` };
+  const art = ART_BY_PERSON[activity.listener];
+  if (world && !world.spotsWhere((spot) => spot.art === art).length) {
+    console.warn(`[comunicação] "${activity.id}": ${person.name} responde, mas não está neste mapa.`);
+  }
+  return { name: person.name, face: `assets/images/world/faces/${art}.png` };
 }
 
 const cardOption = (option, listener) => ({
@@ -26,13 +37,13 @@ const cardOption = (option, listener) => ({
 });
 
 export const communicationAdapters = {
-  talkCard: (activity, { speaker }) => {
-    const listener = listenerOf(activity, speaker);
+  talkCard: (activity, { speaker, world }) => {
+    const listener = listenerOf(activity, speaker, world);
     return [{ kind: 'choose', speaker: NOA, text: activity.greeting, options: activity.options.map((o) => cardOption(o, listener)) }];
   },
 
-  dialogue: (activity, { speaker }) => {
-    const listener = listenerOf(activity, speaker);
+  dialogue: (activity, { speaker, world }) => {
+    const listener = listenerOf(activity, speaker, world);
     return [
       { kind: 'say', speaker: NOA, text: activity.greeting },
       ...activity.turns.map((turn) => ({
@@ -41,8 +52,8 @@ export const communicationAdapters = {
     ];
   },
 
-  sentence: (activity, { speaker, texts }) => {
-    const listener = listenerOf(activity, speaker);
+  sentence: (activity, { speaker, texts, world }) => {
+    const listener = listenerOf(activity, speaker, world);
     const chosen = {};
     const slots = activity.lines.flat().filter((part) => part.slot);
     // A frase aparece sendo montada: "Eu quero brincar de ___".

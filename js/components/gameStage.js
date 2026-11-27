@@ -6,8 +6,10 @@
  *
  * - O Phaser (js/vendor/) só é baixado quando o primeiro palco é criado.
  * - A cena se ajusta à largura disponível, mantendo a proporção.
- * - "Reduzir animações" fica em `scene.registry.get('reduceMotion')` e é
- *   atualizado quando a preferência muda (evento 'changedata-reduceMotion').
+ * - "Reduzir animações" fica em `scene.registry.get('reduceMotion')` e "Alto
+ *   contraste" em `scene.registry.get('highContrast')`; os dois são atualizados
+ *   quando a preferência muda (eventos 'changedata-reduceMotion' e
+ *   'changedata-highContrast' em `scene.registry.events`).
  * - O Phaser não toca sons (os sons passam por js/audio.js) e não captura o
  *   teclado da página.
  * - O jogo se destrói sozinho quando o palco sai da tela, porque o fluxo
@@ -89,12 +91,19 @@ export function createGameStage({
       input: { keyboard: false, touch: { capture: false } },
       scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
       callbacks: {
-        preBoot: (bootingGame) => bootingGame.registry.set('reduceMotion', getSettings().reduceMotion),
+        preBoot: (bootingGame) => {
+          const { reduceMotion, highContrast } = getSettings();
+          bootingGame.registry.set('reduceMotion', reduceMotion);
+          bootingGame.registry.set('highContrast', highContrast);
+        },
       },
       scene: sceneConfig,
     });
 
-    const stopSettings = onSettingsChange(({ reduceMotion }) => game?.registry.set('reduceMotion', reduceMotion));
+    const stopSettings = onSettingsChange(({ reduceMotion, highContrast }) => {
+      game?.registry.set('reduceMotion', reduceMotion);
+      game?.registry.set('highContrast', highContrast);
+    });
     // O Phaser mede o espaço só ao iniciar: quando o palco muda de tamanho
     // (layout, giro do tablet, tamanho do texto), ele precisa medir de novo.
     const resizeObserver = new ResizeObserver(() => game?.scale.refresh());

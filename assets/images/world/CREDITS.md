@@ -35,6 +35,10 @@ Página: <https://kenney.nl/assets/tiny-town>. Licença **CC0 1.0**. Peças usad
 
 Desenhadas para o Mundo do Aprender e suavizadas na paleta do Sprout Lands: pia, geladeira, sofá, TV, banco da praça, azulejo do banheiro, quadro-negro (3 partes), brinquedos, pato, elefante, girafa, tartaruga e os marcadores de desafio ("!" e estrela). O despertador "tocando" é o relógio do Sprout Lands com traços acrescentados.
 
+## Peças redesenhadas em código
+
+Pato, elefante, girafa, tartaruga, TV e sofá foram redesenhados no estilo do Sprout Lands (contorno, luz e 3 tons por material) em `tools/atlas/own_art.py`, no lugar das versões antigas de `home.png`. A sombra dos personagens (Ninja Adventure, CC0) foi trocada por uma sombra translúcida na cor das sombras do Sprout Lands.
+
 ## Pisos e molduras próprios
 
 Desenhados para o Mundo do Aprender na paleta do Sprout Lands: os pisos de madeira, da cozinha e da escola (`floorWood`, `floorKitchen`, `floorSchool` no atlas; `tools/atlas/build_atlas.py`) e as molduras da interface em `ui/` (`frame-wood.png`, `frame-panel.png`; `tools/draw_ui.py`).

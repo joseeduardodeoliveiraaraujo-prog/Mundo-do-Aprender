@@ -177,7 +177,8 @@ export function createCloseupScene({ def, onAction }) {
         def.pieces.forEach((piece, index) => {
           const sprite = this.add.image(piece.x, piece.y, key(piece.image)).setOrigin(0).setDepth(index + 1);
           sprite.setData('piece', piece).setVisible(!piece.hidden);
-          if (piece.label) sprite.setInteractive({ useHandCursor: true, draggable: Boolean(piece.draggable) });
+          // `exact`: só responde onde há desenho (o toque nas partes transparentes passa para a peça de trás).
+          if (piece.label) sprite.setInteractive({ useHandCursor: true, draggable: Boolean(piece.draggable), pixelPerfect: Boolean(piece.exact) });
           sprites.set(piece.id, sprite);
         });
         marker = this.add.image(0, 0, key('pointer')).setOrigin(0.5, 1).setDepth(40).setVisible(false)

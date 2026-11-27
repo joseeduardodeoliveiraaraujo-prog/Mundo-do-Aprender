@@ -140,6 +140,10 @@ ninja_animal('fish', 'Fish/SpriteSheetYellow.png')
 ninja_animal('monkey', 'Monkey/SpriteSheetBrown.png')
 ninja_animal('lion', 'Lion/SpriteSheetYellow.png', 16, 23)
 pieces['shadow'] = soften(load(f'{NJ}/Actor/Character/Shadow.png'), outline=False)
+# Sombra translúcida na cor das sombras do Sprout Lands (a da vaca é roxa e quase transparente),
+# e não um bloco escuro: um pouco mais forte que a da vaca para aparecer também no piso de madeira.
+pieces['shadow'] = Image.eval(pieces['shadow'].getchannel('A'), lambda a: 64 if a else 0).convert('L')
+pieces['shadow'] = Image.merge('RGBA', (*Image.new('RGB', pieces['shadow'].size, (80, 64, 134)).split(), pieces['shadow']))
 
 # ---------- Peças próprias (home.png), suavizadas ----------
 def own(name, index):
@@ -148,6 +152,10 @@ for name, index in [('markTodo', 12), ('markDone', 13), ('sink', 14), ('fridge',
                     ('bench', 20), ('bathFloor', 21), ('duck', 26), ('elephant', 28), ('giraffe', 29), ('turtle', 30),
                     ('boardLeft', 34), ('boardMiddle', 35), ('boardRight', 36), ('toys', 10)]:
     own(name, index)
+# Peças redesenhadas em código no estilo do Sprout Lands (substituem as de home.png).
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from own_art import draw_all
+pieces.update(draw_all())
 # despertador tocando = relógio do Sprout com traços em cima
 ring = pieces['alarmClock'].copy(); d = ImageDraw.Draw(ring)
 for x0, y0, x1, y1 in [(2, 3, 4, 1), (8, 2, 8, 0), (14, 3, 12, 1)]:
@@ -172,7 +180,10 @@ for row in range(4):
 for name, path in [('personTeacher', 'Woman'), ('personLia', 'Villager4'), ('personDavi', 'Villager3'),
                    ('personKid', 'Child'), ('personBia', 'Villager2'), ('personFarmer', 'OldMan'),
                    ('personKeeper', 'Hunter'), ('personTeo', 'Villager'), ('personGabi', 'Villager5')]:
-    pieces[name] = person_sheet(path).crop((0, 0, T, T))
+    sheet = person_sheet(path)
+    pieces[name] = sheet.crop((0, 0, T, T))  # de frente (padrão)
+    for col, direction in enumerate(DIRS[1:], start=1):  # virada para o Noa: '<nome>-up/left/right'
+        pieces[f'{name}-{direction}'] = sheet.crop((col * T, 0, (col + 1) * T, T))
 
 # ---------- Rostos para a caixa de diálogo (PNG separados, 38×38) ----------
 os.makedirs(f'{PROJECT}/assets/images/world/faces', exist_ok=True)

@@ -7,7 +7,7 @@
  * passa atrás das copas das árvores e na frente dos troncos.
  */
 
-import { TILE_SIZE } from '../../data/world/atlas.js';
+import { TILE_SIZE, ATLAS_FRAMES } from '../../data/world/atlas.js';
 import { terrainPiece, roomPiece, fencePiece, variantOf } from './autotile.js';
 import { sizeOf, fenceCells } from './mapModel.js';
 
@@ -166,6 +166,16 @@ export function createMapView(scene, { map, model, used, removed, statusOf }) {
       const height = (Math.max(...ys) + 1) * TILE_SIZE - top;
       highlight.lineStyle(1, highlightColor, 1);
       highlight.strokeRect(left + 0.5, top + 0.5, width - 1, height - 1);
+    },
+    /**
+     * Uma pessoa vira para um lado (uma vez, sem animação): usa a pose
+     * '<art>-up/left/right' do atlas; 'down' volta à pose de frente.
+     */
+    face(spot, direction) {
+      const [picture] = spotImages.get(spot.id) ?? [];
+      if (!picture || !spot.art?.startsWith('person')) return;
+      const frame = direction === 'down' ? spot.art : `${spot.art}-${direction}`;
+      if (ATLAS_FRAMES[frame]) picture.setFrame(frame);
     },
     /** Mostra o lugar usado: troca a imagem ou tira do mapa. */
     showUsed(spot) {

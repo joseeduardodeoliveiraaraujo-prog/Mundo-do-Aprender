@@ -47,6 +47,12 @@ export const schoolMap = Object.freeze({
     { art: 'chairBack', x: 12, y: 8 },
     { art: 'rugWideGreen', x: 7, y: 3, solid: 'none' },
     { art: 'lampPink', x: 1, y: 8 },
+    { art: 'chairBack', x: 5, y: 5 },
+    { art: 'table', x: 10, y: 1 },
+    { art: 'rugWideBlue', x: 12, y: 6, solid: 'none' },
+    { art: 'cabinet', x: 14, y: 6 },
+    { art: 'plantSmall', x: 14, y: 8 },
+    { art: 'painting0', x: 4, y: 0, solid: 'none' },
   ],
   doors: [
     {

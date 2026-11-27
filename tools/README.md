@@ -9,7 +9,8 @@ Execute sempre **na pasta do projeto**.
 | `draw_title.py` | Imagem da tela inicial (`assets/images/world/title.png`) | `python tools/draw_title.py` |
 | `draw_ui.py` | Molduras em pixel art da interface (`assets/images/world/ui/`) | `python tools/draw_ui.py` |
 | `closeup/` | Cenas de perto (pia, quarto, mochila, quadro). `pixkit.py` tem a paleta e o contorno automático | `python tools/closeup/draw_bedroom.py . <pasta-da-previa>` |
-| `atlas/build_atlas.py` | Atlas do mapa (`atlas.png` + `js/data/world/atlas.js`) | `python tools/atlas/build_atlas.py <pasta-dos-pacotes> tools/atlas/sources/home.png .` |
+| `atlas/build_atlas.py` | Atlas do mapa (`atlas.png` + `js/data/world/atlas.js`). Peças próprias desenhadas em código ficam em `atlas/own_art.py` (prévia: `python tools/atlas/own_art.py previa.png`) | `python tools/atlas/build_atlas.py <pasta-dos-pacotes> tools/atlas/sources/home.png .` |
+| `atlas/compare_atlas.py` | Compara dois atlas peça por peça (faltando, novas, diferentes) | `python tools/atlas/compare_atlas.py <pasta-do-projeto-antes> .` |
 | `maps/` | Mapas (`js/data/world/maps/*.js`), desenhados em `maps_design.py` | `python tools/maps/build_maps.py . <pasta-da-previa> tools/maps/maps_design.py` |
 | `test/` | Testes no Chrome sem janela (DevTools Protocol, Node.js): jogam missões, clicam, arrastam e tiram fotos | ver abaixo |
 
@@ -20,8 +21,9 @@ Execute sempre **na pasta do projeto**.
 pacote. Links em `assets/images/world/CREDITS.md`. `atlas/sources/` tem só peças próprias (`home.png`)
 e o Kenney Tiny Town (`town.png`, CC0).
 
-Ao mudar o atlas, confira que nenhuma peça antiga mudou: o atlas é montado por nome e o índice é
-gerado de novo, então peças novas mudam as posições, mas não os nomes.
+Ao mudar o atlas, confira que só as peças desejadas mudaram (`compare_atlas.py`, com uma cópia do
+`atlas.png` e do `atlas.js` de antes): o atlas é montado por nome e o índice é gerado de novo, então
+peças novas mudam as posições, mas não os nomes.
 
 ## Testes (`test/`)
 
@@ -35,6 +37,8 @@ temporária; as fotos e o log ficam em `<saida>/`.
 - `cdptitle.mjs <saida> <largura>`: tela inicial (Continuar, Novo jogo, Opções).
 - `cdpaudit.mjs <saida> <largura> <posição-json> [preferências-json] [nome] [rota]`: foto de uma tela
   com posição e preferências (alto contraste, tamanho do texto).
+- `cdpreach.mjs <saida> <mapa> <x> <y>`: confere que o Noa chega a todos os lugares do mapa pelo
+  "Ir até" (rode depois de mudar um mapa).
 
 No Git Bash, use `MSYS_NO_PATHCONV=1` antes do comando quando passar uma rota como `#/`
 (senão o Bash troca por um caminho do Windows).

@@ -31,8 +31,17 @@ export const worldData = Object.freeze({
   version: 1,
   maps: Object.freeze({ house: houseMap, neighborhood: neighborhoodMap, school: schoolMap }),
   start: Object.freeze({ map: 'house', x: 3, y: 5, facing: 'down' }),
-  /** Tamanho da janela do jogo, em blocos (a câmera segue Noa em mapas maiores). */
-  view: Object.freeze({ cols: 12, rows: 8 }),
+  /**
+   * Quantos blocos a câmera mostra, pela largura da janela (sempre 3:2). Em telas
+   * largas a câmera fica mais longe (mostra mais do mapa); no celular, mais perto,
+   * para pessoas e objetos continuarem fáceis de tocar. Vale a maior `minWidth`
+   * que couber; é escolhido ao abrir o jogo.
+   */
+  views: Object.freeze([
+    Object.freeze({ minWidth: 0, cols: 12, rows: 8 }),
+    Object.freeze({ minWidth: 640, cols: 15, rows: 10 }),
+    Object.freeze({ minWidth: 1024, cols: 18, rows: 12 }),
+  ]),
   /** Tarefas das atividades de cena da Rotina → lugares do mapa da casa. */
   questBindings: Object.freeze({
     'routine-scene-wake': { alarm: 'house-alarm', curtain: 'house-window', getUp: 'house-bed' },

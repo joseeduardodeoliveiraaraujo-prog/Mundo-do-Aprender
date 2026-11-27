@@ -2,12 +2,14 @@
  * Cena de perto da pia do banheiro (atividade "Lavar as mãos").
  *
  * Formato de uma cena de perto (usado por js/games/world/closeup/):
- *   folder, images   pasta e nomes das imagens (PNG, 1 px = 1 px do jogo, 192×128); a setinha
+ *   folder, images   pasta e nomes das imagens (PNG em pixel art 2×: 1 px de arte = 2 px da
+ *                    cena, que tem 192×128; desenhadas por tools/closeup/); a setinha
  *                    de ajuda vem de closeup/common/
  *   background?      imagem de fundo (padrão: 'background')
  *   label            descrição da cena para leitor de tela
  *   goal             o que fazer, em uma frase
- *   pieces           peças em ordem de profundidade: { id, image, x, y, label?, draggable?, hidden? }
+ *   pieces           peças em ordem de profundidade: { id, image, x, y, label?, draggable?, hidden?, exact? }
+ *                    (exact: o toque só conta onde há desenho, não no retângulo inteiro)
  *                    (sem `label` = enfeite, não responde ao toque)
  *   foam             área onde a espuma aparece
  *   actions          botões que fazem as mesmas ações do toque (teclado e quem não arrasta)
@@ -29,13 +31,13 @@ export const sinkCloseup = Object.freeze({
   label: 'A pia do banheiro vista de perto: a torneira, as mãos de Noa, o sabão e a toalha.',
   goal: 'Lave as mãos de Noa: toque e arraste as coisas da pia.',
   pieces: [
-    { id: 'water', image: 'water', x: 93, y: 49, hidden: true },
-    { id: 'faucet', image: 'faucet-closed', x: 88, y: 38, label: 'Torneira' },
-    { id: 'hands', image: 'hands-dirty', x: 64, y: 62, label: 'Mãos de Noa' },
-    { id: 'soap', image: 'soap', x: 23, y: 73, label: 'Sabão', draggable: true },
-    { id: 'towel', image: 'towel', x: 155, y: 27, label: 'Toalha', draggable: true },
+    { id: 'water', image: 'water', x: 94, y: 50, hidden: true },
+    { id: 'faucet', image: 'faucet-closed', x: 90, y: 38, label: 'Torneira' },
+    { id: 'hands', image: 'hands-dirty', x: 64, y: 58, label: 'Mãos de Noa', exact: true },
+    { id: 'soap', image: 'soap', x: 24, y: 72, label: 'Sabão', draggable: true },
+    { id: 'towel', image: 'towel', x: 152, y: 28, label: 'Toalha', draggable: true },
   ],
-  foam: { x: 72, y: 66, width: 48, height: 22 },
+  foam: { x: 70, y: 62, width: 50, height: 24 },
   actions: [
     { label: 'Usar a torneira', do: { tap: 'faucet' } },
     { label: 'Levar o sabão até as mãos', do: { drag: 'soap', to: 'hands' } },

@@ -46,6 +46,11 @@ export const houseMap = Object.freeze({
     { art: 'rugWidePink', x: 11, y: 7, solid: 'none' },
     { art: 'lampGreen', x: 14, y: 8 },
     { art: 'rugGreen', x: 8, y: 8, solid: 'none' },
+    { art: 'table', x: 7, y: 5 },
+    { art: 'chairBack', x: 7, y: 6 },
+    { art: 'rugWideGreen', x: 4, y: 8, solid: 'none' },
+    { art: 'plantPot', x: 1, y: 5 },
+    { art: 'painting1', x: 6, y: 0, solid: 'none' },
   ],
   doors: [
     {

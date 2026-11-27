@@ -11,3 +11,6 @@ desktop.ini
 # Logs e temporários
 *.log
 *.tmp
+
+# Cache do Python (ferramentas em tools/)
+__pycache__/

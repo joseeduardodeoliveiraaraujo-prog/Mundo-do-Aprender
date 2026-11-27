@@ -93,9 +93,11 @@ export function render(view) {
     },
   });
 
+  // Câmera mais longe em telas largas (worldData.views).
+  const camera = worldData.views.filter(({ minWidth }) => window.innerWidth >= minWidth).at(-1);
   const stage = createGameStage({
-    width: worldData.view.cols * TILE_SIZE,
-    height: worldData.view.rows * TILE_SIZE,
+    width: camera.cols * TILE_SIZE,
+    height: camera.rows * TILE_SIZE,
     label: texts.stageLabel,
     texts,
     interactive: true,

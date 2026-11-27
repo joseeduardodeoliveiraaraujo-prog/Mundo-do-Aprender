@@ -50,6 +50,11 @@ house = {
         {'art': 'rugWidePink', 'x': 11, 'y': 7, 'solid': 'none'},
         {'art': 'lampGreen', 'x': 14, 'y': 8},
         {'art': 'rugGreen', 'x': 8, 'y': 8, 'solid': 'none'},
+        # canto de estudo no meio da casa e um tapete grande (composição: o miolo da sala não fica vazio)
+        {'art': 'table', 'x': 7, 'y': 5}, {'art': 'chairBack', 'x': 7, 'y': 6},
+        {'art': 'rugWideGreen', 'x': 4, 'y': 8, 'solid': 'none'},
+        {'art': 'plantPot', 'x': 1, 'y': 5},
+        {'art': 'painting1', 'x': 6, 'y': 0, 'solid': 'none'},
     ],
     'doors': [{'x': 8, 'y': 10, 'to': 'neighborhood', 'spawn': {'x': 6, 'y': 7}, 'facing': 'down', 'label': 'Sair para o bairro'}],
     'spots': [
@@ -125,7 +130,11 @@ def d(art, x, y, solid='none'): decor.append({'art': art, 'x': x, 'y': y, 'solid
 for (x, y, a) in [(4, 11, 'flowerPink'), (5, 12, 'flowersYellow'), (11, 7, 'flowerBlue'), (13, 6, 'flowersPink'), (20, 6, 'flowerYellow'),
                   (23, 10, 'mushroom'), (29, 6, 'flowersYellow'), (3, 6, 'sprouts'), (31, 15, 'flowerPink'), (12, 18, 'flowersYellow'),
                   (22, 18, 'flowerBlue'), (19, 19, 'mushroomBig'), (16, 22, 'flowersPink'), (24, 15, 'leaves'), (10, 9, 'leaves'),
-                  (37, 11, 'mushroomPurple'), (36, 19, 'flowersPink'), (38, 15, 'flowerBlue')]:
+                  (37, 11, 'mushroomPurple'), (36, 19, 'flowersPink'), (38, 15, 'flowerBlue'),
+                  # canteiros nos gramados vazios (entre as casas e dos lados da praça)
+                  (16, 5, 'flowersYellow'), (19, 5, 'flowerPink'), (17, 6, 'flowerBlue'),
+                  (3, 9, 'flowersYellow'), (6, 10, 'flowerBlue'), (9, 12, 'flowersPink'), (11, 12, 'flowersPink'),
+                  (25, 9, 'flowersPink'), (28, 12, 'flowersYellow'), (29, 9, 'flowerBlue'), (24, 12, 'flowersYellow')]:
     d(a, x, y)
 for (x, y, a) in [(20, 23, 'rockBig'), (31, 20, 'rockSmall'), (2, 23, 'rock'), (11, 23, 'stump'), (33, 4, 'lily'), (34, 20, 'lilyBig'),
                   (33, 23, 'lily')]:
@@ -221,6 +230,12 @@ school = {
         {'art': 'table', 'x': 12, 'y': 7}, {'art': 'chairBack', 'x': 12, 'y': 8},
         {'art': 'rugWideGreen', 'x': 7, 'y': 3, 'solid': 'none'},
         {'art': 'lampPink', 'x': 1, 'y': 8},
+        # cadeira que faltava, mesa da professora e um cantinho de leitura
+        {'art': 'chairBack', 'x': 5, 'y': 5},
+        {'art': 'table', 'x': 10, 'y': 1},
+        {'art': 'rugWideBlue', 'x': 12, 'y': 6, 'solid': 'none'}, {'art': 'cabinet', 'x': 14, 'y': 6},
+        {'art': 'plantSmall', 'x': 14, 'y': 8},
+        {'art': 'painting0', 'x': 4, 'y': 0, 'solid': 'none'},
     ],
     'doors': [{'x': 8, 'y': 9, 'to': 'neighborhood', 'spawn': {'x': 27, 'y': 7}, 'facing': 'down', 'label': 'Sair para o bairro'}],
     'spots': [

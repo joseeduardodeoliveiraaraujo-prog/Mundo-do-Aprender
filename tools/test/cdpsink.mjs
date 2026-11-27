@@ -77,12 +77,12 @@ log('arrasta o sabão com o mouse');
 await drag([31, 77], [96, 80]);
 await wait(1500); log('  → ' + await hudState()); await shot('5-sabao');
 log('esfrega com o mouse');
-{ const r = await rect(); const c = toPage(r, 96, 84); await mouse('mouseMoved', c); await mouse('mousePressed', c);
+{ const r = await rect(); const c = toPage(r, 84, 84); await mouse('mouseMoved', c); await mouse('mousePressed', c);
   for (let i = 0; i < 9; i++) { await mouse('mouseMoved', { x: c.x + (i % 2 ? -1 : 1) * r.width * 12 / 192, y: c.y }); await wait(120); }
   await mouse('mouseReleased', c); }
 await wait(1500); log('  → ' + await hudState()); await shot('6-esfregou');
 log('torneira de novo (toque no canvas)');
-{ const r = await rect(); const p = toPage(r, 108, 60); await mouse('mouseMoved', p); await mouse('mousePressed', p); await mouse('mouseReleased', p); }
+{ const r = await rect(); const p = toPage(r, 100, 44); await mouse('mouseMoved', p); await mouse('mousePressed', p); await mouse('mouseReleased', p); }
 await wait(2500); log('  → ' + await hudState()); await shot('7-enxaguou');
 log('toalha (botão): ' + await clickHud('Levar a toalha até as mãos'));
 await wait(2500); log('  → ' + await hudState()); await shot('8-limpa');

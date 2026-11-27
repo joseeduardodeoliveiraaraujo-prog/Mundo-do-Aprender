@@ -61,7 +61,10 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
   function arriveAt(spot) {
     const here = tileOf(feetPoint(walker.position));
     const cell = spot.cells.find((item) => neighborsOf(here).some((tile) => sameTile(tile, item))) ?? spot.cells[0];
-    if (!sameTile(cell, here)) walker.face(directionBetween(here, cell));
+    if (!sameTile(cell, here)) {
+      walker.face(directionBetween(here, cell));
+      view?.face(spot, directionBetween(cell, here)); // a pessoa olha para o Noa
+    }
     onArrive(spot);
   }
 
@@ -139,7 +142,13 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
 
         const camera = this.cameras.main;
         if (map().background) camera.setBackgroundColor(map().background);
-        camera.setBounds(0, 0, model.cols * TILE_SIZE, model.rows * TILE_SIZE).setRoundPixels(true);
+        // Mapa menor que a visão (casa, escola): fica no meio, com a cor de fundo em volta.
+        const mapWidth = model.cols * TILE_SIZE;
+        const mapHeight = model.rows * TILE_SIZE;
+        camera.setBounds(
+          Math.min(0, Math.floor((mapWidth - camera.width) / 2)), Math.min(0, Math.floor((mapHeight - camera.height) / 2)),
+          Math.max(mapWidth, camera.width), Math.max(mapHeight, camera.height),
+        ).setRoundPixels(true);
         camera.startFollow(walker.sprite, true, isReduced() ? 1 : 0.2, isReduced() ? 1 : 0.2);
         if (!isReduced()) camera.fadeIn(FADE_MS);
 

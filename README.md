@@ -4,24 +4,28 @@ Plataforma educativa digital para crianças de **8 a 12 anos com Transtorno do E
 
 ## O jogo: Bairro do Noa
 
-O app abre direto num **jogo 2D em pixel art, visto de cima** (estilo RPG). A criança leva o Noa livremente pela **casa** (quarto, banheiro, cozinha e sala), pelo **bairro** (praça, fazendinha, zoológico e rio) e pela **escola** (sala de aula). Pessoas e objetos com um balão **!** têm um desafio; quando tudo ali foi feito, o balão vira uma estrela.
+O app abre na **tela inicial** do jogo, com o menu clássico: **Continuar** (só quando há jogo salvo; mostra onde o Noa está e as estrelas), **Novo jogo** (com jogo salvo, pede confirmação antes de apagar as estrelas e a posição; as opções continuam), **Opções** e **Como jogar**. Dentro do jogo, o botão **Tela inicial** volta ao menu.
+
+O jogo é **2D em pixel art, visto de cima** (estilo RPG). A criança leva o Noa livremente pela **casa** (quarto, banheiro, cozinha e sala), pelo **bairro** (praça, fazendinha, zoológico e rio) e pela **escola** (sala de aula). Pessoas e objetos com um balão **!** têm um desafio; quando tudo ali foi feito, o balão vira uma estrela.
 
 | Onde | Desafio (parte do módulo) |
 | --- | --- |
 | Casa: despertador, cama, pia, mesa, sofá, mochila | Minha Rotina: Acordar, Hora de dormir, Higiene, Alimentação, Lazer, Escola |
-| Casa: geladeira · gato | Eu Me Comunico: Em casa · Explorando os Animais: Em casa |
+| Casa: Gabi (na cozinha) · gato | Eu Me Comunico: Em casa · Explorando os Animais: Em casa |
 | Praça: Lia, Davi, banco | Mundo das Emoções: Reconhecer, Detetive, Expressar |
 | Praça: crianças brincando, Bia · Escola: professora Ana | Eu Me Comunico: Brincando, O que eu sinto · Na escola |
 | Fazendinha, placa, zoológico, rio | Explorando os Animais: Fazenda, Cada um no seu lugar, Savana, Rio e floresta |
 
 - **Animais pelo bairro:** vaca, cavalo, galinha e pato na fazendinha; leão, elefante e girafa no zoológico; peixe e tartaruga no rio; macaco na árvore e cachorro perto de casa. Tocar num animal faz o Noa dizer o nome, o som e uma curiosidade (dados de `js/data/animals/catalog.js`).
-- **Escola por dentro:** a porta da escola leva à sala de aula, com quadro, carteiras, a professora Ana (desafio) e os colegas Gabi e Teo, que conversam com o Noa.
+- **Gabi** fica na cozinha da casa do Noa: é com ela que o Noa conversa nos desafios "Em casa" (pedir água, pedir ajuda, escolher o lanche).
+- **Escola por dentro:** a porta da escola leva à sala de aula, com quadro, carteiras, a professora Ana (desafio) e o colega Teo, que conversa com o Noa.
 - **Formas de jogar:** tocar no mapa (Noa encontra o caminho); setas ou W A S D a qualquer momento (sem rolar a página) e Enter ou Espaço com o mapa focado; ou os botões **Ir até um lugar** e **Começar**.
 - **Tela:** o mapa é o maior possível na altura da janela; em telas largas, a fala do Noa e os botões ficam numa coluna ao lado.
+- **Cenas de perto:** algumas atividades abrem o lugar visto de perto, sobre o mapa, e a criança faz cada passo com as mãos. Na pia: tocar na torneira (a água cai e molha as mãos), arrastar o sabão até as mãos, esfregar passando o dedo de um lado para o outro (a espuma cresce), enxaguar e secar com a toalha. No **quarto**, de manhã: desligar o despertador, abrir a cortina (a luz entra) e acordar o Noa; à noite: guardar os brinquedos na caixa, fechar a cortina, levar o Noa até a cama e apagar o abajur (o quarto escurece). Na **mochila**, os objetos vão para dentro da mochila aberta; o que não serve volta com uma pista. No **quadro da rotina**, os cartões do dia (com os pictogramas da rotina) vão para as casas numeradas, seguindo as regras de cada atividade. Ação fora de ordem recebe uma pista e uma setinha parada mostra onde mexer. Botões fazem as mesmas ações (teclado e quem não arrasta).
 - **Desafios:** cada visita a um lugar abre **uma** atividade daquela parte: a próxima que falta (ou, se tudo já foi feito, uma para repetir). Ao terminar, **Voltar a explorar** retorna ao mapa. O progresso e a posição do Noa ficam salvos.
 - **Sem tempo, sem inimigos, sem punição.** Com "Reduzir animações", Noa chega direto e as portas trocam de mapa sem transição.
 - **Visual:** pixel art no estilo aconchegante do **Sprout Lands** (Cup Nooble; uso não comercial, com crédito), com Noa e pessoas do **Ninja Adventure** (CC0) e peças próprias. Grama, terra, paredes e cercas se encaixam sozinhas; o Noa anda animado nas 4 direções, tem sombra e passa atrás das copas das árvores. Créditos e licenças em `assets/images/world/CREDITS.md`.
-- Mapas em `js/data/world/maps/` (uma letra por bloco + objetos, casas e cercas), fáceis de editar. As imagens ficam num atlas único (`assets/images/world/atlas.png` + `js/data/world/atlas.js`).
+- Mapas em `js/data/world/maps/` (uma letra por bloco + objetos, casas e cercas), gerados a partir de `tools/maps/maps_design.py`. As imagens ficam num atlas único (`assets/images/world/atlas.png` + `js/data/world/atlas.js`), gerado por `tools/atlas/build_atlas.py`. Cada ambiente tem seu piso (madeira na casa, lajotas na cozinha, piso claro na escola), e o mapa, a caixa de fala e o painel têm molduras em pixel art. Ferramentas e testes: `tools/README.md`.
 
 ## Tecnologias
 
@@ -38,11 +42,11 @@ Os navegadores bloqueiam ES Modules abertos direto do disco (`file://`). Por iss
 1. Instale a extensão *Live Server* (Ritwick Dey).
 2. Clique com o botão direito em `index.html` e escolha **Open with Live Server**.
 
-**Opção 2: Python** (se estiver instalado)
+**Opção 2: Python** (se estiver instalado). Recomendada durante o desenvolvimento:
 ```bash
-python -m http.server 8000
+python tools/serve.py
 ```
-Depois acesse <http://localhost:8000>.
+Depois acesse <http://localhost:8123>. Esse servidor manda o navegador sempre buscar a versão nova dos arquivos, então uma mudança no código aparece ao recarregar a página. (`python -m http.server 8000` também funciona, mas o navegador pode mostrar arquivos antigos do cache; nesse caso, use Ctrl+F5.)
 
 **Opção 3: Node.js** (se estiver instalado)
 ```bash
@@ -104,7 +108,7 @@ Mundo do Aprender/
 │   ├── vendor/             # Bibliotecas de terceiros, sem alteração (Phaser; ver CREDITS.md)
 │   ├── games/              # Um ponto de entrada por módulo
 │   │   ├── world.js        # Tela principal: o jogo "Bairro do Noa"
-│   │   └── world/          # Motor do jogo (cena, Noa andando, portas, desafios)
+│   │   └── world/          # Motor do jogo (cena, Noa andando, portas, missões em quest/, cenas de perto em closeup/)
 │   └── data/               # Conteúdo das atividades (somente dados)
 └── assets/
     ├── icons/              # logo.svg + ícones dos módulos
@@ -113,7 +117,7 @@ Mundo do Aprender/
     ├── images/routine/     # Minha Rotina: pictogramas, Noa (noa/) e cenas em camadas (scenes/)
     ├── images/animals/     # Animais, habitats e alimentos (originais; ver CREDITS.md)
     ├── images/communication/ # Pessoas, cartões, cenários e camadas de Eu Me Comunico
-    ├── images/world/       # Atlas de pixel art do Bairro do Noa (Sprout Lands, Ninja Adventure, Kenney e peças próprias; ver CREDITS.md)
+    ├── images/world/       # Atlas de pixel art do Bairro do Noa (Sprout Lands, Ninja Adventure, Kenney e peças próprias; ver CREDITS.md), rostos (faces/) e cenas de perto (closeup/)
     └── sounds/
         └── animals/        # Espaço preparado para os sons (ver README.md da pasta)
 ```
@@ -226,6 +230,9 @@ Tudo fica no `localStorage` do navegador, com o prefixo `mundo-do-aprender:`:
 | --- | --- |
 | `mundo-do-aprender:settings` | Preferências de acessibilidade |
 | `mundo-do-aprender:progress` | Por módulo: atividades concluídas e última atividade aberta (`js/progress.js`) |
+| `mundo-do-aprender:world` | Onde o Noa está no jogo: mapa, bloco e direção (`js/games/world/worldState.js`) |
+
+"Novo jogo" apaga `progress` e `world`; as preferências (`settings`) continuam.
 
 Nenhum dado sai do computador.
 

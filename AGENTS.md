@@ -37,15 +37,17 @@ Este arquivo orienta qualquer pessoa ou agente de IA que trabalhe no projeto. **
 | `js/modules.js` | Catálogo dos módulos (fonte única de id, rota, título, ícone, carregamento). |
 | `js/components/` | Peças de interface reutilizáveis, sem conteúdo de atividade (ver seção 5.1). |
 | `js/vendor/` | Bibliotecas de terceiros aprovadas, sem alteração. Origem, versão e licença em `js/vendor/CREDITS.md`. |
-| `js/views/` | Telas que não são jogos (início, avisos). |
+| `js/views/` | Telas que não são jogos: `titleScreen.js` (tela inicial, rota `/`: Continuar, Novo jogo, Opções, Como jogar) e avisos. |
 | `js/games/<modulo>.js` | Ponto de entrada de cada jogo: exporta `render(view, module)`. |
-| `js/games/world.js` | **Tela principal do app**: o jogo "Bairro do Noa" (rota `/`). Liga a cena, as falas de Noa, os botões e os desafios. |
-| `js/games/world/` | Motor do jogo (Phaser, pixel art visto de cima): `worldScene.js` (cena, câmera, portas), `mapView.js` (desenho: encaixe automático, profundidade, sombras, marcadores), `autotile.js` (peças de grama/terra/paredes/cercas pelos vizinhos), `mapModel.js` (o que bloqueia), `freeWalker.js` (Noa andando livremente, animado), `grid.js` (caminho mais curto), `keyboard.js`, `worldState.js` (posição salva) e `challengePanel.js` (abre uma atividade como desafio). |
-| `js/data/world/` | Dados do jogo: `world.js` (mapas, início, textos e formato dos mapas), `atlas.js` (índice das imagens de `assets/images/world/atlas.png`; gerado, não editar à mão) e `maps/<lugar>.js` (um arquivo por mapa). |
+| `js/games/world.js` | **Tela principal do app**: o jogo "Bairro do Noa" (rota `/jogo`). Liga a cena, as falas de Noa, os botões e os desafios. |
+| `js/games/world/` | Motor do jogo (Phaser, pixel art visto de cima): `worldScene.js` (cena, câmera, portas), `mapView.js` (desenho: encaixe automático, profundidade, sombras, marcadores), `autotile.js` (peças de grama/terra/paredes/cercas pelos vizinhos), `mapModel.js` (o que bloqueia), `freeWalker.js` (Noa andando livremente, animado), `grid.js` (caminho mais curto), `keyboard.js`, `worldState.js` (posição salva) e `challengePanel.js` (abre uma atividade como desafio). `quest/`: missões no próprio mapa (`questRunner.js`, `dialogBox.js`, `questHud.js` e `adapters/`, um tradutor atividade → missão por módulo). `closeup/`: cenas de perto, em que a criança faz cada passo com as mãos (`closeupScene.js` desenha e anima; `closeupCard.js` monta cartões com pictograma; `closeup.js` confere as tarefas — em ordem, em qualquer ordem com `needs`, objetos que não servem e regras de sequência — e mostra o painel). |
+| `js/data/world/` | Dados do jogo: `world.js` (mapas, início, textos, formato dos mapas e `questBindings`: passo da atividade → lugar do mapa), `closeups/` (cenas de perto: `sink.js`, `bedroom.js`, `backpack.js`, `board.js`; `index.js` liga atividade → cena; formato descrito em `sink.js`), `atlas.js` (índice das imagens de `assets/images/world/atlas.png`; gerado por `tools/atlas/build_atlas.py`, não editar à mão) e `maps/<lugar>.js` (um arquivo por mapa, gerado por `tools/maps/build_maps.py` a partir de `tools/maps/maps_design.py`). |
 | `js/data/<modulo>.js` | **Somente dados** das atividades. Sem lógica, sem acesso ao DOM. |
 | `css/global.css` | Tokens, reset e layout do app (cabeçalho, área principal). |
 | `css/components.css` | Estilos dos componentes de `js/components/`. |
 | `css/world.css` | Jogo "Bairro do Noa" e painel de desafio. |
+| `css/title.css` | Tela inicial do jogo. |
+| `tools/` | Ferramentas de desenvolvimento, fora do app (ver `tools/README.md`): servidor sem cache, geradores de arte (atlas, mapas, cenas de perto, molduras, tela inicial) e testes no Chrome sem janela. |
 | `css/games.css` | Estrutura comum dos jogos e estilos específicos com prefixo do módulo. |
 | `css/accessibility.css` | Preferências do usuário e recursos de acessibilidade. **Sempre o último CSS.** |
 
@@ -65,9 +67,11 @@ export function render(view, module) {
 
 ### O jogo e os módulos
 
-O app abre direto no jogo "Bairro do Noa". Os módulos continuam existindo como **conteúdo**: cada `js/games/<modulo>.js` exporta `renderChallengeActivity(activity, navigation, complete)`, e um lugar do mapa com `challenge: { module, part }` abre as atividades daquela parte. As rotas antigas (`#/rotina` etc.) levam ao jogo.
+O app abre na tela inicial do jogo "Bairro do Noa" (`#/`); o jogo fica em `#/jogo`. Os módulos continuam existindo como **conteúdo**: cada `js/games/<modulo>.js` exporta `renderChallengeActivity(activity, navigation, complete)`, e um lugar do mapa com `challenge: { module, part }` abre as atividades daquela parte. As rotas antigas (`#/rotina` etc.) levam à tela inicial.
 
 Para colocar um desafio novo no mundo: crie a atividade nos dados do módulo e, se for uma parte nova, adicione um lugar (`spots`) num mapa de `js/data/world/maps/`.
+
+Cada atividade vira uma **missão no mapa** por um tradutor em `js/games/world/quest/adapters/<modulo>.js` (conversa, procurar, pegar e levar). Uma atividade de passos pode virar uma **cena de perto**: desenhe as peças (PNG em `assets/images/world/closeup/<cena>/`), descreva a cena em `js/data/world/closeups/<cena>.js` (peças, ações por passo e animações) e ligue a atividade em `closeups/index.js`. Toda ação da cena precisa de um botão equivalente (`actions`).
 
 ### Adicionar um novo módulo
 

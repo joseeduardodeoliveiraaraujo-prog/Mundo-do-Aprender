@@ -20,12 +20,17 @@ function setupSkipLink(link, target) {
 }
 
 function registerRoutes() {
-  // O app inteiro é o jogo "Bairro do Noa"; os módulos viraram desafios dentro dele.
+  // O app é o jogo "Bairro do Noa": tela inicial em `/` e o jogo em `/jogo`.
+  // Os módulos viraram desafios dentro do jogo.
   registerRoute('/', async (view) => {
+    const title = await import('./views/titleScreen.js');
+    return title.render(view);
+  });
+  registerRoute('/jogo', async (view) => {
     const game = await import('./games/world.js');
     return game.render(view);
   });
-  // Endereços antigos dos módulos levam ao jogo.
+  // Endereços antigos dos módulos levam à tela inicial.
   MODULES.forEach((module) => registerRoute(module.route, () => navigateTo('/')));
 }
 

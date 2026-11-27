@@ -9,7 +9,7 @@
  * atividades nunca exibe progresso inventado.
  */
 
-import { readValue, writeValue, STORAGE_KEYS } from './storage.js';
+import { readValue, writeValue, removeValue, STORAGE_KEYS } from './storage.js';
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -82,4 +82,9 @@ export function getLastActivityId(moduleId) {
  */
 export function saveLastActivity(moduleId, activityId) {
   updateModuleEntry(moduleId, { lastActivityId: activityId ?? null });
+}
+
+/** Apaga todo o progresso (novo jogo). As preferências não mudam. */
+export function resetProgress() {
+  removeValue(STORAGE_KEYS.PROGRESS);
 }

@@ -109,12 +109,23 @@ export function createMapView(scene, { map, model, used, removed, statusOf }) {
   (map.objects ?? []).forEach((item) => placeArt(item.art, item.x, item.y, { flat: item.solid === 'none', lift: item.lift }));
 
   // ---------- Lugares (pessoas, animais, móveis que Noa usa) ----------
-  model.spots.forEach((spot) => {
-    if (removed.has(spot.id) || !spot.art) return;
-    const art = used.has(spot.id) && spot.usedArt ? spot.usedArt : spot.art;
-    const [picture, depth, size] = placeArt(art, spot.x, spot.y, { lift: spot.lift });
+  /** Desenha um lugar. Itens de missão podem usar uma figura carregada (imageKey) em vez do atlas. */
+  function drawSpot(spot) {
+    if (removed.has(spot.id) || (!spot.art && !spot.imageKey)) return;
+    let picture;
+    let depth;
+    let size;
+    if (spot.imageKey) {
+      size = { cols: 1, rows: 1 };
+      depth = (spot.y + 1) * TILE_SIZE;
+      picture = scene.add.image(spot.x * TILE_SIZE, spot.y * TILE_SIZE, spot.imageKey)
+        .setOrigin(0).setDisplaySize(TILE_SIZE, TILE_SIZE).setDepth(depth);
+    } else {
+      const art = used.has(spot.id) && spot.usedArt ? spot.usedArt : spot.art;
+      [picture, depth, size] = placeArt(art, spot.x, spot.y, { lift: spot.lift });
+    }
     const shown = [picture];
-    if (hasShadow(spot)) {
+    if (hasShadow(spot) || spot.imageKey) {
       shown.push(image('shadow', spot.x * TILE_SIZE + (size.cols * TILE_SIZE - 12) / 2, depth - 5, depth - 0.5));
     }
     spotImages.set(spot.id, shown);
@@ -122,7 +133,8 @@ export function createMapView(scene, { map, model, used, removed, statusOf }) {
       markers.set(spot.id, image('markTodo', spot.x * TILE_SIZE + (size.cols * TILE_SIZE - TILE_SIZE) / 2,
         picture.y - MARKER_OFFSET, DEPTH.marker));
     }
-  });
+  }
+  model.spots.forEach(drawSpot);
 
   function refreshMarkers() {
     markers.forEach((marker, id) => {
@@ -136,6 +148,12 @@ export function createMapView(scene, { map, model, used, removed, statusOf }) {
 
   return {
     refreshMarkers,
+    drawSpot,
+    /** Apaga um lugar temporário da tela. */
+    eraseSpot(id) {
+      spotImages.get(id)?.forEach((item) => item.destroy());
+      spotImages.delete(id);
+    },
     /** Contorno fixo (sem piscar) em volta do lugar; null apaga. */
     drawHighlight(spot) {
       highlight.clear();

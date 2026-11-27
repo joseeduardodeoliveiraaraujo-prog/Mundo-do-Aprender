@@ -1,11 +1,12 @@
 /**
- * Painel de desafio: mostra, no lugar do mapa, UMA atividade da parte de um
- * módulo ligada ao lugar (ex.: "Higiene" da Minha Rotina).
+ * Escolha da atividade de um lugar e "mesa sobre o mapa".
  *
- * Abre a primeira atividade ainda não feita; quando todas já foram feitas,
- * abre uma de cada vez, em ordem, para repetir. Ao concluir, aparece
- * "Voltar a explorar". O progresso é salvo como antes (progress.js), então
- * estrelas e marcadores continuam valendo.
+ * nextActivity: a primeira atividade ainda não feita da parte; quando todas já
+ * foram feitas, uma de cada vez, em ordem, para repetir.
+ *
+ * openChallenge: para as atividades que não viram missão no mapa (ex.: montar
+ * o rosto), mostra a atividade num painel sobre o próprio mapa. Ao concluir,
+ * aparece "Voltar a explorar". O progresso é salvo como antes (progress.js).
  */
 
 import { el } from '../../components/dom.js';
@@ -26,6 +27,12 @@ export function challengeProgress({ module: moduleId, part }) {
   return { module, activities, completed: activities.filter(({ id }) => done.has(id)).length, total: activities.length };
 }
 
+/** @returns {{ module, activity, isReplay: boolean }} */
+export function nextActivity(challenge) {
+  const { module, activities } = challengeProgress(challenge);
+  return { module, ...pickActivity(challenge, activities) };
+}
+
 function pickActivity(challenge, activities) {
   const done = new Set(getCompletedActivityIds(challenge.module));
   const pending = activities.findIndex(({ id }) => !done.has(id));
@@ -40,15 +47,16 @@ function pickActivity(challenge, activities) {
  * @param {Object} options
  * @param {HTMLElement} options.container  onde o painel é desenhado
  * @param {{ module: string, part: string }} options.challenge
+ * @param {{ activity: Object, isReplay: boolean }} options.pick  resultado de nextActivity
  * @param {Object} options.texts  worldData.texts.challenge
  * @param {() => void} options.onClose
  * @returns {Promise<void>}
  */
-export async function openChallenge({ container, challenge, texts, onClose }) {
-  const { module, activities } = challengeProgress(challenge);
+export async function openChallenge({ container, challenge, pick, texts, onClose }) {
+  const { module } = challengeProgress(challenge);
   const part = module.data.parts.find(({ id }) => id === challenge.part);
   const game = await module.load();
-  const { activity, isReplay } = pickActivity(challenge, activities);
+  const { activity, isReplay } = pick;
 
   const heading = el('h2', { className: 'challenge__title', text: part.title });
   const progressText = el('p', { className: 'challenge__progress' });

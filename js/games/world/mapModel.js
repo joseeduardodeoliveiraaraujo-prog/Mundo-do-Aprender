@@ -54,10 +54,12 @@ export function buildingCells({ x, y, w, h, door }) {
 export function createMapModel(map, isRemoved) {
   const cols = map.ground[0].length;
   const rows = map.ground.length;
-  const spots = map.spots.map((spot) => ({
+  const withCells = (spot) => ({
     ...spot,
-    cells: spot.cells ?? footprintOf({ ...spot, solid: spot.solid ?? 'base' }),
-  }));
+    // Itens de missão com figura (sem imagem do atlas) ocupam só o próprio bloco.
+    cells: spot.cells ?? (spot.art ? footprintOf({ ...spot, solid: spot.solid ?? 'base' }) : [{ x: spot.x, y: spot.y }]),
+  });
+  const spots = map.spots.map(withCells);
 
   const blocked = new Set([
     ...(map.objects ?? []).flatMap(footprintOf),
@@ -70,6 +72,11 @@ export function createMapModel(map, isRemoved) {
   const spotAt = (tile) => spots.find((spot) => !isRemoved(spot.id) && spot.cells.some((cell) => sameTile(cell, tile))) ?? null;
   const doorAt = (tile) => map.doors.find((door) => sameTile(door, tile)) ?? null;
 
+  const isWalkable = (tile) => {
+    if (!inside(tile) || legendAt(tile).solid || blocked.has(keyOf(tile))) return false;
+    return !spotAt(tile);
+  };
+
   return {
     cols,
     rows,
@@ -78,9 +85,41 @@ export function createMapModel(map, isRemoved) {
     legendAt,
     spotAt,
     doorAt,
-    isWalkable(tile) {
-      if (!inside(tile) || legendAt(tile).solid || blocked.has(keyOf(tile))) return false;
-      return !spotAt(tile);
+    isWalkable,
+    /** Lugar temporário (item de missão, pista); devolve o lugar com `cells`. */
+    addSpot(spot) {
+      const added = withCells(spot);
+      spots.push(added);
+      return added;
+    },
+    removeSpot(id) {
+      const index = spots.findIndex((spot) => spot.id === id);
+      if (index >= 0) spots.splice(index, 1);
+    },
+    /**
+     * Blocos livres perto de um lugar, do mais perto para o mais longe, sem
+     * encostar em outros objetos (para espalhar itens de missão).
+     */
+    freeCellsNear(origin, count, minDistance = 2) {
+      const found = [];
+      const seen = new Set([keyOf(origin)]);
+      const queue = [{ ...origin, distance: 0 }];
+      const roomy = ({ x, y }) => [[0, 1], [0, -1], [1, 0], [-1, 0]].every(([dx, dy]) => !spotAt({ x: x + dx, y: y + dy }));
+      while (queue.length && found.length < count) {
+        const current = queue.shift();
+        if (current.distance >= minDistance && isWalkable(current) && roomy(current)
+          && !found.some((cell) => Math.abs(cell.x - current.x) + Math.abs(cell.y - current.y) < 2)) {
+          found.push({ x: current.x, y: current.y });
+        }
+        [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
+          const next = { x: current.x + dx, y: current.y + dy, distance: current.distance + 1 };
+          if (!seen.has(keyOf(next)) && inside(next) && (isWalkable(next) || next.distance <= 1)) {
+            seen.add(keyOf(next));
+            queue.push(next);
+          }
+        });
+      }
+      return found;
     },
     /** Distância (em pixels) de um ponto até o bloco mais próximo do lugar. */
     distanceToSpot(spot, point) {

@@ -184,11 +184,12 @@ export const neighborhoodMap = Object.freeze({
     },
     {
       id: 'hood-play',
-      label: 'Crianças brincando',
+      label: 'Amigo Caio',
+      name: 'Caio',
       art: 'personKid',
       x: 15,
       y: 15,
-      prompt: 'Eles estão brincando. Vamos aprender a entrar na brincadeira?',
+      prompt: 'Oi, eu sou o Caio. Estou brincando. Vamos aprender a entrar na brincadeira?',
       challenge: { module: 'communication', part: 'play' },
     },
     {
@@ -220,11 +221,12 @@ export const neighborhoodMap = Object.freeze({
     },
     {
       id: 'hood-zoo',
-      label: 'Tratador do zoológico',
+      label: 'Tratador Rui',
+      name: 'Rui',
       art: 'personKeeper',
       x: 25,
       y: 17,
-      prompt: 'Este é o zoológico. Vamos ver os animais da savana?',
+      prompt: 'Oi, eu sou o Rui, tratador do zoológico. Vamos ver os animais da savana?',
       challenge: { module: 'animals', part: 'savanna' },
     },
     {

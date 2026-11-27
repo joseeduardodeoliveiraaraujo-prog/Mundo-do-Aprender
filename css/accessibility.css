@@ -97,6 +97,18 @@ h2[tabindex="-1"]:focus {
   --shadow-md: none;
 }
 
+:root[data-contrast="high"] .quest-dialog,
+:root[data-contrast="high"] .quest-hud {
+  border: var(--border-width) solid var(--color-text);
+  border-image: none;
+  background-color: var(--color-surface);
+}
+
+:root[data-contrast="high"] .world__play .game-stage::after {
+  border: var(--border-width) solid var(--color-text);
+  border-image: none;
+}
+
 :root[data-contrast="high"] a {
   text-decoration-thickness: 2px;
 }

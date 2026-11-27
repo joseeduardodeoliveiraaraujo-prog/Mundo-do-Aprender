@@ -1,50 +1,42 @@
 /**
  * Jogo "Bairro do Noa": a tela principal do Mundo do Aprender.
  *
- * Noa anda livremente pela casa e pelo bairro. Lugares com balão abrem os
- * desafios (as atividades dos módulos) no painel de desafio. O mapa é
- * desenhado pelo Phaser (./world/worldScene.js); falas, botões e desafios
- * ficam em HTML.
+ * Noa anda livremente pela casa, pelo bairro e pela escola. Lugares com balão
+ * têm desafios que acontecem no próprio mapa (./world/quest/): conversas de
+ * RPG, procurar coisas, pegar e levar itens, ou uma cena de perto
+ * (./world/closeup/) em que a criança faz cada passo com as mãos. O que não vira missão abre na
+ * mesa sobre o mapa. O mapa é desenhado pelo Phaser; falas e botões em HTML.
  *
- * Formas de jogar, todas completas: tocar no mapa; setas/WASD + Enter com o
- * palco focado; botões "Ir até um lugar" e "Começar".
+ * Formas de jogar, todas completas: tocar no mapa; setas/WASD e Enter;
+ * botões "Ir até um lugar" e "Começar".
  */
 
 import { el } from '../components/dom.js';
-import { createButton } from '../components/button.js';
+import { createButton, createLinkButton } from '../components/button.js';
 import { createGameStage } from '../components/gameStage.js';
 import { createCompanion } from '../components/companion.js';
 import { createSoundToggle } from '../components/soundToggle.js';
 import { fillTemplate } from '../components/text.js';
-import { MODULES } from '../modules.js';
-import { getModuleProgress } from '../progress.js';
 import { worldData } from '../data/world/world.js';
+import { closeups } from '../data/world/closeups/index.js';
 import { TILE_SIZE } from '../data/world/atlas.js';
-import { routineData } from '../data/routine.js';
-import { animalsData } from '../data/animals.js';
 import { createWorldScene } from './world/worldScene.js';
-import { openChallenge, challengeProgress } from './world/challengePanel.js';
+import { totalStars } from './world/stars.js';
+import { openChallenge, challengeProgress, nextActivity } from './world/challengePanel.js';
 import { bindWorldKeys } from './world/keyboard.js';
 import { loadWorldState, saveWorldState } from './world/worldState.js';
+import { createDialogBox } from './world/quest/dialogBox.js';
+import { createQuestHud } from './world/quest/questHud.js';
+import { createQuestRunner } from './world/quest/questRunner.js';
+import { buildQuest } from './world/quest/adapters/index.js';
+import { animalLine } from './world/quest/adapters/animals.js';
+import { createCloseup, createCloseupHost } from './world/closeup/closeup.js';
 
 const { texts } = worldData;
 
-function totalStars() {
-  return MODULES.reduce((sum, module) => {
-    const { completed, total } = getModuleProgress(module.id, module.data.activities);
-    return { completed: sum.completed + completed, total: sum.total + total };
-  }, { completed: 0, total: 0 });
-}
-
-/** O que Noa diz ao chegar num lugar. Animais usam os dados do módulo de animais. */
+/** O que Noa diz ao chegar num lugar fora de uma missão. */
 function promptOf(spot, firstUse) {
-  if (spot.animal) {
-    const animal = animalsData.animals[spot.animal];
-    // Som entre parênteses é uma explicação (ex.: o peixe), não um som para imitar.
-    const sound = animal.sound.text.replace(/^\((.*)\)$/, '$1');
-    const template = sound === animal.sound.text ? texts.animalSays : texts.animalQuiet;
-    return fillTemplate(template, { name: animal.name, sound, fact: animal.fact });
-  }
+  if (spot.animal && !spot.challenge) return animalLine(spot.animal, texts);
   return !firstUse && spot.donePrompt ? spot.donePrompt : spot.prompt;
 }
 
@@ -52,11 +44,11 @@ export function render(view) {
   const place = el('h1', { className: 'world__place' });
   const stars = el('p', { className: 'world__stars' });
   const soundToggle = createSoundToggle();
-  const companion = createCompanion({ character: routineData.companion, mood: 'happy' });
+  const companion = createCompanion({ character: worldData.companion, mood: 'happy' });
   const nearText = el('p', { className: 'world__near', text: texts.nearNothing });
   const startButton = createButton({ label: texts.start, variant: 'module', icon: 'arrowRight', iconPosition: 'end', onClick: () => startChallenge() });
   const placesList = el('div', { className: 'world__places-list' });
-  const challengeArea = el('div', { className: 'world__challenge' });
+  const board = el('div', { className: 'world__board', attrs: { hidden: true } });
   let near = null;
   let selected = null;
 
@@ -89,9 +81,10 @@ export function render(view) {
       near = spot;
       if (spot !== selected) selected = null;
       nearText.textContent = spot ? fillTemplate(texts.nearSpot, spot) : texts.nearNothing;
-      startButton.hidden = !spot?.challenge;
+      startButton.hidden = !spot?.challenge || runner.isActive;
     },
     onArrive: (spot) => {
+      if (runner.handleArrive(spot)) return;
       if (spot.challenge && selected === spot) { startChallenge(); return; }
       selected = spot;
       const firstUse = !world.isUsed(spot.id);
@@ -109,49 +102,78 @@ export function render(view) {
     pixelArt: true,
     createScene: world.createScene,
   });
-  const explore = el('div', { className: 'world__explore' }, [
-    companion.element,
-    el('div', { className: 'world__play' }, [stage.element, el('p', { className: 'world__how-to', text: texts.howTo })]),
-    el('div', { className: 'world__actions' }, [nearText, startButton]),
-    el('details', { className: 'world__places' }, [el('summary', { text: texts.places }), placesList]),
-  ]);
 
+  const afterChallenge = (message) => {
+    selected = null;
+    world.refreshMarkers();
+    refreshStars();
+    startButton.hidden = !near?.challenge;
+    companion.show(message, 'happy');
+    stage.surface.focus({ preventScroll: true });
+  };
+  const dialog = createDialogBox({ texts: texts.quest, onStop: () => runner.stop() });
+  const hud = createQuestHud({ texts: texts.quest, onStop: () => runner.stop() });
+  const closeupHost = createCloseupHost();
+  const closeup = createCloseup({
+    host: closeupHost, hud, texts, onOpen: () => world.pause(), onClose: () => world.resume(),
+  });
+  const runner = createQuestRunner({
+    world, dialog, hud, closeup, texts: texts.quest,
+    onEnd: (completed) => afterChallenge(completed ? texts.quest.finished : texts.quest.stopped),
+  });
+
+  /** Começa o desafio do lugar: missão no mapa ou, se não houver tradução, a mesa sobre o mapa. */
   async function startChallenge() {
     const spot = near?.challenge ? near : selected;
-    if (!spot?.challenge) return;
+    if (!spot?.challenge || runner.isActive || !board.hidden) return;
     saveWorldState(world.getState());
+    startButton.hidden = true;
+    const pick = nextActivity(spot.challenge);
+    const quest = buildQuest(pick.module.id, pick.activity, {
+      spot, world, texts: { ...texts.quest, animalSays: texts.animalSays, animalQuiet: texts.animalQuiet },
+      bindings: worldData.questBindings[pick.activity.id] ?? {},
+      closeup: closeups[pick.activity.id],
+    });
+    if (quest) { runner.start(quest); return; }
     world.pause();
-    explore.hidden = true;
+    board.hidden = false;
     await openChallenge({
-      container: challengeArea,
-      challenge: spot.challenge,
-      texts: texts.challenge,
+      container: board, challenge: spot.challenge, pick, texts: texts.challenge,
       onClose: () => {
-        explore.hidden = false;
-        selected = null;
+        board.hidden = true;
         world.resume();
-        world.refreshMarkers();
-        refreshStars();
-        stage.surface.focus({ preventScroll: true });
+        afterChallenge(texts.quest.finished);
       },
     });
   }
 
+  const explore = el('div', { className: 'world__explore' }, [
+    companion.element,
+    el('div', { className: 'world__play' }, [
+      el('div', { className: 'world__screen' }, [stage.element, closeupHost, hud.element, dialog.element, board]),
+      el('p', { className: 'world__how-to', text: texts.howTo }),
+    ]),
+    el('div', { className: 'world__actions' }, [nearText, startButton]),
+    el('details', { className: 'world__places' }, [el('summary', { text: texts.places }), placesList]),
+  ]);
+
   const unbindKeys = bindWorldKeys(stage.surface, {
     onDirection: (x, y) => world.setDirection(x, y),
     onUse: () => {
-      if (near?.challenge && selected === near) startChallenge();
+      if (!runner.isActive && near?.challenge && selected === near) startChallenge();
       else if (!world.useNearest()) companion.say(texts.notNear, 'thinking');
     },
-    isActive: () => !explore.hidden,
+    isActive: () => !dialog.isOpen && board.hidden && !closeup.isOpen,
   });
   const save = () => saveWorldState(world.getState());
   window.addEventListener('pagehide', save);
 
   view.append(el('section', { className: 'world', dataset: { module: 'routine' } }, [
-    el('div', { className: 'world__top' }, [place, stars, soundToggle.element]),
+    el('div', { className: 'world__top' }, [
+      place, stars, soundToggle.element,
+      createLinkButton({ href: '#/', label: texts.menu, variant: 'ghost', icon: 'arrowLeft', className: 'world__menu' }),
+    ]),
     explore,
-    challengeArea,
   ]));
   startButton.hidden = true;
   place.textContent = worldData.maps[loadWorldState(worldData).map].name;
@@ -159,6 +181,7 @@ export function render(view) {
   companion.show(texts.greeting, 'happy');
 
   return () => {
+    runner.stop();
     save();
     window.removeEventListener('pagehide', save);
     unbindKeys();

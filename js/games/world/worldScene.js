@@ -11,6 +11,7 @@ import { findPath, neighborsOf, directionBetween } from './grid.js';
 import { createMapModel } from './mapModel.js';
 import { createFreeWalker } from './freeWalker.js';
 import { createMapView, ATLAS_KEY } from './mapView.js';
+import { createQuestObjects } from './questObjects.js';
 
 const MAX_STEP_MS = 100;  // evita saltos depois de uma pausa da aba
 const REACH = 10;         // pixels entre os pés de Noa e o lugar para valer "perto"
@@ -43,6 +44,8 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
   let lastTile = null;
   let lastTime = 0;
   let changingMap = false;
+  let doorsLocked = false;
+  const questObjects = createQuestObjects({ scene: () => scene, model: () => model, view: () => view, walker: () => walker });
 
   const isReduced = () => scene?.registry.get('reduceMotion') === true;
   const map = () => data.maps[current.map];
@@ -119,6 +122,7 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
         changingMap = false;
         near = null;
         hovered = null;
+        questObjects.reset();
         model = createMapModel(map(), (id) => removed.has(id));
         view = createMapView(this, { map: map(), model, used, removed, statusOf });
 
@@ -155,9 +159,10 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
         const tile = tileOf(feetPoint(walker.position));
         if (!changingMap && !sameTile(tile, lastTile)) {
           lastTile = tile;
-          const door = model.doorAt(tile);
+          const door = doorsLocked ? null : model.doorAt(tile);
           if (door) { changeMap(door); return; }
         }
+        questObjects.update();
         updateNear();
         view.drawHighlight(hovered ?? near);
       },
@@ -193,6 +198,13 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
       }
     },
     isUsed: (id) => used.has(id),
+    /** Objetos de missão (itens, pistas, item carregado). */
+    quest: questObjects,
+    /** Durante uma missão, as portas não trocam de mapa. */
+    lockDoors(locked) { doorsLocked = locked; },
+    spotById: (id) => model?.spots.find((spot) => spot.id === id) ?? null,
+    spotsWhere: (test) => model?.spots.filter(test) ?? [],
+    freeCellsNear: (origin, count) => model?.freeCellsNear(origin, count) ?? [],
     refreshMarkers() { view?.refreshMarkers(); },
     pause() { walker?.hold(0, 0); scene?.scene.pause(); },
     resume() { scene?.scene.resume(); },

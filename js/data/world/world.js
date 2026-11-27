@@ -14,7 +14,7 @@
  *   fences              [{ x, y, w, h, gaps: [[x, y]] }] cerca retangular com porteiras
  *   doors               [{ x, y, to, spawn: {x,y}, facing, label }] passagem para outro mapa
  *   spots               lugares que Noa usa:
- *     { id, label, art + x + y (ou cells: [{x,y}]), prompt, solid?, lift?,
+ *     { id, label, name? (nome de quem fala na conversa), art + x + y (ou cells: [{x,y}]), prompt, solid?, lift?,
  *       challenge?: { module, part }   abre uma atividade daquela parte do módulo
  *       usedArt?                       troca a imagem no primeiro uso
  *       removeOnUse?, donePrompt?      objeto que some ao ser usado
@@ -33,6 +33,20 @@ export const worldData = Object.freeze({
   start: Object.freeze({ map: 'house', x: 3, y: 5, facing: 'down' }),
   /** Tamanho da janela do jogo, em blocos (a câmera segue Noa em mapas maiores). */
   view: Object.freeze({ cols: 12, rows: 8 }),
+  /** Tarefas das atividades de cena da Rotina → lugares do mapa da casa. */
+  questBindings: Object.freeze({
+    'routine-scene-wake': { alarm: 'house-alarm', curtain: 'house-window', getUp: 'house-bed' },
+    'routine-scene-bedtime': { toys: 'house-toys', curtain: 'house-window', bed: 'house-bed', lamp: 'house-lamp' },
+  }),
+  /** Noa no balão ao lado do mapa: o mesmo rosto em pixel art da caixa de fala (38×38). */
+  companion: Object.freeze({
+    name: 'Noa',
+    poses: Object.freeze({
+      neutral: 'assets/images/world/faces/noa.png',
+      happy: 'assets/images/world/faces/noa.png',
+      thinking: 'assets/images/world/faces/noa.png',
+    }),
+  }),
   texts: Object.freeze({
     loading: 'Preparando o mundo…',
     error: 'Não foi possível abrir o jogo. Atualize a página para tentar de novo.',
@@ -48,11 +62,70 @@ export const worldData = Object.freeze({
     notNear: 'Chegue mais perto de alguma coisa para usar.',
     animalSays: '{name}: "{sound}" {fact}',
     animalQuiet: '{name}. {sound} {fact}',
+    menu: 'Tela inicial',
+    title: {
+      heading: 'Bairro do Noa',
+      subtitle: 'Explore a casa, o bairro e a escola junto com o Noa.',
+      imageAlt: 'Noa e Gabi num gramado com árvores e flores, junto com um cachorro e um gato.',
+      continue: 'Continuar',
+      continueInfo: 'Noa está em: {place} · Estrelas: {completed} de {total}',
+      newGame: 'Novo jogo',
+      options: 'Opções',
+      help: 'Como jogar',
+      confirmTitle: 'Começar um novo jogo?',
+      confirmText: 'As estrelas e o lugar onde o Noa estava vão ser apagados. As opções continuam iguais.',
+      confirmYes: 'Sim, começar do zero',
+      confirmNo: 'Não, voltar',
+    },
     challenge: {
       progress: 'Atividades feitas aqui: {completed} de {total}',
       back: 'Voltar a explorar',
       finish: 'Voltar a explorar',
       allDone: 'Você já fez tudo aqui! Esta é para fazer de novo, se quiser.',
+    },
+    quest: {
+      conversation: 'Conversa',
+      answers: 'Respostas',
+      continue: 'Continuar',
+      stop: 'Parar o desafio',
+      goal: 'Objetivo do desafio',
+      checklist: 'O que falta',
+      done: 'Conseguimos! Você ganhou uma estrela.',
+      stopped: 'Tudo bem, paramos. Você pode voltar quando quiser.',
+      finished: 'Desafio feito! Vamos explorar mais?',
+      alreadyFound: 'Esse já foi. Vamos procurar o que falta?',
+      notThis: 'Agora estamos fazendo o desafio. Você pode parar quando quiser.',
+      carrying: 'Carregando: {label}',
+      goTo: 'Ir até: {label}',
+      pick: 'Pegar: {label}',
+      bringTo: 'Levar até: {label}',
+      handsFree: 'Mãos livres: toque em um item no chão para pegar.',
+      bringSomething: 'Primeiro, pegue um item no chão e traga até aqui.',
+      bringFood: 'Primeiro, pegue uma comida no chão e traga até aqui.',
+      whatNext: 'O que vem em {n}º lugar?',
+      packed: '{label} está na mochila.',
+      putInBag: 'Pôr na mochila: {label}',
+      putOnBoard: 'Pôr no quadro: {label}',
+      onBoard: '{n}º: {label}.',
+      boardGoal: 'Monte o quadro da rotina: arraste os cartões até o quadro, na ordem.',
+      cluesIntro: 'Ande pelo bairro e encontre as lupas: cada uma mostra uma pista.',
+      findClues: 'Encontre as lupas com as pistas',
+      howFeels: '{name}: {situation} Como {name} se sente?',
+      calmCorner: 'Vamos montar um cantinho da calma aqui no banco? Os objetos estão no chão.',
+      calmCornerGoal: 'Leve até o banco o que ajuda a ficar calmo',
+      exploreIntro: 'Vamos conhecer os animais daqui? Ande até cada um.',
+      exploreMore: 'Agora vamos conhecer os outros animais daqui? Ande até cada um.',
+      foundAnimal: 'Achei: {name}!',
+      whoMakesSound: 'Quem faz "{sound}"? Ande até esse animal.',
+      whoMakesSoundHere: 'Quem faz "{sound}"? Escolha o animal.',
+      feedIntro: 'Hora de comer! As comidas estão no chão. Leve a comida certa até: {name}.',
+      feedGoal: 'Leve a comida certa até: {name}',
+      whereLives: 'Onde vive: {name}?',
+      livesThere: 'Isso! {name}: {place}.',
+      sentencePart: '{sentence} — escolha: {label}.',
+      sentenceDone: 'Minha frase: {sentence}',
+      whereHelps: 'Em que situação o cartão "{label}" ajuda?',
+      helpsThere: 'Isso! "{card}" ajuda quando: {situation}.',
     },
   }),
 });

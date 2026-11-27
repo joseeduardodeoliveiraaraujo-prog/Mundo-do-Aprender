@@ -34,3 +34,15 @@ Página: <https://kenney.nl/assets/tiny-town>. Licença **CC0 1.0**. Peças usad
 ## Peças próprias do projeto
 
 Desenhadas para o Mundo do Aprender e suavizadas na paleta do Sprout Lands: pia, geladeira, sofá, TV, banco da praça, azulejo do banheiro, quadro-negro (3 partes), brinquedos, pato, elefante, girafa, tartaruga e os marcadores de desafio ("!" e estrela). O despertador "tocando" é o relógio do Sprout Lands com traços acrescentados.
+
+## Pisos e molduras próprios
+
+Desenhados para o Mundo do Aprender na paleta do Sprout Lands: os pisos de madeira, da cozinha e da escola (`floorWood`, `floorKitchen`, `floorSchool` no atlas; `tools/atlas/build_atlas.py`) e as molduras da interface em `ui/` (`frame-wood.png`, `frame-panel.png`; `tools/draw_ui.py`).
+
+## Tela inicial (`title.png`)
+
+Montada com peças do próprio atlas (mesmas origens e licenças acima: grama, árvores, flores e placa do Sprout Lands; Noa, Gabi, gato e cachorro do Ninja Adventure) pelo script `tools/draw_title.py`.
+
+## Cenas de perto (`closeup/`)
+
+Imagens próprias do projeto, desenhadas para o Mundo do Aprender na paleta do Sprout Lands e do Ninja Adventure, sem peças copiadas de pacotes: a pia do banheiro (`closeup/sink/`: parede, espelho, bancada, torneira, água, mãos de Noa, sabão, toalha, espuma e brilho), o quarto do Noa de manhã e à noite (`closeup/bedroom/`), a mochila aberta e os objetos da escola (`closeup/backpack/`), o quadro da rotina com as casas numeradas (`closeup/board/`) e a setinha de ajuda (`closeup/common/`). No quarto, o Noa de pé é o mesmo personagem do mapa (Ninja Adventure, CC0), e o Noa dormindo usa a cabeça dele com os olhos fechados.

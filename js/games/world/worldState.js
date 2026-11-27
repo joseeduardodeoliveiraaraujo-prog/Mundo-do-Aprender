@@ -3,7 +3,7 @@
  * Dados ausentes ou inválidos voltam ao ponto de partida.
  */
 
-import { readValue, writeValue, STORAGE_KEYS } from '../../storage.js';
+import { readValue, writeValue, removeValue, STORAGE_KEYS } from '../../storage.js';
 
 const FACINGS = Object.freeze(['up', 'down', 'left', 'right']);
 
@@ -20,4 +20,12 @@ export function loadWorldState(worldData) {
 
 export function saveWorldState(state) {
   writeValue(STORAGE_KEYS.WORLD, state);
+}
+
+/** Há um lugar salvo (o jogo já foi começado)? */
+export const hasWorldState = () => readValue(STORAGE_KEYS.WORLD, null) !== null;
+
+/** Volta Noa ao ponto de partida (novo jogo). */
+export function resetWorldState() {
+  removeValue(STORAGE_KEYS.WORLD);
 }

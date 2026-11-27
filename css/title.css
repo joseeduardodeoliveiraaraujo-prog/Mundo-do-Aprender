@@ -1,0 +1,96 @@
+/* Tela inicial do jogo "Bairro do Noa" (js/views/titleScreen.js). */
+
+.title-screen {
+  display: grid;
+  gap: var(--space-4);
+  width: min(100%, 60rem);
+  margin-inline: auto;
+}
+
+.title-screen__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-xl);
+  image-rendering: pixelated;
+  box-shadow: var(--shadow-sm);
+}
+
+.title-screen__panel {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.title-screen__heading {
+  margin: 0;
+  color: var(--color-routine-strong);
+  font-size: var(--text-2xl, 2rem);
+}
+
+.title-screen__subtitle,
+.title-screen__info {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.title-screen__info {
+  font-size: var(--text-sm);
+}
+
+.title-screen__menu,
+.title-screen__continue {
+  display: grid;
+  gap: var(--space-2);
+  width: min(100%, 22rem);
+}
+
+.title-screen__menu[hidden],
+.title-screen__confirm[hidden] {
+  display: none;
+}
+
+.title-screen__button {
+  width: 100%;
+  justify-content: center;
+}
+
+.title-screen__continue {
+  margin-bottom: var(--space-2);
+}
+
+.title-screen__confirm {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 30rem;
+  padding: var(--space-3);
+  border: 2px solid var(--color-routine-strong);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-routine-soft);
+}
+
+.title-screen__confirm p,
+.title-screen__confirm-title {
+  margin: 0;
+}
+
+.title-screen__confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+/* Telas largas: imagem à esquerda, menu à direita. */
+@media (min-width: 48rem) {
+  .title-screen {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: center;
+  }
+}

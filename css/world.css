@@ -42,6 +42,15 @@
   gap: var(--space-3);
 }
 
+/* Noa no balão: rosto em pixel art, 2× o tamanho real (38 px), sem borrar. */
+.world .companion__image {
+  width: 76px;
+  height: 76px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-routine-soft);
+  image-rendering: pixelated;
+}
+
 .world__explore[hidden] {
   display: none;
 }
@@ -51,12 +60,72 @@
   gap: var(--space-2);
 }
 
-.world__play .game-stage {
+/* Área do mapa: o mapa e, por cima dele, a conversa, o objetivo e a mesa. */
+.world__screen {
+  position: relative;
+  display: grid;
+  gap: var(--space-2);
   /* O maior possível, cabendo na altura da janela (proporção 3:2). */
   width: min(100%, calc((100vh - 13rem) * 1.5));
   min-width: min(100%, 18rem);
   justify-self: center;
+}
+
+.world__play .game-stage {
   background-color: var(--color-text);
+  border-radius: 2px;
+}
+
+/* Moldura de madeira em pixel art por cima das bordas do mapa e da cena de
+   perto (assets/images/world/ui/frame-wood.png, 2×; tools/draw_ui.py).
+   Fica por cima do canvas: o tamanho e a proporção do jogo não mudam. */
+.world__play .game-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 8px solid transparent;
+  border-image: url("../assets/images/world/ui/frame-wood.png") 4 / 8px stretch;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* O foco do teclado fica por dentro da moldura, sempre visível. */
+.world__play .game-stage__canvas:focus-visible {
+  outline-offset: -12px;
+}
+
+/* Cena de perto: no mesmo lugar do mapa, por cima dele. */
+.world__screen > .game-stage,
+.world__closeup {
+  grid-area: 1 / 1;
+}
+
+.world__closeup {
+  z-index: 1;
+}
+
+.world__closeup[hidden] {
+  display: none;
+}
+
+/* Arrastar e esfregar com o dedo não rola a página. */
+.world__closeup canvas {
+  touch-action: none;
+}
+
+/* Na cena de perto, o painel fica embaixo dela (a cena inteira à vista),
+   e a cena encolhe um pouco para os dois caberem na janela. */
+.world__screen:has(> .world__closeup:not([hidden])) {
+  width: min(100%, calc((100vh - 26rem) * 1.5));
+  min-width: min(100%, 24rem);
+}
+
+.world__screen:has(> .world__closeup:not([hidden])) > .quest-hud,
+.world__screen:has(> .world__closeup:not([hidden])) > .quest-dialog {
+  grid-area: auto;
+  margin: 0;
+  max-height: none;
 }
 
 /* Telas largas: mapa grande à esquerda; fala do Noa e botões numa coluna ao lado. */
@@ -76,7 +145,7 @@
     grid-column: 2;
   }
 
-  .world__play .game-stage {
+  .world__screen {
     width: min(100%, calc((100vh - 10rem) * 1.5));
   }
 }
@@ -172,4 +241,265 @@
 
 .challenge__finish[hidden] {
   display: none;
+}
+
+/* ---------- Missões: conversa, objetivo e mesa ---------- */
+.quest-dialog {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2);
+  /* Painel em pixel art (assets/images/world/ui/frame-panel.png, 2×; tools/draw_ui.py). */
+  border: 8px solid transparent;
+  border-image: url("../assets/images/world/ui/frame-panel.png") 4 fill / 8px stretch;
+  border-radius: 0;
+  background-color: transparent;
+  image-rendering: pixelated;
+}
+
+.quest-dialog[hidden],
+.quest-hud[hidden],
+.world__board[hidden] {
+  display: none;
+}
+
+.quest-dialog__face {
+  /* 2× o tamanho real (38 px): pixels inteiros, sem distorção. */
+  width: 76px;
+  height: 76px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-routine-soft);
+  image-rendering: pixelated;
+}
+
+.quest-dialog__body {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.quest-dialog__name {
+  margin: 0;
+  color: var(--module-strong);
+  font-weight: 800;
+}
+
+.quest-dialog__text {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+
+.quest-dialog__picture {
+  max-width: min(100%, 14rem);
+  max-height: 9rem;
+  border-radius: var(--radius-md);
+  object-fit: contain;
+  background-color: var(--color-surface-muted);
+}
+
+.quest-dialog__strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quest-dialog__picked {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-routine-soft);
+  font-size: var(--text-sm);
+}
+
+.quest-dialog__number {
+  font-weight: 800;
+}
+
+.quest-dialog__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.quest-dialog__options:empty {
+  display: none;
+}
+
+.quest-option {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: 6.5rem;
+  min-height: var(--touch-target);
+  padding: var(--space-2);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+.quest-option:hover {
+  border-color: var(--module-strong);
+  background-color: var(--module-soft);
+}
+
+.quest-option__image {
+  width: 3.5rem;
+  height: 3.5rem;
+  object-fit: contain;
+}
+
+.quest-option__label {
+  max-width: 9rem;
+  font-size: var(--text-sm);
+}
+
+.quest-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.quest-dialog__actions:empty {
+  display: none;
+}
+
+.quest-dialog__stop {
+  grid-column: 1 / -1;
+  justify-self: start;
+  font-size: var(--text-sm);
+}
+
+.quest-hud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  /* Painel em pixel art (assets/images/world/ui/frame-panel.png, 2×; tools/draw_ui.py). */
+  border: 8px solid transparent;
+  border-image: url("../assets/images/world/ui/frame-panel.png") 4 fill / 8px stretch;
+  border-radius: 0;
+  background-color: transparent;
+  image-rendering: pixelated;
+  box-shadow: var(--shadow-sm);
+}
+
+.quest-hud__body {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.quest-hud__goal,
+.quest-hud__note,
+.quest-hud__carrying {
+  margin: 0;
+  font-weight: 700;
+}
+
+.quest-hud__note {
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+  background-color: var(--color-routine-soft);
+}
+
+.quest-hud__carrying {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.quest-hud__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.quest-hud__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.quest-hud__mark {
+  display: inline-grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--module-strong);
+  border-radius: 50%;
+}
+
+.quest-hud__item.is-done .quest-hud__mark {
+  background-color: var(--module-strong);
+  color: var(--color-on-primary);
+}
+
+.quest-hud__stop {
+  font-size: var(--text-sm);
+}
+
+.world__board {
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg);
+}
+
+/* Telas maiores: conversa e objetivo por cima do mapa, como num jogo. */
+@media (min-width: 48rem) {
+  .world__screen > .game-stage {
+    grid-area: 1 / 1;
+  }
+
+  .quest-dialog,
+  .quest-hud,
+  .world__board {
+    grid-area: 1 / 1;
+    z-index: 1;
+    margin: var(--space-3);
+    max-height: calc(100% - 2 * var(--space-3));
+    overflow: auto;
+  }
+
+  .quest-dialog {
+    align-self: end;
+    max-height: 70%;
+  }
+
+  .quest-hud {
+    align-self: start;
+  }
+
+  .world__board {
+    align-self: stretch;
+  }
+}
+
+.quest-hud__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.quest-hud__buttons[hidden] {
+  display: none;
+}
+
+.quest-hud__button {
+  min-height: 2.75rem;
+  font-size: var(--text-sm);
 }

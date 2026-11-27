@@ -71,7 +71,7 @@ export const neighborhoodMap = Object.freeze({
     '}': { tile: 'fenceBottomRight', solid: true, base: 'grass' },
   },
   furniture: [
-    { tile: 'beehive', x: 7, y: 16 },
+    { tile: 'beehive', x: 8, y: 17 },
   ],
   doors: [
     { x: 4, y: 4, to: 'house', spawn: { x: 19, y: 8 }, facing: 'up', label: 'Entrar em casa' },
@@ -147,5 +147,17 @@ export const neighborhoodMap = Object.freeze({
       prompt: 'O rio e as árvores. Vamos procurar os animais que vivem aqui?',
       challenge: { module: 'animals', part: 'river' },
     },
+    // Animais: tocar mostra o nome, o som e uma curiosidade (dados do módulo de animais).
+    { id: 'hood-animal-cow', label: 'Vaca', tiles: [{ tile: 'cow', x: 3, y: 15 }], animal: 'cow' },
+    { id: 'hood-animal-horse', label: 'Cavalo', tiles: [{ tile: 'horse', x: 6, y: 15 }], animal: 'horse' },
+    { id: 'hood-animal-chicken', label: 'Galinha', tiles: [{ tile: 'chicken', x: 4, y: 17 }], animal: 'chicken' },
+    { id: 'hood-animal-duck', label: 'Pato', tiles: [{ tile: 'duck', x: 7, y: 18 }], animal: 'duck' },
+    { id: 'hood-animal-lion', label: 'Leão', tiles: [{ tile: 'lion', x: 21, y: 17 }], animal: 'lion' },
+    { id: 'hood-animal-elephant', label: 'Elefante', tiles: [{ tile: 'elephant', x: 25, y: 17 }], animal: 'elephant' },
+    { id: 'hood-animal-giraffe', label: 'Girafa', tiles: [{ tile: 'giraffe', x: 23, y: 19 }], animal: 'giraffe' },
+    { id: 'hood-animal-fish', label: 'Peixe', tiles: [{ tile: 'fish', x: 28, y: 12 }], animal: 'fish' },
+    { id: 'hood-animal-turtle', label: 'Tartaruga', tiles: [{ tile: 'turtle', x: 27, y: 15 }], animal: 'turtle' },
+    { id: 'hood-animal-monkey', label: 'Macaco', tiles: [{ tile: 'monkey', x: 26, y: 8 }], animal: 'monkey' },
+    { id: 'hood-animal-dog', label: 'Cachorro', tiles: [{ tile: 'dog', x: 7, y: 7 }], animal: 'dog' },
   ],
 });

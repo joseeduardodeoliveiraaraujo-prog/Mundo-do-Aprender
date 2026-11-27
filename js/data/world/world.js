@@ -12,7 +12,8 @@
  *     { id, label, tiles?: [{ tile, x, y }] | cells?: [{x,y}], prompt,
  *       challenge?: { module, part }   abre as atividades daquela parte do módulo
  *       usedTiles?: [tile]             troca as imagens no primeiro uso
- *       removeOnUse?, donePrompt?      objeto que some ao ser usado }
+ *       removeOnUse?, donePrompt?      objeto que some ao ser usado
+ *       animal?                        id em js/data/animals/catalog.js: Noa diz nome, som e curiosidade }
  * Coordenadas em blocos: x = coluna, y = linha, começando em 0.
  * Nomes de tiles: js/data/world/tiles.js.
  */
@@ -39,6 +40,8 @@ export const worldData = Object.freeze({
     places: 'Ir até um lugar',
     goTo: 'Ir até: {label}',
     notNear: 'Chegue mais perto de alguma coisa para usar.',
+    animalSays: '{name}: "{sound}" {fact}',
+    animalQuiet: '{name}. {sound} {fact}',
     challenge: {
       progress: 'Atividades feitas: {completed} de {total}',
       back: 'Voltar a explorar',

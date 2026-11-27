@@ -21,6 +21,7 @@ import { getModuleProgress } from '../progress.js';
 import { worldData } from '../data/world/world.js';
 import { TILE_SIZE } from '../data/world/tiles.js';
 import { routineData } from '../data/routine.js';
+import { animalsData } from '../data/animals.js';
 import { createWorldScene } from './world/worldScene.js';
 import { openChallenge, challengeProgress } from './world/challengePanel.js';
 import { bindWorldKeys } from './world/keyboard.js';
@@ -33,6 +34,18 @@ function totalStars() {
     const { completed, total } = getModuleProgress(module.id, module.data.activities);
     return { completed: sum.completed + completed, total: sum.total + total };
   }, { completed: 0, total: 0 });
+}
+
+/** O que Noa diz ao chegar num lugar. Animais usam os dados do módulo de animais. */
+function promptOf(spot, firstUse) {
+  if (spot.animal) {
+    const animal = animalsData.animals[spot.animal];
+    // Som entre parênteses é uma explicação (ex.: o peixe), não um som para imitar.
+    const sound = animal.sound.text.replace(/^\((.*)\)$/, '$1');
+    const template = sound === animal.sound.text ? texts.animalSays : texts.animalQuiet;
+    return fillTemplate(template, { name: animal.name, sound, fact: animal.fact });
+  }
+  return !firstUse && spot.donePrompt ? spot.donePrompt : spot.prompt;
 }
 
 export function render(view) {
@@ -83,7 +96,7 @@ export function render(view) {
       selected = spot;
       const firstUse = !world.isUsed(spot.id);
       world.markUsed(spot.id);
-      companion.say(!firstUse && spot.donePrompt ? spot.donePrompt : spot.prompt, 'happy');
+      companion.say(promptOf(spot, firstUse), 'happy');
     },
   });
 

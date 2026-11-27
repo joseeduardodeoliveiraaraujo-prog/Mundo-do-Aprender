@@ -88,6 +88,18 @@ export const TILES = Object.freeze({
   fenceBottomLeft: ['town', 68],
   fenceBottom: ['town', 69],
   fenceBottomRight: ['town', 70],
+  // Animais (desenhados para o projeto; dados em js/data/animals/catalog.js)
+  cow: ['home', 23],
+  horse: ['home', 24],
+  chicken: ['home', 25],
+  duck: ['home', 26],
+  lion: ['home', 27],
+  elephant: ['home', 28],
+  giraffe: ['home', 29],
+  turtle: ['home', 30],
+  monkey: ['home', 31],
+  fish: ['home', 32],
+  dog: ['home', 33],
   // Pessoas (Tiny Dungeon)
   personGirl: ['dungeon', 99],
   personBoy: ['dungeon', 88],

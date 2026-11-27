@@ -14,6 +14,7 @@ O app abre direto num **jogo 2D em pixel art, visto de cima** (estilo RPG). A cr
 | Praça: crianças brincando, Bia · Escola | Eu Me Comunico: Brincando, O que eu sinto · Na escola |
 | Fazendinha, placa, zoológico, rio | Explorando os Animais: Fazenda, Cada um no seu lugar, Savana, Rio e floresta |
 
+- **Animais pelo bairro:** vaca, cavalo, galinha e pato na fazendinha; leão, elefante e girafa no zoológico; peixe e tartaruga no rio; macaco na árvore e cachorro perto de casa. Tocar num animal faz o Noa dizer o nome, o som e uma curiosidade (dados de `js/data/animals/catalog.js`).
 - **Formas de jogar:** tocar no mapa (Noa encontra o caminho), setas ou W A S D + Enter com o mapa focado, ou os botões **Ir até um lugar** e **Começar**.
 - **Desafios:** abrem as atividades daquela parte, uma por vez, começando pela que falta. **Voltar a explorar** retorna ao mapa. O progresso e a posição do Noa ficam salvos.
 - **Sem tempo, sem inimigos, sem punição.** Com "Reduzir animações", Noa chega direto e as portas trocam de mapa sem transição.

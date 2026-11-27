@@ -3,16 +3,19 @@
  * e móveis. Com as setas ele anda enquanto a tecla está apertada; com um
  * toque ele segue um caminho de blocos (calculado fora daqui).
  *
- * Folha `home`: 0–1 frente, 2–3 costas, 4–5 lado (esquerda; direita espelhada).
- * Com "Reduzir animações": no caminho automático Noa chega direto e as pernas
- * não se movem.
+ * Quadros no atlas: noa-<direção>-<passo> (direção: down, up, left, right;
+ * passo 0 a 3). A profundidade acompanha os pés, para Noa passar atrás das
+ * copas e na frente dos troncos. Com "Reduzir animações": no caminho
+ * automático Noa chega direto e as pernas não se movem.
  */
 
+import { ATLAS_KEY } from './mapView.js';
+
 const SPEED = 56;          // pixels por segundo (calmo)
-const STEP_FRAME_MS = 170; // troca de perna
+const STEP_FRAME_MS = 150; // troca de passo
 const FEET_HALF_WIDTH = 5; // caixa dos pés (o que colide com as paredes)
 const FEET_HEIGHT = 5;
-const FRAMES = Object.freeze({ down: 0, up: 2, left: 4, right: 4 });
+const STEPS = 4;
 
 /**
  * @param {Object} scene
@@ -24,7 +27,8 @@ const FRAMES = Object.freeze({ down: 0, up: 2, left: 4, right: 4 });
  */
 export function createFreeWalker(scene, { position, facing = 'down', isBlockedAt, isReduced }) {
   const pos = { ...position };
-  const sprite = scene.add.sprite(0, 0, 'home', FRAMES[facing]).setOrigin(0.5, 1).setDepth(10);
+  const sprite = scene.add.sprite(0, 0, ATLAS_KEY, `noa-${facing}-0`).setOrigin(0.5, 1);
+  const shadow = scene.add.image(0, 0, ATLAS_KEY, 'shadow').setOrigin(0.5, 0.5);
   let currentFacing = facing;
   let held = { x: 0, y: 0 };
   let waypoints = [];
@@ -49,11 +53,11 @@ export function createFreeWalker(scene, { position, facing = 'down', isBlockedAt
   }
 
   function draw(moving) {
-    const stepping = moving && !isReduced() && Math.floor(scene.time.now / STEP_FRAME_MS) % 2 === 1;
-    sprite.setPosition(Math.round(pos.x), Math.round(pos.y));
-    sprite.setFrame(FRAMES[currentFacing] + (stepping ? 1 : 0));
-    const altLeg = Math.floor(scene.time.now / (STEP_FRAME_MS * 2)) % 2 === 1;
-    sprite.setFlipX(currentFacing === 'right' || (currentFacing !== 'left' && stepping && altLeg));
+    const step = moving && !isReduced() ? Math.floor(scene.time.now / STEP_FRAME_MS) % STEPS : 0;
+    const x = Math.round(pos.x);
+    const y = Math.round(pos.y);
+    sprite.setPosition(x, y).setFrame(`noa-${currentFacing}-${step}`).setDepth(y + 0.5);
+    shadow.setPosition(x, y - 1).setDepth(y + 0.4);
   }
 
   function finishPath() {

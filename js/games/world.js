@@ -19,7 +19,7 @@ import { fillTemplate } from '../components/text.js';
 import { MODULES } from '../modules.js';
 import { getModuleProgress } from '../progress.js';
 import { worldData } from '../data/world/world.js';
-import { TILE_SIZE } from '../data/world/tiles.js';
+import { TILE_SIZE } from '../data/world/atlas.js';
 import { routineData } from '../data/routine.js';
 import { animalsData } from '../data/animals.js';
 import { createWorldScene } from './world/worldScene.js';

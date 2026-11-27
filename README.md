@@ -19,14 +19,15 @@ O app abre direto num **jogo 2D em pixel art, visto de cima** (estilo RPG). A cr
 - **Formas de jogar:** tocar no mapa (Noa encontra o caminho), setas ou W A S D + Enter com o mapa focado, ou os botões **Ir até um lugar** e **Começar**.
 - **Desafios:** cada visita a um lugar abre **uma** atividade daquela parte: a próxima que falta (ou, se tudo já foi feito, uma para repetir). Ao terminar, **Voltar a explorar** retorna ao mapa. O progresso e a posição do Noa ficam salvos.
 - **Sem tempo, sem inimigos, sem punição.** Com "Reduzir animações", Noa chega direto e as portas trocam de mapa sem transição.
-- Mapas em `js/data/world/maps/` (uma letra por bloco), fáceis de editar.
+- **Visual:** pixel art no estilo aconchegante do **Sprout Lands** (Cup Nooble; uso não comercial, com crédito), com Noa e pessoas do **Ninja Adventure** (CC0) e peças próprias. Grama, terra, paredes e cercas se encaixam sozinhas; o Noa anda animado nas 4 direções, tem sombra e passa atrás das copas das árvores. Créditos e licenças em `assets/images/world/CREDITS.md`.
+- Mapas em `js/data/world/maps/` (uma letra por bloco + objetos, casas e cercas), fáceis de editar. As imagens ficam num atlas único (`assets/images/world/atlas.png` + `js/data/world/atlas.js`).
 
 ## Tecnologias
 
 - HTML5, CSS3 e JavaScript puro (ES Modules).
 - `localStorage` para preferências e progresso.
 - Sem frameworks, sem backend, sem etapa de build.
-- **Phaser 4** (motor de jogos 2D), copiado em `js/vendor/` (sem npm). Só é carregado nas atividades de jogo 2D. Origem e licença em `js/vendor/CREDITS.md`.
+- **Phaser 4** (motor de jogos 2D), copiado em `js/vendor/` (sem npm). Origem e licença em `js/vendor/CREDITS.md`.
 
 ## Como executar
 
@@ -111,7 +112,7 @@ Mundo do Aprender/
     ├── images/routine/     # Minha Rotina: pictogramas, Noa (noa/) e cenas em camadas (scenes/)
     ├── images/animals/     # Animais, habitats e alimentos (originais; ver CREDITS.md)
     ├── images/communication/ # Pessoas, cartões, cenários e camadas de Eu Me Comunico
-    ├── images/world/       # Pixel art do Bairro do Noa (Kenney CC0 + peças próprias; ver CREDITS.md)
+    ├── images/world/       # Atlas de pixel art do Bairro do Noa (Sprout Lands, Ninja Adventure, Kenney e peças próprias; ver CREDITS.md)
     └── sounds/
         └── animals/        # Espaço preparado para os sons (ver README.md da pasta)
 ```

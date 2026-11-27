@@ -2,20 +2,25 @@
  * O jogo "Bairro do Noa" (somente dados): mapas, ponto de partida e textos.
  *
  * Formato de um mapa (js/data/world/maps/):
- *   id, name            identificador e nome mostrado como título da tela
- *   welcome             fala de Noa ao chegar no mapa
- *   ground: string[]    uma letra por bloco de 16×16, lida pela `legend`
- *   legend              letra → { tile, solid?, base? } (base: chão desenhado embaixo)
- *   furniture           [{ tile, x, y }] objetos fixos (bloqueiam a passagem)
+ *   id, name, welcome   identificador, título da tela e fala de Noa ao chegar
+ *   base?               imagem embaixo de tudo (ex.: 'water' no bairro)
+ *   background?         cor atrás do mapa (fora das paredes dos cômodos)
+ *   ground: string[]    uma letra por bloco de 16×16, lida pela `legend`:
+ *     { terrains?: ['grass', 'dirt'] (encaixe automático), room?: true (parede de cômodo),
+ *       floor?: imagem de piso, tile?: imagem por cima, solid?: true }
+ *   objects             [{ art, x, y, solid?: 'base'|'all'|'none', lift? }] (x, y = canto superior esquerdo;
+ *                       'base' bloqueia só a linha de baixo, então Noa passa atrás das copas)
+ *   buildings           [{ x, y, w, h, door }] casa vista de fora: telhado + parede com porta
+ *   fences              [{ x, y, w, h, gaps: [[x, y]] }] cerca retangular com porteiras
  *   doors               [{ x, y, to, spawn: {x,y}, facing, label }] passagem para outro mapa
  *   spots               lugares que Noa usa:
- *     { id, label, tiles?: [{ tile, x, y }] | cells?: [{x,y}], prompt,
- *       challenge?: { module, part }   abre as atividades daquela parte do módulo
- *       usedTiles?: [tile]             troca as imagens no primeiro uso
+ *     { id, label, art + x + y (ou cells: [{x,y}]), prompt, solid?, lift?,
+ *       challenge?: { module, part }   abre uma atividade daquela parte do módulo
+ *       usedArt?                       troca a imagem no primeiro uso
  *       removeOnUse?, donePrompt?      objeto que some ao ser usado
  *       animal?                        id em js/data/animals/catalog.js: Noa diz nome, som e curiosidade }
  * Coordenadas em blocos: x = coluna, y = linha, começando em 0.
- * Nomes de tiles: js/data/world/tiles.js.
+ * Nomes das imagens: js/data/world/atlas.js.
  */
 
 import { houseMap } from './maps/house.js';
@@ -25,9 +30,9 @@ import { schoolMap } from './maps/school.js';
 export const worldData = Object.freeze({
   version: 1,
   maps: Object.freeze({ house: houseMap, neighborhood: neighborhoodMap, school: schoolMap }),
-  start: Object.freeze({ map: 'house', x: 2, y: 4, facing: 'down' }),
+  start: Object.freeze({ map: 'house', x: 3, y: 5, facing: 'down' }),
   /** Tamanho da janela do jogo, em blocos (a câmera segue Noa em mapas maiores). */
-  view: Object.freeze({ cols: 15, rows: 10 }),
+  view: Object.freeze({ cols: 12, rows: 8 }),
   texts: Object.freeze({
     loading: 'Preparando o mundo…',
     error: 'Não foi possível abrir o jogo. Atualize a página para tentar de novo.',

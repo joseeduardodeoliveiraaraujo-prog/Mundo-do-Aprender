@@ -40,8 +40,8 @@ Este arquivo orienta qualquer pessoa ou agente de IA que trabalhe no projeto. **
 | `js/views/` | Telas que não são jogos (início, avisos). |
 | `js/games/<modulo>.js` | Ponto de entrada de cada jogo: exporta `render(view, module)`. |
 | `js/games/world.js` | **Tela principal do app**: o jogo "Bairro do Noa" (rota `/`). Liga a cena, as falas de Noa, os botões e os desafios. |
-| `js/games/world/` | Motor do jogo (Phaser, pixel art visto de cima): `worldScene.js` (mapa, câmera, portas, marcadores), `freeWalker.js` (Noa andando livremente), `mapModel.js` (o que bloqueia), `grid.js` (caminho mais curto), `keyboard.js`, `worldState.js` (posição salva) e `challengePanel.js` (abre as atividades de uma parte de um módulo como desafio). |
-| `js/data/world/` | Dados do jogo: `world.js` (mapas, início, textos), `tiles.js` (nomes dos tiles) e `maps/<lugar>.js` (um arquivo por mapa). |
+| `js/games/world/` | Motor do jogo (Phaser, pixel art visto de cima): `worldScene.js` (cena, câmera, portas), `mapView.js` (desenho: encaixe automático, profundidade, sombras, marcadores), `autotile.js` (peças de grama/terra/paredes/cercas pelos vizinhos), `mapModel.js` (o que bloqueia), `freeWalker.js` (Noa andando livremente, animado), `grid.js` (caminho mais curto), `keyboard.js`, `worldState.js` (posição salva) e `challengePanel.js` (abre uma atividade como desafio). |
+| `js/data/world/` | Dados do jogo: `world.js` (mapas, início, textos e formato dos mapas), `atlas.js` (índice das imagens de `assets/images/world/atlas.png`; gerado, não editar à mão) e `maps/<lugar>.js` (um arquivo por mapa). |
 | `js/data/<modulo>.js` | **Somente dados** das atividades. Sem lógica, sem acesso ao DOM. |
 | `css/global.css` | Tokens, reset e layout do app (cabeçalho, área principal). |
 | `css/components.css` | Estilos dos componentes de `js/components/`. |

@@ -6,11 +6,11 @@
  * (`onMapChange`, `onNearChange`, `onArrive`) e mostra falas e botões em HTML.
  */
 
-import { TILESETS, TILE_SIZE } from '../../data/world/tiles.js';
+import { ATLAS_SRC, ATLAS_FRAMES, TILE_SIZE } from '../../data/world/atlas.js';
 import { findPath, neighborsOf, directionBetween } from './grid.js';
 import { createMapModel } from './mapModel.js';
 import { createFreeWalker } from './freeWalker.js';
-import { createMapView } from './mapView.js';
+import { createMapView, ATLAS_KEY } from './mapView.js';
 
 const MAX_STEP_MS = 100;  // evita saltos depois de uma pausa da aba
 const REACH = 10;         // pixels entre os pés de Noa e o lugar para valer "perto"
@@ -63,7 +63,7 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
   }
 
   function goToSpot(spot) {
-    if (model.distanceToSpot(spot, feetPoint(walker.position), TILE_SIZE) <= REACH) { arriveAt(spot); return; }
+    if (model.distanceToSpot(spot, feetPoint(walker.position)) <= REACH) { arriveAt(spot); return; }
     const isBeside = (tile) => spot.cells.some((cell) => neighborsOf(tile).some((item) => sameTile(item, cell)));
     walkTo(isBeside, null, () => arriveAt(spot));
   }
@@ -96,7 +96,7 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
     const feet = feetPoint(walker.position);
     const candidates = model.spots
       .filter((spot) => !removed.has(spot.id))
-      .map((spot) => ({ spot, distance: model.distanceToSpot(spot, feet, TILE_SIZE) }))
+      .map((spot) => ({ spot, distance: model.distanceToSpot(spot, feet) }))
       .filter(({ distance }) => distance <= REACH)
       .sort((a, b) => a.distance - b.distance);
     const next = walker.isMoving ? null : candidates[0]?.spot ?? null;
@@ -107,12 +107,15 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
     return {
       key: 'world',
       preload() {
-        Object.entries(TILESETS).forEach(([key, src]) => {
-          if (!this.textures.exists(key)) this.load.spritesheet(key, src, { frameWidth: TILE_SIZE, frameHeight: TILE_SIZE });
-        });
+        if (!this.textures.exists(ATLAS_KEY)) this.load.image(ATLAS_KEY, ATLAS_SRC);
       },
       create() {
         scene = this;
+        // Registra cada peça do atlas pelo nome (uma vez por jogo).
+        const texture = this.textures.get(ATLAS_KEY);
+        Object.entries(ATLAS_FRAMES).forEach(([name, [x, y, w, h]]) => {
+          if (!texture.has(name)) texture.add(name, 0, x, y, w, h);
+        });
         changingMap = false;
         near = null;
         hovered = null;
@@ -131,6 +134,7 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
         lastTile = tileOf(feetPoint(walker.position));
 
         const camera = this.cameras.main;
+        if (map().background) camera.setBackgroundColor(map().background);
         camera.setBounds(0, 0, model.cols * TILE_SIZE, model.rows * TILE_SIZE).setRoundPixels(true);
         camera.startFollow(walker.sprite, true, isReduced() ? 1 : 0.2, isReduced() ? 1 : 0.2);
         if (!isReduced()) camera.fadeIn(FADE_MS);
@@ -177,7 +181,7 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
       arriveAt(near);
       return true;
     },
-    /** Primeiro uso: troca as imagens (usedTiles) ou tira o objeto do mapa (removeOnUse). */
+    /** Primeiro uso: troca a imagem (usedArt) ou tira o objeto do mapa (removeOnUse). */
     markUsed(id) {
       const spot = model?.spots.find((item) => item.id === id);
       if (!spot || used.has(id)) return;

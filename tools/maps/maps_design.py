@@ -104,10 +104,11 @@ for x in range(1, 39):
     for y in (1, 26):
         if random.random() < 0.2 and g[y][x] == 'g': g[y][x] = '~'
 # ponte sobre o rio
-for x in range(33, 35): g[8][x] = 'B'
+for x in range(33, 35):
+    g[8][x] = g[9][x] = 'B'      # ponte da largura da rua (2 linhas)
 # ruas de pedra (a grama aparece entre as pedras) e praça de terra
 fill(3, 8, 32, 9, 's')               # rua principal até a ponte
-fill(35, 8, 37, 8, 's')              # chegada do outro lado da ponte
+fill(35, 8, 37, 9, 's')              # chegada do outro lado da ponte
 fill(6, 7, 6, 7, 's')                # porta da casa do Noa
 fill(27, 7, 27, 7, 's')              # porta da escola
 fill(17, 10, 18, 25, 's')            # rua para o sul
@@ -125,7 +126,7 @@ for (x, a) in [(22, 'treePine'), (24, 'treeBig'), (27, 'treeApple'), (30, 'treeP
     tree(a, x, 0)
 for (x, y, a) in [(1, 10, 'treeTall'), (1, 13, 'treeBig'), (21, 3, 'treeApple'), (15, 3, 'treeTall'), (29, 10, 'treeOak'),
                   (10, 11, 'treeTall'), (24, 11, 'treeTall'), (13, 18, 'treeOak'), (19, 20, 'treeOakFruit'), (14, 23, 'treeTall'),
-                  (36, 3, 'treeBig'), (37, 7, 'treeTall'), (35, 16, 'treeOakFruit'), (37, 21, 'treeBig'), (35, 23, 'treePine'),
+                  (36, 3, 'treeBig'), (38, 6, 'treeTall'), (35, 16, 'treeOakFruit'), (37, 21, 'treeBig'), (35, 23, 'treePine'),
                   (30, 24, 'treeTall'), (19, 4, 'bush')]:
     tree(a, x, y)
 decor = []
@@ -139,13 +140,20 @@ for (x, y, a) in [(4, 11, 'flowerPink'), (5, 12, 'flowersYellow'), (11, 7, 'flow
                   (3, 9, 'flowersYellow'), (6, 10, 'flowerBlue'), (9, 12, 'flowersPink'), (11, 12, 'flowersPink'),
                   (25, 9, 'flowersPink'), (28, 12, 'flowersYellow'), (29, 9, 'flowerBlue'), (24, 12, 'flowersYellow')]:
     d(a, x, y)
+# objetos do bairro (tools/atlas/props.py): bloqueiam só o bloco de baixo
+props = [{'art': a, 'x': x, 'y': y} for (a, x, y) in [
+    ('mailbox', 5, 7), ('barrel', 3, 5), ('crate', 9, 6), ('barrel', 14, 6), ('pot', 14, 5),   # casas
+    ('pot', 26, 7), ('pot', 28, 7),                                                            # porta da escola
+    ('lampPost', 16, 6), ('lampPost', 30, 6), ('lampPost', 12, 11), ('lampPost', 23, 11),      # rua e praça
+    ('barrel', 31, 7), ('hayBale', 4, 24), ('hayBale', 5, 24),                                  # ponte e fazendinha
+]]
 # flores em canteiros (grupos), no lugar das flores soltas
 PATCHES = {'flowerPink': 'flowerPatchPink', 'flowersPink': 'flowerPatchMix', 'flowerYellow': 'flowerPatchYellow',
            'flowersYellow': 'flowerPatchYellow', 'flowerBlue': 'flowerPatchBlue'}
 for item in decor:
     item['art'] = PATCHES.get(item['art'], item['art'])
 # tufos de grama e pedrinhas espalhados na grama livre (sorteio fixo: o mapa é sempre igual)
-taken = {(o['x'], o['y']) for o in decor + trees}
+taken = {(o['x'], o['y']) for o in decor + trees + props} | {(o['x'], o['y'] + 1) for o in props}
 for y in range(2, 26):
     for x in range(2, 32):
         if g[y][x] == 'g' and (x, y) not in taken and random.random() < 0.06:
@@ -154,11 +162,13 @@ decor[:] = [o for o in decor if g[o['y']][o['x']] != 's']   # nada de flor em ci
 for (x, y, a) in [(20, 23, 'rockBig'), (31, 20, 'rockSmall'), (2, 23, 'rock'), (11, 23, 'stump'), (33, 4, 'lily'), (34, 20, 'lilyBig'),
                   (33, 23, 'lily')]:
     d(a, x, y, 'base' if a in ('rockBig', 'stump') else 'none')
-d('bridgeH', 32, 8)
+d('bridge', 33, 8)   # tools/atlas/props.py: cobre só a água (colunas 33 e 34)
 farm_objects = [
+    {'art': 'gardenBed', 'x': 9, 'y': 18, 'solid': 'none'},   # canteiro embaixo das plantas
     {'art': 'chickenHouse', 'x': 3, 'y': 21},
     {'art': 'cropWheat', 'x': 9, 'y': 18}, {'art': 'cropWheat', 'x': 10, 'y': 18}, {'art': 'cropCorn', 'x': 11, 'y': 18},
     {'art': 'cropCorn', 'x': 9, 'y': 19}, {'art': 'cropSprout', 'x': 10, 'y': 19}, {'art': 'cropSprout', 'x': 11, 'y': 19},
+    {'art': 'cropSprout', 'x': 9, 'y': 20}, {'art': 'cropWheat', 'x': 10, 'y': 20}, {'art': 'cropCorn', 'x': 11, 'y': 20},
     {'art': 'sunflower', 'x': 11, 'y': 22},
 ]
 zoo_objects = [{'art': 'rockLarge', 'x': 30, 'y': 21}, {'art': 'treeTall', 'x': 23, 'y': 22}, {'art': 'bush', 'x': 29, 'y': 24}]
@@ -184,7 +194,7 @@ hood = {
         {'x': 2, 'y': 16, 'w': 11, 'h': 10, 'gaps': [[7, 16], [8, 16]]},
         {'x': 22, 'y': 18, 'w': 11, 'h': 8, 'gaps': [[26, 18], [27, 18]]},
     ],
-    'objects': trees + decor + farm_objects + zoo_objects,
+    'objects': trees + decor + props + farm_objects + zoo_objects,
     'doors': [
         {'x': 6, 'y': 6, 'to': 'house', 'spawn': {'x': 8, 'y': 9}, 'facing': 'up', 'label': 'Entrar em casa'},
         {'x': 27, 'y': 6, 'to': 'school', 'spawn': {'x': 8, 'y': 8}, 'facing': 'up', 'label': 'Entrar na escola'},
@@ -217,7 +227,7 @@ hood = {
         {'id': 'hood-animal-elephant', 'label': 'Elefante', 'art': 'elephant', 'x': 28, 'y': 20, 'animal': 'elephant'},
         {'id': 'hood-animal-giraffe', 'label': 'Girafa', 'art': 'giraffe', 'x': 26, 'y': 23, 'animal': 'giraffe'},
         {'id': 'hood-animal-fish', 'label': 'Peixe', 'art': 'fish', 'x': 34, 'y': 5, 'animal': 'fish'},
-        {'id': 'hood-animal-turtle', 'label': 'Tartaruga', 'art': 'turtle', 'x': 35, 'y': 9, 'animal': 'turtle'},
+        {'id': 'hood-animal-turtle', 'label': 'Tartaruga', 'art': 'turtle', 'x': 36, 'y': 12, 'animal': 'turtle'},
         {'id': 'hood-animal-monkey', 'label': 'Macaco', 'art': 'monkey', 'x': 37, 'y': 5, 'animal': 'monkey'},
         {'id': 'hood-animal-dog', 'label': 'Cachorro', 'art': 'dog', 'x': 9, 'y': 7, 'animal': 'dog'},
     ],

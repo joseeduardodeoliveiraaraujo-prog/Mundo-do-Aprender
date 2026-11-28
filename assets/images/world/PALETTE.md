@@ -88,5 +88,9 @@ amarela `#ffd600` com contorno preto), na hora em que a opção é ligada.
 - **Árvores grandes** (`tools/atlas/nature.py`): carvalho 3×3 blocos (com ou sem frutas) e pinheiro 2×3,
   copa com volume (luz em cima/esquerda, sombra embaixo/direita, arcos de folhas) e sombra translúcida
   no chão. Só a linha de baixo bloqueia a passagem; o Noa passa atrás da copa.
+- **Objetos do bairro** (`tools/atlas/props.py`): barril, caixote, vaso de barro, poste de luz,
+  caixa de correio, fardo de feno, canteiro da horta e a ponte do rio (2 blocos, a largura da rua). Ficam perto das casas, da praça e da
+  fazendinha, nunca no meio da rua; bloqueiam só o bloco de baixo. Tudo parado: o poste fica
+  aceso com luz suave, sem brilho piscando.
 - Animação só quando a criança age, curta e sem repetição. Exemplos: a pessoa vira para o Noa
   ao conversar; a espuma cresce ao esfregar.

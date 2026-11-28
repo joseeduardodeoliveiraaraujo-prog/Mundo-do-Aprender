@@ -41,7 +41,7 @@ Pato, elefante, girafa, tartaruga, TV e sofá foram redesenhados no estilo do Sp
 
 ## Pisos e molduras próprios
 
-Desenhados para o Mundo do Aprender na paleta do Sprout Lands: os pisos de madeira, da cozinha e da escola (`floorWood`, `floorKitchen`, `floorSchool` no atlas; `tools/atlas/build_atlas.py`) as casas do bairro vistas de fora (`houseNoa`, `houseNeighbor`, `school`; `tools/atlas/buildings.py`), a natureza do bairro (`treeOak`, `treeOakFruit`, `treePine`, `pathStone0-2`, `flowerPatch*`, `grassTuft0-1`, `pebbles`; `tools/atlas/nature.py`) e as molduras da interface em `ui/` (`frame-wood.png`, `frame-panel.png`; `tools/art/draw_ui.py`).
+Desenhados para o Mundo do Aprender na paleta do Sprout Lands: os pisos de madeira, da cozinha e da escola (`floorWood`, `floorKitchen`, `floorSchool` no atlas; `tools/atlas/build_atlas.py`) as casas do bairro vistas de fora (`houseNoa`, `houseNeighbor`, `school`; `tools/atlas/buildings.py`), a natureza do bairro (`treeOak`, `treeOakFruit`, `treePine`, `pathStone0-2`, `flowerPatch*`, `grassTuft0-1`, `pebbles`; `tools/atlas/nature.py`), os objetos do bairro (`barrel`, `crate`, `pot`, `lampPost`, `mailbox`, `hayBale`, `gardenBed`, `bridge`; `tools/atlas/props.py`) e as molduras da interface em `ui/` (`frame-wood.png`, `frame-panel.png`; `tools/art/draw_ui.py`).
 
 ## Tela inicial (`title.png`)
 

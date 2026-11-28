@@ -42,7 +42,9 @@ house = {
         {'art': 'drawers', 'x': 4, 'y': 1},
         {'art': 'plantPot', 'x': 5, 'y': 1},
         {'art': 'rugWideBlue', 'x': 2, 'y': 4, 'solid': 'none'},
-        {'art': 'plantSmall', 'x': 9, 'y': 1},
+        # banheiro: vaso sanitário e banheira ao lado da pia; cozinha: bancada e fogão embaixo da janela
+        {'art': 'toilet', 'x': 6, 'y': 1}, {'art': 'bathtub', 'x': 8, 'y': 1},
+        {'art': 'kitchenCounter', 'x': 10, 'y': 1}, {'art': 'stove', 'x': 11, 'y': 1}, {'art': 'kitchenCounter', 'x': 12, 'y': 1},
         {'art': 'cabinet', 'x': 14, 'y': 1},
         {'art': 'chairLeft', 'x': 11, 'y': 3},
         {'art': 'chairRight', 'x': 13, 'y': 3},
@@ -55,6 +57,9 @@ house = {
         {'art': 'rugWideGreen', 'x': 4, 'y': 8, 'solid': 'none'},
         {'art': 'plantPot', 'x': 1, 'y': 5},
         {'art': 'painting1', 'x': 6, 'y': 0, 'solid': 'none'},
+        # quarto: prateleira na parede e estante; sala: poltrona perto do abajur
+        {'art': 'wallShelf', 'x': 4, 'y': 0, 'solid': 'none'}, {'art': 'bookshelf', 'x': 1, 'y': 6},
+        {'art': 'armchair', 'x': 14, 'y': 7},
     ],
     'doors': [{'x': 8, 'y': 10, 'to': 'neighborhood', 'spawn': {'x': 6, 'y': 7}, 'facing': 'down', 'label': 'Sair para o bairro'}],
     'spots': [
@@ -111,6 +116,7 @@ fill(3, 8, 32, 9, 's')               # rua principal até a ponte
 fill(35, 8, 37, 9, 's')              # chegada do outro lado da ponte
 fill(6, 7, 6, 7, 's')                # porta da casa do Noa
 fill(27, 7, 27, 7, 's')              # porta da escola
+fill(11, 7, 11, 7, 's')              # porta da casa da Lia
 fill(17, 10, 18, 25, 's')            # rua para o sul
 fill(7, 10, 8, 15, 's')              # caminho da fazendinha
 fill(26, 10, 27, 17, 's')            # caminho do zoológico
@@ -197,6 +203,7 @@ hood = {
     'objects': trees + decor + props + farm_objects + zoo_objects,
     'doors': [
         {'x': 6, 'y': 6, 'to': 'house', 'spawn': {'x': 8, 'y': 9}, 'facing': 'up', 'label': 'Entrar em casa'},
+        {'x': 11, 'y': 6, 'to': 'neighbor', 'spawn': {'x': 6, 'y': 7}, 'facing': 'up', 'label': 'Entrar na casa da Lia'},
         {'x': 27, 'y': 6, 'to': 'school', 'spawn': {'x': 8, 'y': 8}, 'facing': 'up', 'label': 'Entrar na escola'},
     ],
     'spots': [
@@ -246,22 +253,23 @@ school = {
                'M': {'room': True, 'solid': True, 'tile': 'boardMiddle'},
                'R': {'room': True, 'solid': True, 'tile': 'boardRight'}},
     'objects': [
-        {'art': 'plantPot', 'x': 14, 'y': 1},
+        {'art': 'bookshelf', 'x': 14, 'y': 1}, {'art': 'plantPot', 'x': 13, 'y': 1},
         {'art': 'painting1', 'x': 11, 'y': 0, 'solid': 'none'},
-        {'art': 'table', 'x': 3, 'y': 4}, {'art': 'chairBack', 'x': 3, 'y': 5},
-        {'art': 'table', 'x': 5, 'y': 4},
-        {'art': 'table', 'x': 10, 'y': 4},
-        {'art': 'table', 'x': 12, 'y': 4}, {'art': 'chairBack', 'x': 12, 'y': 5},
-        {'art': 'table', 'x': 3, 'y': 7}, {'art': 'chairBack', 'x': 3, 'y': 8},
-        {'art': 'table', 'x': 12, 'y': 7}, {'art': 'chairBack', 'x': 12, 'y': 8},
+        {'art': 'schoolDesk', 'x': 3, 'y': 4}, {'art': 'chairBack', 'x': 3, 'y': 5},
+        {'art': 'schoolDesk', 'x': 5, 'y': 4},
+        {'art': 'schoolDesk', 'x': 10, 'y': 4},
+        {'art': 'schoolDesk', 'x': 12, 'y': 4}, {'art': 'chairBack', 'x': 12, 'y': 5},
+        {'art': 'schoolDesk', 'x': 3, 'y': 7}, {'art': 'chairBack', 'x': 3, 'y': 8},
+        {'art': 'schoolDesk', 'x': 12, 'y': 7}, {'art': 'chairBack', 'x': 12, 'y': 8},
         {'art': 'rugWideGreen', 'x': 7, 'y': 3, 'solid': 'none'},
         {'art': 'lampPink', 'x': 1, 'y': 8},
         # cadeira que faltava, mesa da professora e um cantinho de leitura
         {'art': 'chairBack', 'x': 5, 'y': 5},
-        {'art': 'table', 'x': 10, 'y': 1},
+        {'art': 'teacherDesk', 'x': 10, 'y': 1},
         {'art': 'rugWideBlue', 'x': 12, 'y': 6, 'solid': 'none'}, {'art': 'cabinet', 'x': 14, 'y': 6},
         {'art': 'plantSmall', 'x': 14, 'y': 8},
-        {'art': 'painting0', 'x': 4, 'y': 0, 'solid': 'none'},
+        {'art': 'posterAbc', 'x': 4, 'y': 0, 'solid': 'none'}, {'art': 'wallClock', 'x': 12, 'y': 0, 'solid': 'none'},
+        {'art': 'bookshelf', 'x': 1, 'y': 5},
     ],
     'doors': [{'x': 8, 'y': 9, 'to': 'neighborhood', 'spawn': {'x': 27, 'y': 7}, 'facing': 'down', 'label': 'Sair para o bairro'}],
     'spots': [
@@ -276,8 +284,41 @@ school = {
     ],
 }
 
+# =====================================================================
+# Casa da Lia, a vizinha (12 × 9): sala à esquerda, cozinha à direita
+# =====================================================================
+lia_kitchen = {(x, y): 'k' for x in range(7, 11) for y in range(1, 4)}
+neighbor = {
+    'id': 'neighbor', 'name': 'Casa da Lia', 'background': '#5c4452',
+    'welcome': 'Esta é a casa da Lia, a minha vizinha. Ela deixou eu olhar.',
+    'ground': room(12, 9, windows=(3, 8), door=6, extra=lia_kitchen),
+    'legend': ROOM_LEGEND,
+    'objects': [
+        {'art': 'painting2', 'x': 1, 'y': 0, 'solid': 'none'},
+        {'art': 'wallShelf', 'x': 5, 'y': 0, 'solid': 'none'},
+        {'art': 'wallClock', 'x': 10, 'y': 0, 'solid': 'none'},
+        {'art': 'plantPot', 'x': 4, 'y': 1},
+        {'art': 'kitchenCounter', 'x': 7, 'y': 1}, {'art': 'stove', 'x': 8, 'y': 1},
+        {'art': 'kitchenCounter', 'x': 9, 'y': 1}, {'art': 'fridge', 'x': 10, 'y': 1},
+        {'art': 'chairLeft', 'x': 7, 'y': 4}, {'art': 'table', 'x': 8, 'y': 4}, {'art': 'chairRight', 'x': 9, 'y': 4},
+        {'art': 'rugWidePink', 'x': 2, 'y': 4, 'solid': 'none'},
+        {'art': 'armchair', 'x': 1, 'y': 5}, {'art': 'sofa', 'x': 3, 'y': 6}, {'art': 'lampGreen', 'x': 5, 'y': 6},
+        {'art': 'tv', 'x': 3, 'y': 3}, {'art': 'drawers', 'x': 10, 'y': 5},
+        {'art': 'plantSmall', 'x': 10, 'y': 7},
+        {'art': 'rugGreen', 'x': 8, 'y': 6, 'solid': 'none'},
+    ],
+    'doors': [{'x': 6, 'y': 8, 'to': 'neighborhood', 'spawn': {'x': 11, 'y': 7}, 'facing': 'down', 'label': 'Sair para o bairro'}],
+    'spots': [
+        {'id': 'neighbor-aquarium', 'label': 'Aquário', 'art': 'aquarium', 'x': 2, 'y': 1,
+         'prompt': 'O aquário da Lia. O peixinho nada devagar.'},
+        {'id': 'neighbor-books', 'label': 'Estante', 'art': 'bookshelf', 'x': 1, 'y': 1,
+         'prompt': 'A estante da Lia. Ela gosta de livros de bichos.'},
+    ],
+}
+
 MAPS = [
     (house, 'houseMap', 'Casa do Noa: quarto (esquerda), banheiro (meio), cozinha e sala (direita).'),
     (hood, 'neighborhoodMap', 'O bairro: casa do Noa, escola, praça, fazendinha, zoológico e rio.'),
+    (neighbor, 'neighborMap', 'Casa da Lia, a vizinha (entrada pela porta da casa ao lado da casa do Noa).'),
     (school, 'schoolMap', 'Sala de aula da escola do Noa (entrada pela porta da escola, no bairro).'),
 ]

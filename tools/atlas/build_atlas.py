@@ -162,6 +162,8 @@ from nature import draw_nature
 pieces.update(draw_nature())  # árvores grandes, pedras do caminho, canteiros (tools/atlas/nature.py)
 from props import draw_props
 pieces.update(draw_props())  # barril, caixote, vaso, poste, caixa de correio, feno (tools/atlas/props.py)
+from furniture import draw_furniture
+pieces.update(draw_furniture())  # móveis dos interiores (tools/atlas/furniture.py)
 # despertador tocando = relógio do Sprout com traços em cima
 ring = pieces['alarmClock'].copy(); d = ImageDraw.Draw(ring)
 for x0, y0, x1, y1 in [(2, 3, 4, 1), (8, 2, 8, 0), (14, 3, 12, 1)]:

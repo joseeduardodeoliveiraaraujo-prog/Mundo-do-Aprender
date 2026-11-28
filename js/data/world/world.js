@@ -26,11 +26,12 @@
 
 import { houseMap } from './maps/house.js';
 import { neighborhoodMap } from './maps/neighborhood.js';
+import { neighborMap } from './maps/neighbor.js';
 import { schoolMap } from './maps/school.js';
 
 export const worldData = Object.freeze({
   version: 1,
-  maps: Object.freeze({ house: houseMap, neighborhood: neighborhoodMap, school: schoolMap }),
+  maps: Object.freeze({ house: houseMap, neighborhood: neighborhoodMap, neighbor: neighborMap, school: schoolMap }),
   start: Object.freeze({ map: 'house', x: 3, y: 5, facing: 'down' }),
   /**
    * Quantos blocos a câmera mostra, pela largura da janela (sempre 3:2). Em telas

@@ -38,7 +38,11 @@ export const houseMap = Object.freeze({
     { art: 'drawers', x: 4, y: 1 },
     { art: 'plantPot', x: 5, y: 1 },
     { art: 'rugWideBlue', x: 2, y: 4, solid: 'none' },
-    { art: 'plantSmall', x: 9, y: 1 },
+    { art: 'toilet', x: 6, y: 1 },
+    { art: 'bathtub', x: 8, y: 1 },
+    { art: 'kitchenCounter', x: 10, y: 1 },
+    { art: 'stove', x: 11, y: 1 },
+    { art: 'kitchenCounter', x: 12, y: 1 },
     { art: 'cabinet', x: 14, y: 1 },
     { art: 'chairLeft', x: 11, y: 3 },
     { art: 'chairRight', x: 13, y: 3 },
@@ -51,6 +55,9 @@ export const houseMap = Object.freeze({
     { art: 'rugWideGreen', x: 4, y: 8, solid: 'none' },
     { art: 'plantPot', x: 1, y: 5 },
     { art: 'painting1', x: 6, y: 0, solid: 'none' },
+    { art: 'wallShelf', x: 4, y: 0, solid: 'none' },
+    { art: 'bookshelf', x: 1, y: 6 },
+    { art: 'armchair', x: 14, y: 7 },
   ],
   doors: [
     {

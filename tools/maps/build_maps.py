@@ -1,4 +1,4 @@
-# Gera js/data/world/maps/{house,neighborhood,school}.js e prévias dos mapas inteiros.
+# Gera js/data/world/maps/{house,neighborhood,neighbor,school}.js e prévias dos mapas inteiros.
 # Uso, na pasta do projeto: python tools/maps/build_maps.py . <pasta-das-previas> tools/maps/maps_design.py
 # Os mapas são desenhados em tools/maps/maps_design.py; depois de gerar, não edite os .js à mão.
 import sys, json, re, random, math

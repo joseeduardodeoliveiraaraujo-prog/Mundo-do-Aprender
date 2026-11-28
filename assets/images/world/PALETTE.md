@@ -92,5 +92,9 @@ amarela `#ffd600` com contorno preto), na hora em que a opção é ligada.
   caixa de correio, fardo de feno, canteiro da horta e a ponte do rio (2 blocos, a largura da rua). Ficam perto das casas, da praça e da
   fazendinha, nunca no meio da rua; bloqueiam só o bloco de baixo. Tudo parado: o poste fica
   aceso com luz suave, sem brilho piscando.
+- **Móveis dos interiores** (`tools/atlas/furniture.py`): estante, bancada e fogão, vaso sanitário e
+  banheira, prateleira de parede, aquário, poltrona, carteiras e mesa da professora, cartaz do ABC.
+  Cada cômodo tem os móveis que a criança espera ver nele (cozinha com fogão, banheiro com banheira),
+  para reconhecer o lugar sem precisar ler.
 - Animação só quando a criança age, curta e sem repetição. Exemplos: a pessoa vira para o Noa
   ao conversar; a espuma cresce ao esfregar.

@@ -50,9 +50,15 @@ Regras:
 | Rosa (sabonete, cortina) | `#e8b0c4` | `#cc8ca8` | `#f8d6e2` | |
 | Água | `#a3cdd8` | `#6c999b` | `#ffffff` | jato, gotas |
 | Barro | `#926858` | `#aa7959` | | mãos sujas |
+| Reboco (paredes de fora) | `#f0e2c4` | `#decaa8` | `#faf2de` | casas do bairro |
+| Telhado azul / vermelho / verde | `#7aa0cc` / `#cc7862` / `#86b492` | `#6080b2` / `#ae5e52` / `#68947a` | `#a0c2e2` / `#e49c80` / `#acd2ac` | casa do Noa / vizinha / escola |
 
 Pisos do mapa com contraste baixo (o chão nunca compete com móveis e pessoas): madeira na casa,
 lajotas creme `#f2e6cc`/`#e6d6b6` na cozinha, verde-acinzentado `#d8e2d6`/`#ccd8cc` na escola.
+No bairro, as ruas são **lajotas grandes** (uma pedra por bloco, creme `#e2d8c2` ou cinza `#d2d6d2`,
+contorno suave `#b2a696`, sem o roxo), com a grama aparecendo nas juntas. Nada de pedrinhas miúdas
+repetidas: padrão miúdo cansa a vista. Flores ficam em **canteiros** (grupos de 6 flores), nunca em
+cima da rua. Tufos de grama e pedrinhas, também com contorno suave, quebram a grama lisa.
 
 ## Interface
 
@@ -75,5 +81,12 @@ amarela `#ffd600` com contorno preto), na hora em que a opção é ligada.
 - Pessoas e Noa: Ninja Adventure (CC0), com as cores suavizadas para o Sprout Lands; 4 direções.
 - Animais próprios (pato, elefante, girafa, tartaruga) e móveis próprios (TV, sofá):
   `tools/atlas/own_art.py`, 16×16, mesmas regras de contorno e luz.
+- **Casas do bairro** (`tools/atlas/buildings.py`): cada casa é um desenho inteiro, da largura da casa
+  no mapa, com a porta no centro da coluna `door`. Uma cor de telhado por casa, para a criança
+  reconhecer cada lugar (a do Noa é azul). Detalhes (telhas, musgo, floreiras) ficam nos prédios;
+  o chão por onde o Noa anda continua calmo.
+- **Árvores grandes** (`tools/atlas/nature.py`): carvalho 3×3 blocos (com ou sem frutas) e pinheiro 2×3,
+  copa com volume (luz em cima/esquerda, sombra embaixo/direita, arcos de folhas) e sombra translúcida
+  no chão. Só a linha de baixo bloqueia a passagem; o Noa passa atrás da copa.
 - Animação só quando a criança age, curta e sem repetição. Exemplos: a pessoa vira para o Noa
   ao conversar; a espuma cresce ao esfregar.

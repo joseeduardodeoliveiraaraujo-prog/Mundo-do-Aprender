@@ -41,6 +41,10 @@ def terrain_piece(t, up, down, left, right):
     row = 'T' if not up else 'B' if not down else ''
     col = 'L' if not left else 'R' if not right else ''
     return f'{t}9{row + col or "C"}'
+def variant_of(x, y, n):
+    """Igual a variantOf de js/games/world/autotile.js (inteiros de 32 bits do JavaScript)."""
+    i32 = lambda v: ((v + 2**31) % 2**32) - 2**31
+    return ((i32(x * 73856093) ^ i32(y * 19349663)) * 2654435761 % 2**32) % n
 def size_of(art):
     _, _, w, h = FR[art]; return w, h, math.ceil(w / T), math.ceil(h / T)
 
@@ -59,9 +63,13 @@ def preview(m, path):
             if lg.get('floor'): layers.append((0, frame(lg['floor']), x * T, y * T))
             for i, t in enumerate(lg.get('terrains', [])):
                 layers.append((1 + i * .1, frame(terrain_piece(t, has(t, x, y - 1), has(t, x, y + 1), has(t, x - 1, y), has(t, x + 1, y))), x * T, y * T))
-            if lg.get('tile'): layers.append((1.5, frame(lg['tile']), x * T, y * T))
+            tile = lg.get('tile')
+            if isinstance(tile, list): tile = tile[variant_of(x, y, len(tile))]
+            if tile: layers.append((1.5, frame(tile), x * T, y * T))
     for b in m.get('buildings', []):
         x, y, w, h, door = b['x'], b['y'], b['w'], b['h'], b['door']; d = (y + h) * T
+        if b.get('art'):  # casa desenhada inteira: base embaixo da casa, centrada
+            im = frame(b['art']); layers.append((d, im, x * T + (w * T - im.width) // 2, d - im.height)); continue
         for r in range(h - 1):
             rr = 'T' if r == 0 else 'B' if r == h - 2 else ''
             for c in range(w):
@@ -96,7 +104,8 @@ def validate(m, all_ids):
     for ch in set(''.join(m['ground'])): assert ch in m['legend'], (m['id'], ch)
     for lg in m['legend'].values():
         for k in ('tile', 'floor'):
-            if lg.get(k): assert lg[k] in FR, lg[k]
+            for name in (lg[k] if isinstance(lg.get(k), list) else [lg.get(k)]):
+                if name: assert name in FR, name
     for o in m.get('objects', []) + m['spots']:
         for k in ('art', 'usedArt'):
             if o.get(k): assert o[k] in FR, (m['id'], o[k])

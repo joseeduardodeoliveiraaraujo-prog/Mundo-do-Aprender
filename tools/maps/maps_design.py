@@ -87,7 +87,7 @@ house = {
 }
 
 # =====================================================================
-# Bairro (40 × 28): ilha de grama com caminhos de terra, rio à direita
+# Bairro (40 × 28): ilha de grama com ruas de pedra, praça de terra, rio à direita
 # =====================================================================
 random.seed(11)
 W, H = 40, 28
@@ -105,37 +105,52 @@ for x in range(1, 39):
         if random.random() < 0.2 and g[y][x] == 'g': g[y][x] = '~'
 # ponte sobre o rio
 for x in range(33, 35): g[8][x] = 'B'
-# caminhos de terra
-fill(3, 8, 32, 9, 'p')               # rua principal até a ponte
-fill(35, 8, 37, 8, 'p')              # chegada do outro lado da ponte
-fill(6, 7, 6, 7, 'p')                # porta da casa do Noa
-fill(27, 7, 27, 7, 'p')              # porta da escola
-fill(17, 10, 18, 25, 'p')            # rua para o sul
+# ruas de pedra (a grama aparece entre as pedras) e praça de terra
+fill(3, 8, 32, 9, 's')               # rua principal até a ponte
+fill(35, 8, 37, 8, 's')              # chegada do outro lado da ponte
+fill(6, 7, 6, 7, 's')                # porta da casa do Noa
+fill(27, 7, 27, 7, 's')              # porta da escola
+fill(17, 10, 18, 25, 's')            # rua para o sul
+fill(7, 10, 8, 15, 's')              # caminho da fazendinha
+fill(26, 10, 27, 17, 's')            # caminho do zoológico
 fill(12, 12, 23, 17, 'p')            # praça
-fill(7, 10, 8, 15, 'p')              # caminho da fazendinha
-fill(26, 10, 27, 17, 'p')            # caminho do zoológico
 ground = [''.join(r) for r in g]
 
 trees = []
 def tree(art, x, y): trees.append({'art': art, 'x': x, 'y': y})
-for x in range(2, 31, 3):
-    tree(['treeBig', 'treeTall', 'treeApple'][x % 3], x, 0)    # fileira no topo (atrás)
-for (x, y, a) in [(1, 10, 'treeTall'), (1, 13, 'treeBig'), (21, 3, 'treeApple'), (15, 3, 'treeTall'), (30, 11, 'treeBig'),
-                  (10, 11, 'treeTall'), (24, 11, 'treeTall'), (13, 19, 'treeBig'), (21, 20, 'treeApple'), (14, 23, 'treeTall'),
-                  (36, 3, 'treeBig'), (37, 7, 'treeTall'), (36, 17, 'treeApple'), (37, 21, 'treeBig'), (35, 24, 'treeTall'),
+# fileira no topo (atrás): árvores grandes; em cima da escola, menores (a escola começa na linha 2)
+for x in range(1, 20, 3):
+    tree('treeOakFruit' if x % 2 else 'treeOak', x, 0)
+for (x, a) in [(22, 'treePine'), (24, 'treeBig'), (27, 'treeApple'), (30, 'treePine')]:
+    tree(a, x, 0)
+for (x, y, a) in [(1, 10, 'treeTall'), (1, 13, 'treeBig'), (21, 3, 'treeApple'), (15, 3, 'treeTall'), (29, 10, 'treeOak'),
+                  (10, 11, 'treeTall'), (24, 11, 'treeTall'), (13, 18, 'treeOak'), (19, 20, 'treeOakFruit'), (14, 23, 'treeTall'),
+                  (36, 3, 'treeBig'), (37, 7, 'treeTall'), (35, 16, 'treeOakFruit'), (37, 21, 'treeBig'), (35, 23, 'treePine'),
                   (30, 24, 'treeTall'), (19, 4, 'bush')]:
     tree(a, x, y)
 decor = []
 def d(art, x, y, solid='none'): decor.append({'art': art, 'x': x, 'y': y, 'solid': solid})
 for (x, y, a) in [(4, 11, 'flowerPink'), (5, 12, 'flowersYellow'), (11, 7, 'flowerBlue'), (13, 6, 'flowersPink'), (20, 6, 'flowerYellow'),
                   (23, 10, 'mushroom'), (29, 6, 'flowersYellow'), (3, 6, 'sprouts'), (31, 15, 'flowerPink'), (12, 18, 'flowersYellow'),
-                  (22, 18, 'flowerBlue'), (19, 19, 'mushroomBig'), (16, 22, 'flowersPink'), (24, 15, 'leaves'), (10, 9, 'leaves'),
+                  (22, 18, 'flowerBlue'), (16, 21, 'mushroomBig'), (16, 22, 'flowersPink'), (24, 15, 'leaves'), (10, 9, 'leaves'),
                   (37, 11, 'mushroomPurple'), (36, 19, 'flowersPink'), (38, 15, 'flowerBlue'),
                   # canteiros nos gramados vazios (entre as casas e dos lados da praça)
                   (16, 5, 'flowersYellow'), (19, 5, 'flowerPink'), (17, 6, 'flowerBlue'),
                   (3, 9, 'flowersYellow'), (6, 10, 'flowerBlue'), (9, 12, 'flowersPink'), (11, 12, 'flowersPink'),
                   (25, 9, 'flowersPink'), (28, 12, 'flowersYellow'), (29, 9, 'flowerBlue'), (24, 12, 'flowersYellow')]:
     d(a, x, y)
+# flores em canteiros (grupos), no lugar das flores soltas
+PATCHES = {'flowerPink': 'flowerPatchPink', 'flowersPink': 'flowerPatchMix', 'flowerYellow': 'flowerPatchYellow',
+           'flowersYellow': 'flowerPatchYellow', 'flowerBlue': 'flowerPatchBlue'}
+for item in decor:
+    item['art'] = PATCHES.get(item['art'], item['art'])
+# tufos de grama e pedrinhas espalhados na grama livre (sorteio fixo: o mapa é sempre igual)
+taken = {(o['x'], o['y']) for o in decor + trees}
+for y in range(2, 26):
+    for x in range(2, 32):
+        if g[y][x] == 'g' and (x, y) not in taken and random.random() < 0.06:
+            d(random.choice(['grassTuft0', 'grassTuft1', 'grassTuft0', 'pebbles']), x, y)
+decor[:] = [o for o in decor if g[o['y']][o['x']] != 's']   # nada de flor em cima das pedras da rua
 for (x, y, a) in [(20, 23, 'rockBig'), (31, 20, 'rockSmall'), (2, 23, 'rock'), (11, 23, 'stump'), (33, 4, 'lily'), (34, 20, 'lilyBig'),
                   (33, 23, 'lily')]:
     d(a, x, y, 'base' if a in ('rockBig', 'stump') else 'none')
@@ -158,11 +173,12 @@ hood = {
         'B': {},
         'g': {'terrains': ['grass']},
         'p': {'terrains': ['grass', 'dirt']},
+        's': {'terrains': ['grass'], 'tile': ['pathStone0', 'pathStone1', 'pathStone2']},
     },
     'buildings': [
-        {'x': 4, 'y': 3, 'w': 5, 'h': 4, 'door': 2},     # casa do Noa: porta em (6, 6)
-        {'x': 10, 'y': 3, 'w': 4, 'h': 4, 'door': 1},    # casa do vizinho
-        {'x': 24, 'y': 2, 'w': 6, 'h': 5, 'door': 3},    # escola: porta em (27, 6)
+        {'x': 4, 'y': 3, 'w': 5, 'h': 4, 'door': 2, 'art': 'houseNoa'},     # casa do Noa: porta em (6, 6)
+        {'x': 10, 'y': 3, 'w': 4, 'h': 4, 'door': 1, 'art': 'houseNeighbor'},    # casa do vizinho
+        {'x': 24, 'y': 2, 'w': 6, 'h': 5, 'door': 3, 'art': 'school'},    # escola: porta em (27, 6)
     ],
     'fences': [
         {'x': 2, 'y': 16, 'w': 11, 'h': 10, 'gaps': [[7, 16], [8, 16]]},

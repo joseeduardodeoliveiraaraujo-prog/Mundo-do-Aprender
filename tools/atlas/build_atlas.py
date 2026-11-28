@@ -155,7 +155,11 @@ for name, index in [('markTodo', 12), ('markDone', 13), ('sink', 14), ('fridge',
 # Peças redesenhadas em código no estilo do Sprout Lands (substituem as de home.png).
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from own_art import draw_all
+from buildings import draw_buildings
 pieces.update(draw_all())
+pieces.update(draw_buildings())  # casas do bairro, cada uma inteira (tools/atlas/buildings.py)
+from nature import draw_nature
+pieces.update(draw_nature())  # árvores grandes, pedras do caminho, canteiros (tools/atlas/nature.py)
 # despertador tocando = relógio do Sprout com traços em cima
 ring = pieces['alarmClock'].copy(); d = ImageDraw.Draw(ring)
 for x0, y0, x1, y1 in [(2, 3, 4, 1), (8, 2, 8, 0), (14, 3, 12, 1)]:

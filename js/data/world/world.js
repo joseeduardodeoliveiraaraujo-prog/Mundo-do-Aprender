@@ -7,10 +7,11 @@
  *   background?         cor atrás do mapa (fora das paredes dos cômodos)
  *   ground: string[]    uma letra por bloco de 16×16, lida pela `legend`:
  *     { terrains?: ['grass', 'dirt'] (encaixe automático), room?: true (parede de cômodo),
- *       floor?: imagem de piso, tile?: imagem por cima, solid?: true }
+ *       floor?: imagem de piso, tile?: imagem por cima (ou lista de variações, escolhida pela posição), solid?: true }
  *   objects             [{ art, x, y, solid?: 'base'|'all'|'none', lift? }] (x, y = canto superior esquerdo;
  *                       'base' bloqueia só a linha de baixo, então Noa passa atrás das copas)
- *   buildings           [{ x, y, w, h, door }] casa vista de fora: telhado + parede com porta
+ *   buildings           [{ x, y, w, h, door, art? }] casa vista de fora (bloqueia a área, menos a porta);
+ *                       `art`: casa desenhada inteira no atlas; sem ela, telhado + parede com porta
  *   fences              [{ x, y, w, h, gaps: [[x, y]] }] cerca retangular com porteiras
  *   doors               [{ x, y, to, spawn: {x,y}, facing, label }] passagem para outro mapa
  *   spots               lugares que Noa usa:

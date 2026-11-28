@@ -73,12 +73,21 @@ export function createMapView(scene, { map, model, used, removed, statusOf }) {
       if (piece === `${terrain}9C`) piece = CENTER_VARIANTS[terrain][variantOf(x, y, CENTER_VARIANTS[terrain].length)];
       image(piece, px, py, DEPTH.terrain + index * 0.1);
     });
-    if (legend.tile) image(legend.tile, px, py, DEPTH.terrain + 0.5);
+    // `tile` pode ser uma lista de variações (ex.: pedras do caminho), escolhida pela posição.
+    const tile = Array.isArray(legend.tile) ? legend.tile[variantOf(x, y, legend.tile.length)] : legend.tile;
+    if (tile) image(tile, px, py, DEPTH.terrain + 0.5);
   }));
 
-  // ---------- Casas vistas de fora: telhado em 9 pedaços + parede com porta ----------
-  (map.buildings ?? []).forEach(({ x, y, w, h, door }) => {
+  // ---------- Casas vistas de fora ----------
+  // Com `art`, a casa é uma imagem só (tools/atlas/buildings.py), com a base embaixo da casa;
+  // sem `art`, é montada com o telhado em 9 pedaços + parede com porta.
+  (map.buildings ?? []).forEach(({ x, y, w, h, door, art }) => {
     const depth = (y + h) * TILE_SIZE;
+    if (art && ATLAS_FRAMES[art]) {
+      const [, , width, height] = ATLAS_FRAMES[art];
+      image(art, x * TILE_SIZE + (w * TILE_SIZE - width) / 2, depth - height, depth);
+      return;
+    }
     for (let row = 0; row < h - 1; row += 1) {
       const r = row === 0 ? 'T' : row === h - 2 ? 'B' : '';
       for (let col = 0; col < w; col += 1) {

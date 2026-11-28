@@ -105,8 +105,14 @@ export function createGameStage({
       game?.registry.set('highContrast', highContrast);
     });
     // O Phaser mede o espaço só ao iniciar: quando o palco muda de tamanho
-    // (layout, giro do tablet, tamanho do texto), ele precisa medir de novo.
-    const resizeObserver = new ResizeObserver(() => game?.scale.refresh());
+    // (layout, giro do tablet, tamanho do texto, cena de perto abrindo e fechando),
+    // ele precisa medir de novo. `refresh()` sozinho usa a medida antiga do palco:
+    // primeiro `getParentBounds()` lê o tamanho novo (como o Phaser faz ao iniciar).
+    const resizeObserver = new ResizeObserver(() => {
+      if (!game) return;
+      game.scale.getParentBounds();
+      game.scale.refresh();
+    });
     resizeObserver.observe(canvasHost);
     stopListening = () => {
       stopSettings();

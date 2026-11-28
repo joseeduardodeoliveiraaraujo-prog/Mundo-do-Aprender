@@ -207,15 +207,13 @@ hood = {
         {'x': 27, 'y': 6, 'to': 'school', 'spawn': {'x': 8, 'y': 8}, 'facing': 'up', 'label': 'Entrar na escola'},
     ],
     'spots': [
-        {'id': 'hood-neighbor', 'label': 'Vizinha Lia', 'art': 'personLia', 'x': 14, 'y': 13,
-         'prompt': 'Oi, eu sou a Lia. Você consegue ver o que o meu rosto mostra?', 'challenge': {'module': 'emotions', 'part': 'recognize'}},
-        {'id': 'hood-detective', 'label': 'Amigo Davi', 'art': 'personDavi', 'x': 21, 'y': 13,
+        {'id': 'hood-detective', 'label': 'Amigo Davi', 'art': 'personDavi', 'x': 37, 'y': 14,
          'prompt': 'Oi, eu sou o Davi. Vamos ser detetives e descobrir como as pessoas se sentem?', 'challenge': {'module': 'emotions', 'part': 'situation'}},
         {'id': 'hood-bench', 'label': 'Banco da praça', 'art': 'bench', 'x': 13, 'y': 16,
          'prompt': 'Um banco calmo para sentar. Vamos pensar em jeitos de mostrar o que sentimos?', 'challenge': {'module': 'emotions', 'part': 'express'}},
         {'id': 'hood-play', 'label': 'Amigo Caio', 'name': 'Caio', 'art': 'personKid', 'x': 15, 'y': 15,
          'prompt': 'Oi, eu sou o Caio. Estou brincando. Vamos aprender a entrar na brincadeira?', 'challenge': {'module': 'communication', 'part': 'play'}},
-        {'id': 'hood-friend', 'label': 'Amiga Bia', 'art': 'personBia', 'x': 22, 'y': 16,
+        {'id': 'hood-friend', 'label': 'Amiga Bia', 'art': 'personBia', 'x': 19, 'y': 24,
          'prompt': 'Oi, eu sou a Bia. Vamos contar o que a gente sente?', 'challenge': {'module': 'communication', 'part': 'feelings'}},
         {'id': 'hood-farmer', 'label': 'Fazendeiro Zé', 'art': 'personFarmer', 'x': 6, 'y': 15,
          'prompt': 'Bem-vindo à fazendinha! Vamos conhecer os animais daqui?', 'challenge': {'module': 'animals', 'part': 'farm'}},
@@ -223,6 +221,10 @@ hood = {
          'prompt': 'A placa mostra onde cada animal vive. Vamos ajudar os animais?', 'challenge': {'module': 'animals', 'part': 'homes'}},
         {'id': 'hood-zoo', 'label': 'Tratador Rui', 'name': 'Rui', 'art': 'personKeeper', 'x': 25, 'y': 17,
          'prompt': 'Oi, eu sou o Rui, tratador do zoológico. Vamos ver os animais da savana?', 'challenge': {'module': 'animals', 'part': 'savanna'}},
+        # Caminho fechado: a ponte quebrada (quebra-cabeça em js/data/world/closeups/bridge.js).
+        # Fica por cima da ponte inteira e bloqueia a passagem até ser consertada.
+        {'id': 'hood-bridge', 'label': 'Ponte quebrada', 'art': 'bridgeBroken', 'x': 33, 'y': 8, 'solid': 'all', 'gate': 'bridge',
+         'prompt': 'A ponte quebrou. Faltam tábuas. Não dá para atravessar o rio.'},
         {'id': 'hood-river', 'label': 'Placa do rio', 'art': 'sign', 'x': 36, 'y': 10,
          'prompt': 'O rio e as árvores. Vamos procurar os animais que vivem aqui?', 'challenge': {'module': 'animals', 'part': 'river'}},
         # Animais: tocar mostra o nome, o som e uma curiosidade (dados do módulo de animais).
@@ -290,7 +292,7 @@ school = {
 lia_kitchen = {(x, y): 'k' for x in range(7, 11) for y in range(1, 4)}
 neighbor = {
     'id': 'neighbor', 'name': 'Casa da Lia', 'background': '#5c4452',
-    'welcome': 'Esta é a casa da Lia, a minha vizinha. Ela deixou eu olhar.',
+    'welcome': 'Esta é a casa da Lia, a minha vizinha. A Lia está na sala.',
     'ground': room(12, 9, windows=(3, 8), door=6, extra=lia_kitchen),
     'legend': ROOM_LEGEND,
     'objects': [
@@ -309,6 +311,9 @@ neighbor = {
     ],
     'doors': [{'x': 6, 'y': 8, 'to': 'neighborhood', 'spawn': {'x': 11, 'y': 7}, 'facing': 'down', 'label': 'Sair para o bairro'}],
     'spots': [
+        {'id': 'hood-neighbor', 'label': 'Vizinha Lia', 'art': 'personLia', 'x': 6, 'y': 4,
+         'prompt': 'Oi, eu sou a Lia. Que bom que você veio! Você consegue ver o que o meu rosto mostra?',
+         'challenge': {'module': 'emotions', 'part': 'recognize'}},
         {'id': 'neighbor-aquarium', 'label': 'Aquário', 'art': 'aquarium', 'x': 2, 'y': 1,
          'prompt': 'O aquário da Lia. O peixinho nada devagar.'},
         {'id': 'neighbor-books', 'label': 'Estante', 'art': 'bookshelf', 'x': 1, 'y': 1,

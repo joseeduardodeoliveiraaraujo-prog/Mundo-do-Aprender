@@ -32,7 +32,8 @@ await send('Runtime.enable'); await send('Page.enable');
 await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: width < 600 });
 await send('Page.navigate', { url: 'http://127.0.0.1:8123/' });
 await wait(1200);
-const start = startMap === 'neighborhood' ? { map: 'neighborhood', x: 17, y: 11, facing: 'down' } : startMap === 'school' ? { map: 'school', x: 8, y: 7, facing: 'up' } : { map: 'house', x: 6, y: 5, facing: 'down' };
+const STARTS = { neighborhood: { x: 17, y: 11, facing: 'down' }, school: { x: 8, y: 7, facing: 'up' }, neighbor: { x: 6, y: 7, facing: 'up' }, house: { x: 6, y: 5, facing: 'down' } };
+const start = { map: STARTS[startMap] ? startMap : 'house', ...(STARTS[startMap] ?? STARTS.house) };
 await evalJs(`localStorage.setItem('mundo-do-aprender:world', ${JSON.stringify(JSON.stringify(start))}); true`);
 if (seedArg) {
   const seed = JSON.parse(seedArg);

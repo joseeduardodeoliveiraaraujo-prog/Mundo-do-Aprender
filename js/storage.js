@@ -16,6 +16,7 @@ export const STORAGE_KEYS = Object.freeze({
   SETTINGS: 'settings',
   PROGRESS: 'progress',
   WORLD: 'world',
+  GATES: 'gates',
 });
 
 const memoryFallback = new Map();

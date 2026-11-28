@@ -9,13 +9,14 @@ import { getSettings, updateSettings, resetSettings, onSettingsChange } from '..
 
 /** @param {HTMLFormElement} form */
 export function initSettingsPanel(form) {
-  const { fontSize, highContrast, reduceMotion, soundEnabled } = form.elements;
+  const { fontSize, highContrast, reduceMotion, soundEnabled, openPaths } = form.elements;
 
   const syncForm = (settings) => {
     fontSize.value = settings.fontSize;
     highContrast.checked = settings.highContrast;
     reduceMotion.checked = settings.reduceMotion;
     soundEnabled.checked = settings.soundEnabled;
+    openPaths.checked = settings.openPaths;
   };
 
   syncForm(getSettings());

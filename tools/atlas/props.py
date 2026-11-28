@@ -1,5 +1,5 @@
 """Objetos do bairro desenhados em código (paleta do Sprout Lands): barril, caixote, vaso,
-poste de luz, caixa de correio, fardo de feno, canteiro da horta e ponte.
+poste de luz, caixa de correio, fardo de feno, canteiro da horta e ponte (inteira e quebrada).
 
 Usado por build_atlas.py. Mesmas regras de tools/closeup/pixkit.py: contorno #6b4b5b por dentro,
 luz em cima/esquerda, sombra embaixo/direita, 3 tons por material. Enfeites parados: nada pisca
@@ -131,9 +131,13 @@ def garden_bed():
 PLANK = ((206, 164, 116), (176, 132, 96), (226, 192, 146))
 
 
-def bridge():
+RIVER = ((163, 205, 216), (140, 184, 200), (196, 226, 234))
+
+
+def bridge(broken=False):
     """Ponte de madeira (2 × 2 blocos, a largura da rua): tábuas de lado a lado, corrimão em cima e
-    embaixo com postes nas pontas. Fica no chão (o Noa anda por cima); só cobre a água do rio."""
+    embaixo com postes nas pontas. Fica no chão (o Noa anda por cima); só cobre a água do rio.
+    `broken`: faltam tábuas em três buracos (1, 2 e 3 tábuas), como na cena de perto da ponte."""
     img = Image.new('RGBA', (2 * T, 2 * T))
     shape(img, PLANK, rect((0, 3, 31, 28)))                              # tabuleiro
     d = ImageDraw.Draw(img)
@@ -141,6 +145,10 @@ def bridge():
         d.line([(x, 4), (x, 27)], fill=rgba(PLANK[1]))
         d.point((x + 1, 5), fill=rgba(PLANK[2]))
     d.line([(1, 27), (30, 27)], fill=rgba(PLANK[1]))                     # borda de baixo na sombra
+    if broken:                                                           # buracos: aparece a água
+        for x0, x1 in ((5, 7), (12, 19), (24, 27)):
+            shape(img, RIVER, rect((x0, 3, x1, 28)), outline=False)
+            d.line([(x0 + 1, 12), (x0 + 2, 12)], fill=rgba(RIVER[2]))
     for y in (1, 26):                                                    # corrimãos
         shape(img, WOOD, rrect((1, y, 30, y + 3), 1))
     for x in (0, 27):                                                    # postes nas pontas
@@ -150,7 +158,8 @@ def bridge():
 
 
 PIECES = {'barrel': barrel, 'crate': crate, 'pot': pot, 'lampPost': lamp_post, 'mailbox': mailbox, 'hayBale': hay_bale,
-          'gardenBed': garden_bed, 'bridge': bridge}
+          'gardenBed': garden_bed, 'bridge': bridge,
+          'bridgeBroken': lambda: bridge(broken=True)}
 
 
 def draw_props():

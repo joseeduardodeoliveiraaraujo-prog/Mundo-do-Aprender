@@ -19,7 +19,9 @@
  *       challenge?: { module, part }   abre uma atividade daquela parte do módulo
  *       usedArt?                       troca a imagem no primeiro uso
  *       removeOnUse?, donePrompt?      objeto que some ao ser usado
- *       animal?                        id em js/data/animals/catalog.js: Noa diz nome, som e curiosidade }
+ *       animal?                        id em js/data/animals/catalog.js: Noa diz nome, som e curiosidade
+ *       gate?                          caminho fechado: bloqueia até a criança resolver o quebra-cabeça
+ *                                      (js/data/world/gates.js); depois some e fica aberto (salvo) }
  * Coordenadas em blocos: x = coluna, y = linha, começando em 0.
  * Nomes das imagens: js/data/world/atlas.js.
  */

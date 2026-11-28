@@ -6,24 +6,26 @@ Plataforma educativa digital para crianças de **8 a 12 anos com Transtorno do E
 
 O app abre na **tela inicial** do jogo, com o menu clássico: **Continuar** (só quando há jogo salvo; mostra onde o Noa está e as estrelas), **Novo jogo** (com jogo salvo, pede confirmação antes de apagar as estrelas e a posição; as opções continuam), **Opções** e **Como jogar**. Dentro do jogo, o botão **Tela inicial** volta ao menu.
 
-O jogo é **2D em pixel art, visto de cima** (estilo RPG). A criança leva o Noa livremente pela **casa** (quarto, banheiro, cozinha e sala), pelo **bairro** (praça, fazendinha, zoológico e rio) e pela **escola** (sala de aula). Pessoas e objetos com um balão **!** têm um desafio; quando tudo ali foi feito, o balão vira uma estrela.
+O jogo é **2D em pixel art, visto de cima** (estilo RPG). A criança leva o Noa livremente pela **casa** (quarto, banheiro, cozinha e sala), pelo **bairro** (praça, fazendinha, zoológico e rio) e pela **escola** (sala de aula) e pela **casa da Lia**, a vizinha. Pessoas e objetos com um balão **!** têm um desafio; quando tudo ali foi feito, o balão vira uma estrela.
 
 | Onde | Desafio (parte do módulo) |
 | --- | --- |
 | Casa: despertador, cama, pia, mesa, sofá, mochila | Minha Rotina: Acordar, Hora de dormir, Higiene, Alimentação, Lazer, Escola |
 | Casa: Gabi (na cozinha) · gato | Eu Me Comunico: Em casa · Explorando os Animais: Em casa |
-| Praça: Lia, Davi, banco | Mundo das Emoções: Reconhecer, Detetive, Expressar |
-| Praça: crianças brincando, Bia · Escola: professora Ana | Eu Me Comunico: Brincando, O que eu sinto · Na escola |
+| Casa da Lia: Lia · Ilha do rio: Davi · Praça: banco | Mundo das Emoções: Reconhecer, Detetive, Expressar |
+| Praça: Caio brincando · Fim da rua sul: Bia · Escola: professora Ana | Eu Me Comunico: Brincando, O que eu sinto · Na escola |
 | Fazendinha, placa, zoológico, rio | Explorando os Animais: Fazenda, Cada um no seu lugar, Savana, Rio e floresta |
 
 - **Animais pelo bairro:** vaca, cavalo, galinha e pato na fazendinha; leão, elefante e girafa no zoológico; peixe e tartaruga no rio; macaco na árvore e cachorro perto de casa. Tocar num animal faz o Noa dizer o nome, o som e uma curiosidade (dados de `js/data/animals/catalog.js`).
+- **Cada região tem a sua pessoa:** a praça é o lugar de brincar (Caio) e de se acalmar (banco); a Lia recebe o Noa na casa dela; o Davi, detetive, fica na ilha do rio; a Bia, num cantinho calmo no fim da rua sul.
 - **Gabi** fica na cozinha da casa do Noa: é com ela que o Noa conversa nos desafios "Em casa" (pedir água, pedir ajuda, escolher o lanche).
 - **Escola por dentro:** a porta da escola leva à sala de aula, com quadro, carteiras, a professora Ana (desafio) e o colega Téo, que conversa com o Noa.
-- **Quem fala é quem está ali:** ao chegar perto de uma pessoa, o balão mostra o rosto e o nome dela; nas conversas, quem responde é a pessoa do lugar (Gabi na cozinha, Caio e Bia na praça, a professora Ana e o Téo na escola). As personagens das histórias de emoções (Malu, Leo, Tom, Nina, Pedro) têm nomes diferentes das pessoas do mapa.
+- **Quem fala é quem está ali:** ao chegar perto de uma pessoa, o balão mostra o rosto e o nome dela; nas conversas, quem responde é a pessoa do lugar (Gabi na cozinha, Caio na praça, Bia no fim da rua sul, a professora Ana e o Téo na escola). As personagens das histórias de emoções (Malu, Leo, Tom, Nina, Pedro) têm nomes diferentes das pessoas do mapa.
 - **Rostos das emoções em pixel art** (`assets/images/emotions/faces/*.png`, desenhados por `tools/art/draw_faces.py`).
 - **Formas de jogar:** tocar no mapa (Noa encontra o caminho); setas ou W A S D a qualquer momento (sem rolar a página) e Enter ou Espaço com o mapa focado; ou os botões **Ir até um lugar** e **Começar**.
 - **Tela:** o mapa é o maior possível na altura da janela; em telas largas, a fala do Noa e os botões ficam numa coluna ao lado.
 - **Cenas de perto:** algumas atividades abrem o lugar visto de perto, sobre o mapa, e a criança faz cada passo com as mãos. Na pia: tocar na torneira (a água cai e molha as mãos), arrastar o sabão até as mãos, esfregar passando o dedo de um lado para o outro (a espuma cresce), enxaguar e secar com a toalha. No **quarto**, de manhã: desligar o despertador, abrir a cortina (a luz entra) e acordar o Noa; à noite: guardar os brinquedos na caixa, fechar a cortina, levar o Noa até a cama e apagar o abajur (o quarto escurece). Na **mochila**, os objetos vão para dentro da mochila aberta; o que não serve volta com uma pista. No **quadro da rotina**, os cartões do dia (com os pictogramas da rotina) vão para as casas numeradas, seguindo as regras de cada atividade. Ação fora de ordem recebe uma pista e uma setinha parada mostra onde mexer. Botões fazem as mesmas ações (teclado e quem não arrasta).
+- **Quebra-cabeça da ponte:** a ponte do rio está quebrada e esconde a ilha (Davi, macaco, tartaruga, peixe e a placa do rio). Na cena de perto, a criança encaixa cada peça no buraco do mesmo tamanho (1, 2 ou 3 tábuas); a tábua rachada não serve e volta com uma explicação; peça no buraco errado volta com uma pista. Sem tempo e sem erro. Consertada, a ponte fica assim para sempre ("Novo jogo" quebra de novo). Para quem precisa de menos etapas: **Configurações → Caminhos sempre abertos**.
 - **Desafios:** cada visita a um lugar abre **uma** atividade daquela parte: a próxima que falta (ou, se tudo já foi feito, uma para repetir). Ao terminar, **Voltar a explorar** retorna ao mapa. O progresso e a posição do Noa ficam salvos.
 - **Sem tempo, sem inimigos, sem punição.** Com "Reduzir animações", Noa chega direto e as portas trocam de mapa sem transição.
 - **Visual:** pixel art no estilo aconchegante do **Sprout Lands** (Cup Nooble; uso não comercial, com crédito), com Noa e pessoas do **Ninja Adventure** (CC0) e peças próprias. Grama, terra, paredes e cercas se encaixam sozinhas; o Noa anda animado nas 4 direções, tem sombra e passa atrás das copas das árvores. Créditos e licenças em `assets/images/world/CREDITS.md`.

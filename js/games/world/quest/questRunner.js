@@ -180,7 +180,8 @@ export function createQuestRunner({ world, dialog, hud, closeup, texts, onEnd })
   return {
     get isActive() { return Boolean(active); },
     /**
-     * @param {{ moduleId: string, activity: { id: string }, speaker: Object, steps: Object[], success?: string }} quest
+     * @param {{ moduleId?: string, activity?: { id: string }, speaker: Object, steps: Object[], success?: string,
+     *   onComplete?: () => void }} quest  sem `activity` (caminho fechado), não registra progresso
      */
     async start(quest) {
       active = { stopped: false, waiter: null };
@@ -188,7 +189,8 @@ export function createQuestRunner({ world, dialog, hud, closeup, texts, onEnd })
       let completed = false;
       try {
         for (const step of quest.steps) await RUN[step.kind](step);
-        markActivityCompleted(quest.moduleId, quest.activity.id);
+        if (quest.activity) markActivityCompleted(quest.moduleId, quest.activity.id);
+        quest.onComplete?.();
         completed = true;
         await say(quest.speaker, quest.success ?? texts.done);
       } catch (error) {

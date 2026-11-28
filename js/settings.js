@@ -20,6 +20,7 @@ function systemPrefersReducedMotion() {
  * @property {boolean} highContrast
  * @property {boolean} reduceMotion
  * @property {boolean} soundEnabled  Sons desligados por padrão (sensibilidade auditiva).
+ * @property {boolean} openPaths     Caminhos do jogo abertos sem quebra-cabeça (menos etapas).
  */
 
 /** @type {Readonly<Settings>} */
@@ -28,6 +29,7 @@ export const DEFAULT_SETTINGS = Object.freeze({
   highContrast: false,
   reduceMotion: systemPrefersReducedMotion(),
   soundEnabled: false,
+  openPaths: false,
 });
 
 const listeners = new Set();
@@ -44,6 +46,7 @@ function sanitize(raw) {
     highContrast: pickBoolean('highContrast'),
     reduceMotion: pickBoolean('reduceMotion'),
     soundEnabled: pickBoolean('soundEnabled'),
+    openPaths: pickBoolean('openPaths'),
   };
 }
 

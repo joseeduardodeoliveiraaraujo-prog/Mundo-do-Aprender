@@ -1,10 +1,13 @@
-// Uso: node cdpreach.mjs <saida> <mapa> <x> <y>
+// Uso: node cdpreach.mjs <saida> <mapa> <x> <y> [salvos-json]
+// salvos-json: chaves extras do localStorage, sem o prefixo (ex.: '{"gates":["bridge"]}' abre a ponte;
+// '{"settings":{"openPaths":true}}' abre todos os caminhos). Sem isso, caminhos fechados ficam fechados.
 // Confere que o Noa consegue chegar a todos os lugares de um mapa pelo botão "Ir até".
 import { spawn } from 'node:child_process';
 import { mkdirSync } from 'node:fs';
 import { setTimeout as wait } from 'node:timers/promises';
 
-const [outDir, map, x, y] = process.argv.slice(2);
+const [outDir, map, x, y, savedArg = '{}'] = process.argv.slice(2);
+const saved = Object.entries(JSON.parse(savedArg)).map(([key, value]) => `localStorage.setItem('mundo-do-aprender:${key}', ${JSON.stringify(JSON.stringify(value))});`).join(' ');
 mkdirSync(outDir, { recursive: true });
 const port = 9300 + Math.floor(Math.random() * 500);
 const chrome = spawn('C:/Program Files/Google/Chrome/Application/chrome.exe', ['--headless=new', `--remote-debugging-port=${port}`, `--user-data-dir=${process.cwd()}/${outDir}/p-${port}`, '--no-first-run', '--use-angle=swiftshader', '--window-size=1280,900', 'about:blank'], { stdio: 'ignore' });
@@ -16,7 +19,7 @@ const send = (method, params = {}) => new Promise((r) => { const i = ++id; pendi
 const ev = async (e) => (await send('Runtime.evaluate', { expression: e, returnByValue: true })).result?.result?.value;
 await send('Runtime.enable'); await send('Page.enable'); await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
 await send('Page.navigate', { url: 'http://127.0.0.1:8123/' }); await wait(800);
-await ev(`localStorage.clear(); localStorage.setItem('mundo-do-aprender:world', ${JSON.stringify(JSON.stringify({ map, x: Number(x), y: Number(y), facing: 'down' }))}); true`);
+await ev(`localStorage.clear(); localStorage.setItem('mundo-do-aprender:world', ${JSON.stringify(JSON.stringify({ map, x: Number(x), y: Number(y), facing: 'down' }))}); ${saved} true`);
 await send('Page.navigate', { url: 'http://127.0.0.1:8123/#/jogo' }); await wait(500); await send('Page.reload', {}); await wait(3500);
 const labels = await ev(`[...document.querySelectorAll('.world__places-list button')].map((b) => b.textContent).filter((t) => t.startsWith('Ir até: ')).map((t) => t.slice(8))`);
 const failed = [];

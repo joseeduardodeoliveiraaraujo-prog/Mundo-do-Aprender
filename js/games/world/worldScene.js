@@ -12,6 +12,7 @@ import { createMapModel } from './mapModel.js';
 import { createFreeWalker } from './freeWalker.js';
 import { createMapView, ATLAS_KEY } from './mapView.js';
 import { createQuestObjects } from './questObjects.js';
+import { isGateOpen } from './gates.js';
 
 const MAX_STEP_MS = 100;  // evita saltos depois de uma pausa da aba
 const REACH = 10;         // pixels entre os pés de Noa e o lugar para valer "perto"
@@ -126,6 +127,8 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
         near = null;
         hovered = null;
         questObjects.reset();
+        // Caminhos já abertos (gates.js) somem do mapa.
+        map().spots.forEach((spot) => { if (spot.gate && isGateOpen(spot.gate)) removed.add(spot.id); });
         model = createMapModel(map(), (id) => removed.has(id));
         view = createMapView(this, { map: map(), model, used, removed, statusOf });
 
@@ -207,6 +210,14 @@ export function createWorldScene({ data, state, statusOf, onMapChange, onNearCha
       }
     },
     isUsed: (id) => used.has(id),
+    /** Caminho resolvido: o lugar que bloqueava some (a ponte inteira aparece embaixo). */
+    openGate(id) {
+      const spot = model?.spots.find((item) => item.id === id);
+      if (!spot) return;
+      removed.add(id);
+      view.showUsed({ ...spot, removeOnUse: true });
+      if (near === spot) { near = null; onNearChange(null); }
+    },
     /** Objetos de missão (itens, pistas, item carregado). */
     quest: questObjects,
     /** Durante uma missão, as portas não trocam de mapa. */

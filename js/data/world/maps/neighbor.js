@@ -8,7 +8,7 @@ export const neighborMap = Object.freeze({
   id: 'neighbor',
   name: 'Casa da Lia',
   background: '#5c4452',
-  welcome: 'Esta é a casa da Lia, a minha vizinha. Ela deixou eu olhar.',
+  welcome: 'Esta é a casa da Lia, a minha vizinha. A Lia está na sala.',
   ground: [
     '###w####w###',
     '#......kkkk#',
@@ -60,6 +60,15 @@ export const neighborMap = Object.freeze({
     },
   ],
   spots: [
+    {
+      id: 'hood-neighbor',
+      label: 'Vizinha Lia',
+      art: 'personLia',
+      x: 6,
+      y: 4,
+      prompt: 'Oi, eu sou a Lia. Que bom que você veio! Você consegue ver o que o meu rosto mostra?',
+      challenge: { module: 'emotions', part: 'recognize' },
+    },
     {
       id: 'neighbor-aquarium',
       label: 'Aquário',

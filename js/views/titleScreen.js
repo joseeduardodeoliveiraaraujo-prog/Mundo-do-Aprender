@@ -18,6 +18,7 @@ import { resetProgress } from '../progress.js';
 import { worldData } from '../data/world/world.js';
 import { totalStars } from '../games/world/stars.js';
 import { hasWorldState, loadWorldState, resetWorldState } from '../games/world/worldState.js';
+import { resetGates } from '../games/world/gates.js';
 
 const texts = worldData.texts.title;
 const GAME_ROUTE = '/jogo';
@@ -56,6 +57,7 @@ export function render(view) {
   function startNewGame() {
     resetProgress();
     resetWorldState();
+    resetGates();
     play();
   }
 

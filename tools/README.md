@@ -7,7 +7,7 @@ Execute sempre **na pasta do projeto**.
 | --- | --- | --- |
 | `serve.py` | Servidor local sem cache (mudanças aparecem ao recarregar) | `python tools/serve.py` → <http://localhost:8123> |
 | `art/` | Arte avulsa em pixel art: `draw_title.py` (tela inicial: `title.png`, `title-logo.png`), `draw_faces.py` (rostos das emoções, `assets/images/emotions/faces/*.png`) e `draw_ui.py` (molduras da interface, `assets/images/world/ui/`) | `python tools/art/draw_ui.py` (rostos: `python tools/art/draw_faces.py [previa.png]`) |
-| `closeup/` | Cenas de perto (pia, quarto, mochila, quadro). `pixkit.py` tem a paleta e o contorno automático | `python tools/closeup/draw_bedroom.py . <pasta-da-previa>` |
+| `closeup/` | Cenas de perto (pia, quarto, mochila, quadro, ponte quebrada). `pixkit.py` tem a paleta e o contorno automático | `python tools/closeup/draw_bedroom.py . <pasta-da-previa>` |
 | `atlas/build_atlas.py` | Atlas do mapa (`atlas.png` + `js/data/world/atlas.js`). Peças próprias desenhadas em código ficam em `atlas/own_art.py` e as casas do bairro, cada uma inteira, em `atlas/buildings.py`, e a natureza (árvores grandes, pedras da rua, canteiros, tufos) em `atlas/nature.py` e os objetos do bairro (barril, caixote, vaso, poste, caixa de correio, feno, canteiro da horta) em `atlas/props.py` e os móveis dos interiores em `atlas/furniture.py` (prévia de cada um: `python tools/atlas/<arquivo>.py previa.png`) | `python tools/atlas/build_atlas.py <pasta-dos-pacotes> tools/atlas/sources/home.png .` |
 | `atlas/compare_atlas.py` | Compara dois atlas peça por peça (faltando, novas, diferentes) | `python tools/atlas/compare_atlas.py <pasta-do-projeto-antes> .` |
 | `maps/` | Mapas (`js/data/world/maps/*.js`), desenhados em `maps_design.py` | `python tools/maps/build_maps.py . <pasta-da-previa> tools/maps/maps_design.py` |
@@ -36,8 +36,9 @@ temporária; as fotos e o log ficam em `<saida>/`.
 - `cdptitle.mjs <saida> <largura>`: tela inicial (Continuar, Novo jogo, Opções).
 - `cdpaudit.mjs <saida> <largura> <posição-json> [preferências-json] [nome] [rota]`: foto de uma tela
   com posição e preferências (alto contraste, tamanho do texto).
-- `cdpreach.mjs <saida> <mapa> <x> <y>`: confere que o Noa chega a todos os lugares do mapa pelo
-  "Ir até" (rode depois de mudar um mapa).
+- `cdpreach.mjs <saida> <mapa> <x> <y> [salvos-json]`: confere que o Noa chega a todos os lugares do mapa pelo
+  "Ir até" (rode depois de mudar um mapa). Caminhos fechados ficam fechados; para abrir:
+  `'{"gates":["bridge"]}'` (ponte consertada) ou `'{"settings":{"openPaths":true}}'` (todos).
 
 No Git Bash, use `MSYS_NO_PATHCONV=1` antes do comando quando passar uma rota como `#/`
 (senão o Bash troca por um caminho do Windows).

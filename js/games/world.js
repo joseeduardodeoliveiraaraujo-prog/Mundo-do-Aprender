@@ -32,6 +32,8 @@ import { buildQuest } from './world/quest/adapters/index.js';
 import { animalLine } from './world/quest/adapters/animals.js';
 import { speakerOf, NOA } from './world/quest/adapters/common.js';
 import { createCloseup, createCloseupHost } from './world/closeup/closeup.js';
+import { buildGateQuest } from './world/gateQuest.js';
+import { isGateOpen } from './world/gates.js';
 
 const { texts } = worldData;
 
@@ -54,7 +56,10 @@ export function render(view) {
   let selected = null;
 
   const refreshStars = () => { stars.textContent = fillTemplate(texts.stars, totalStars()); };
+  /** Lugar com algo para fazer: desafio de um módulo ou caminho fechado (quebra-cabeça). */
+  const hasTask = (spot) => Boolean(spot?.challenge || spot?.gate);
   const statusOf = (spot) => {
+    if (spot?.gate) return 'todo';
     if (!spot?.challenge) return null;
     const { completed, total } = challengeProgress(spot.challenge);
     return completed === total ? 'done' : 'todo';
@@ -68,25 +73,18 @@ export function render(view) {
       if (place.textContent && place.textContent !== map.name) companion.show(map.welcome, 'happy');
       place.textContent = map.name;
       stage.surface.setAttribute('aria-label', fillTemplate(texts.stageLabel, { place: map.name }));
-      placesList.replaceChildren(
-        ...map.spots.map((spot) => createButton({
-          label: fillTemplate(texts.goTo, spot), variant: 'secondary', className: 'world__place-button', onClick: () => world.goToSpot(spot.id),
-        })),
-        ...map.doors.map((door, index) => createButton({
-          label: door.label, variant: 'secondary', className: 'world__place-button', icon: 'arrowRight', iconPosition: 'end', onClick: () => world.goToDoor(index),
-        })),
-      );
+      showPlaces(map);
       saveWorldState(world.getState());
     },
     onNearChange: (spot) => {
       near = spot;
       if (spot !== selected) selected = null;
       nearText.textContent = spot ? fillTemplate(texts.nearSpot, spot) : texts.nearNothing;
-      startButton.hidden = !spot?.challenge || runner.isActive;
+      startButton.hidden = !hasTask(spot) || runner.isActive;
     },
     onArrive: (spot) => {
       if (runner.handleArrive(spot)) return;
-      if (spot.challenge && selected === spot) { startChallenge(); return; }
+      if (hasTask(spot) && selected === spot) { startChallenge(); return; }
       selected = spot;
       const firstUse = !world.isUsed(spot.id);
       world.markUsed(spot.id);
@@ -108,11 +106,24 @@ export function render(view) {
     createScene: world.createScene,
   });
 
+  /** Botões "Ir até": lugares do mapa (menos caminhos já abertos) e portas. */
+  function showPlaces(map) {
+    placesList.replaceChildren(
+      ...map.spots.filter((spot) => !(spot.gate && isGateOpen(spot.gate))).map((spot) => createButton({
+        label: fillTemplate(texts.goTo, spot), variant: 'secondary', className: 'world__place-button', onClick: () => world.goToSpot(spot.id),
+      })),
+      ...map.doors.map((door, index) => createButton({
+        label: door.label, variant: 'secondary', className: 'world__place-button', icon: 'arrowRight', iconPosition: 'end', onClick: () => world.goToDoor(index),
+      })),
+    );
+  }
+
   const afterChallenge = (message) => {
     selected = null;
+    showPlaces(worldData.maps[world.getState().map]);
     world.refreshMarkers();
     refreshStars();
-    startButton.hidden = !near?.challenge;
+    startButton.hidden = !hasTask(near);
     companion.show(message, 'happy');
     stage.surface.focus({ preventScroll: true });
   };
@@ -129,10 +140,11 @@ export function render(view) {
 
   /** Começa o desafio do lugar: missão no mapa ou, se não houver tradução, a mesa sobre o mapa. */
   async function startChallenge() {
-    const spot = near?.challenge ? near : selected;
-    if (!spot?.challenge || runner.isActive || !board.hidden) return;
+    const spot = hasTask(near) ? near : selected;
+    if (!hasTask(spot) || runner.isActive || !board.hidden) return;
     saveWorldState(world.getState());
     startButton.hidden = true;
+    if (spot.gate) { const gate = buildGateQuest(spot, world); if (gate) runner.start(gate); return; }
     const pick = nextActivity(spot.challenge);
     const quest = buildQuest(pick.module.id, pick.activity, {
       spot, world, texts: { ...texts.quest, animalSays: texts.animalSays, animalQuiet: texts.animalQuiet },
@@ -167,7 +179,7 @@ export function render(view) {
   const unbindKeys = bindWorldKeys(stage.surface, {
     onDirection: (x, y) => world.setDirection(x, y),
     onUse: () => {
-      if (!runner.isActive && near?.challenge && selected === near) startChallenge();
+      if (!runner.isActive && hasTask(near) && selected === near) startChallenge();
       else if (!world.useNearest()) companion.say(texts.notNear, 'thinking');
     },
     isActive: () => !dialog.isOpen && board.hidden && !closeup.isOpen,
